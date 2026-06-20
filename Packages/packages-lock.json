@@ -1,5 +1,223 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e5acc106ee196bc5a32fb14cdf2987b0f96d11e0"
+    },
+    "com.kybernetik.animancer": {
+      "version": "file:com.kybernetik.animancer",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.modules.animation": "1.0.0"
+      }
+    },
+    "com.raxy.animation": {
+      "version": "https://github.com/RobyRAX/RAXY-Animation.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+        "com.raxy.core": "1.0.0",
+        "com.raxy.utility": "1.0.0",
+        "com.unity.addressables": "3.1.0"
+      },
+      "hash": "dfac6113378b150afc0e10efbda201a64a0a39ee"
+    },
+    "com.raxy.core": {
+      "version": "https://github.com/RobyRAX/RAXY-Core.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+        "com.raxy.utility": "1.0.0",
+        "com.unity.addressables": "3.1.0"
+      },
+      "hash": "109ec15d241e7b567853369c49d9c607e5930dab"
+    },
+    "com.raxy.dialogue": {
+      "version": "https://github.com/RobyRAX/RAXY-Dialogue.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.raxy.event": "1.0.0",
+        "com.raxy.ui": "1.0.0",
+        "com.raxy.utility": "1.0.0",
+        "com.raxy.utility.localization": "1.0.0",
+        "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+        "com.unity.addressables": "3.1.0",
+        "com.unity.timeline": "1.8.12",
+        "com.unity.ugui": "2.0.0"
+      },
+      "hash": "3e1ac02a03834d0163ffbd0316c2e491195950b1"
+    },
+    "com.raxy.event": {
+      "version": "https://github.com/RobyRAX/RAXY-Event.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "fcba4556bdf53e746e0e91188b2c12d14ffbd5e8"
+    },
+    "com.raxy.inputsystem": {
+      "version": "https://github.com/RobyRAX/RAXY-InputSystem.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.raxy.event": "1.0.0",
+        "com.raxy.utility": "1.0.0",
+        "com.unity.inputsystem": "1.19.0"
+      },
+      "hash": "a71fd36a96e4733a054387b1f42c3051a4cc6278"
+    },
+    "com.raxy.interaction": {
+      "version": "https://github.com/RobyRAX/RAXY-Interaction.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "033ae425b6d7c73511e4eec3d65c60f072c4bb6c"
+    },
+    "com.raxy.inventory": {
+      "version": "https://github.com/RobyRAX/RAXY-Inventory.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.raxy.core": "1.0.0",
+        "com.raxy.utility.localization": "1.0.0",
+        "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
+      },
+      "hash": "6c4fe9a4ea2b3f08a95b168a56273350f242bc41"
+    },
+    "com.raxy.loot": {
+      "version": "https://github.com/RobyRAX/RAXY-Loot.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.raxy.core": "1.0.0",
+        "com.raxy.inventory": "1.0.0",
+        "com.raxy.utility": "1.0.0"
+      },
+      "hash": "a9d981c4de5f4602e04d982f651147789620c21f"
+    },
+    "com.raxy.movement": {
+      "version": "https://github.com/RobyRAX/RAXY-Movement.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.raxy.utility": "1.0.0",
+        "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
+      },
+      "hash": "47fb86518c1fc51c42dc2169ec749ed90cb76af8"
+    },
+    "com.raxy.notification": {
+      "version": "https://github.com/RobyRAX/RAXY-Notification.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.raxy.core": "1.0.0",
+        "com.raxy.utility": "1.0.0",
+        "com.unity.ugui": "2.0.0"
+      },
+      "hash": "b2a68149be7a76ad0d0f47cbc29c8602c65a73b1"
+    },
+    "com.raxy.package-installer": {
+      "version": "https://github.com/RobyRAX/RAXY-Package-Installer.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "9a6996a5d00e530702a409acc74f612b0a9379b8"
+    },
+    "com.raxy.pooling": {
+      "version": "https://github.com/RobyRAX/RAXY-Pooling.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.raxy.core": "1.0.0",
+        "com.raxy.utility": "1.0.0",
+        "com.unity.addressables": "3.1.0"
+      },
+      "hash": "e7b132d09a0cf0e3cc8b65046deb9126598f68c9"
+    },
+    "com.raxy.quest": {
+      "version": "https://github.com/RobyRAX/RAXY-Quest.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.raxy.inventory": "1.0.0",
+        "com.raxy.utility": "1.0.0",
+        "com.raxy.utility.localization": "1.0.0",
+        "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
+      },
+      "hash": "ab0e0c311f65f8a0ce05fbbfe362814460fde614"
+    },
+    "com.raxy.statemachine": {
+      "version": "https://github.com/RobyRAX/RAXY-StateMachine.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
+      },
+      "hash": "40ab4b4678eb12ad47b8e18e38512e938506d473"
+    },
+    "com.raxy.ui": {
+      "version": "https://github.com/RobyRAX/RAXY-UI.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.ugui": "2.0.0"
+      },
+      "hash": "4a083881bc9abc32fd6d43513fefb4e057056b06"
+    },
+    "com.raxy.utility": {
+      "version": "https://github.com/RobyRAX/RAXY-Utility.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.2"
+      },
+      "hash": "b9422744cecaebe2a983e1989394487b870fb4ec"
+    },
+    "com.raxy.utility.localization": {
+      "version": "https://github.com/RobyRAX/RAXY-Localization.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+        "com.unity.addressables": "3.1.0",
+        "com.unity.localization": "1.5.12"
+      },
+      "hash": "f12262ba6033e7275852776058776f4721d19939"
+    },
+    "com.raxy.vfx": {
+      "version": "https://github.com/RobyRAX/RAXY-Vfx.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.raxy.core": "1.0.0",
+        "com.raxy.pooling": "1.0.0",
+        "com.raxy.utility": "1.0.0",
+        "com.unity.addressables": "3.1.0"
+      },
+      "hash": "bbda7a9b57209d80638a5c70acb21999c1f41fee"
+    },
+    "com.unity.addressables": {
+      "version": "3.1.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.profiling.core": "1.0.2",
+        "com.unity.test-framework": "1.4.5",
+        "com.unity.modules.assetbundle": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.scriptablebuildpipeline": "3.1.1",
+        "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.12",
       "depth": 0,
@@ -45,15 +263,6 @@
       "source": "builtin",
       "dependencies": {}
     },
-    "com.unity.ide.rider": {
-      "version": "3.0.39",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.ext.nunit": "1.0.6"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.ide.visualstudio": {
       "version": "2.0.26",
       "depth": 0,
@@ -69,6 +278,16 @@
       "source": "registry",
       "dependencies": {
         "com.unity.modules.uielements": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.localization": {
+      "version": "1.5.12",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.addressables": "1.25.0",
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
       },
       "url": "https://packages.unity.com"
     },
@@ -90,6 +309,20 @@
     "com.unity.nuget.mono-cecil": {
       "version": "1.11.6",
       "depth": 3,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.2",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.profiling.core": {
+      "version": "1.0.3",
+      "depth": 2,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -125,6 +358,16 @@
       "dependencies": {
         "com.unity.render-pipelines.core": "17.0.3"
       }
+    },
+    "com.unity.scriptablebuildpipeline": {
+      "version": "3.1.1",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.4.5",
+        "com.unity.modules.assetbundle": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.searcher": {
       "version": "4.9.4",

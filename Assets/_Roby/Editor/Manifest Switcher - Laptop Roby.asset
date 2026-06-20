@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db425758a62490b40b0f9425fe3dd35a, type: 3}
+  m_Name: Manifest Switcher - Laptop Roby
+  m_EditorClassIdentifier: RAXY.Utility::RAXY.Utility.ManifestSwitcherSO
+  ManifestPath: Packages/manifest.json
+  packages:
+  - packageKey: com.raxy.animation
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Animation
+    remoteVersion: https://github.com/RobyRAX/RAXY-Animation.git
+  - packageKey: com.raxy.core
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Core
+    remoteVersion: https://github.com/RobyRAX/RAXY-Core.git
+  - packageKey: com.raxy.event
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Event System
+    remoteVersion: https://github.com/RobyRAX/RAXY-Event.git
+  - packageKey: com.raxy.inputsystem
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Input System
+    remoteVersion: https://github.com/RobyRAX/RAXY-InputSystem.git
+  - packageKey: com.raxy.interaction
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Interaction System
+    remoteVersion: https://github.com/RobyRAX/RAXY-Interaction.git
+  - packageKey: com.raxy.inventory
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Inventory System
+    remoteVersion: https://github.com/RobyRAX/RAXY-Inventory.git
+  - packageKey: com.raxy.utility.localization
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Localization
+    remoteVersion: https://github.com/RobyRAX/RAXY-Localization.git
+  - packageKey: com.raxy.loot
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Loot System
+    remoteVersion: https://github.com/RobyRAX/RAXY-Loot.git
+  - packageKey: com.raxy.pooling
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Pooling
+    remoteVersion: https://github.com/RobyRAX/RAXY-Pooling.git
+  - packageKey: com.raxy.statemachine
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY State Machine
+    remoteVersion: https://github.com/RobyRAX/RAXY-StateMachine.git
+  - packageKey: com.raxy.utility
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Utility
+    remoteVersion: https://github.com/RobyRAX/RAXY-Utility.git
+  - packageKey: com.raxy.quest
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Quest System
+    remoteVersion: https://github.com/RobyRAX/RAXY-Quest.git
+  - packageKey: com.raxy.ui
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY UI
+    remoteVersion: https://github.com/RobyRAX/RAXY-UI.git
+  - packageKey: com.raxy.dialogue
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Dialogue System
+    remoteVersion: https://github.com/RobyRAX/RAXY-Dialogue.git
+  - packageKey: com.raxy.vfx
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY VFX Manager
+    remoteVersion: https://github.com/RobyRAX/RAXY-Vfx.git
+  - packageKey: com.raxy.notification
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Notification System
+    remoteVersion: https://github.com/RobyRAX/RAXY-Notification.git
+  - packageKey: com.raxy.movement
+    localPath: ../../../.RAXY/RAXY Dev/RAXY Framework/RAXY Movement
+    remoteVersion: https://github.com/RobyRAX/RAXY-Movement.git

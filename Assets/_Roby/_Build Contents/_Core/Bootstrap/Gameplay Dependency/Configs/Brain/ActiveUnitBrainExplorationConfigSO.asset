@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4479167a2a6e34ca4b19a8932ef92f, type: 3}
+  m_Name: ActiveUnitBrainExplorationConfigSO
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveUnitBrainExplorationConfigSO
+  MoveInputActionSO: {fileID: 11400000, guid: 8ca4fd552df2e294fa9e920c99b96a7e, type: 2}
+  SprintInputActionSO: {fileID: 11400000, guid: 6589197725582894199b1438f00aedf0, type: 2}
+  AttackInputActionSO: {fileID: 11400000, guid: 0ab9e78b23a9c024c9512b8328323bb3, type: 2}

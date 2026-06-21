@@ -13,7 +13,6 @@ public abstract class BrainExplorationBase
     public UnitMovement MovementCont { get; }
     public GroundChecker GroundChecker { get; }
 
-    public BrainExplorationBase() { }
     public BrainExplorationBase(UnitControllerBase unitController)
     {
         if (unitController == null)

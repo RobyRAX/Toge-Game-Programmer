@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3525581176631856288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1759090212416435382}
+  - component: {fileID: 3715321100184498177}
+  - component: {fileID: 7938669500268415156}
+  m_Layer: 0
+  m_Name: Global Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1759090212416435382
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525581176631856288}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7077405582052012309}
+  - {fileID: 4538217144990625336}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3715321100184498177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525581176631856288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d09618445cf14141affdb455f924826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GlobalManager
+  PreDefinedSepGroups: []
+  _initAllSepGroupOnStart: 0
+  ItemDatabase: {fileID: 11400000, guid: fa7c246e1ec57634d914dba06475bbc1, type: 2}
+  HeroDatabase: {fileID: 11400000, guid: ffc83a6da8b0b8e4f934a66df3da9de6, type: 2}
+--- !u!114 &7938669500268415156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525581176631856288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a08e078f47bb027459846a83ef3f82ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RAXY.Utility::RAXY.Utility.DontDestroyOnLoad
+--- !u!1 &4417766661089891162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7077405582052012309}
+  - component: {fileID: 6116857582154969354}
+  - component: {fileID: 2566305069671272098}
+  - component: {fileID: 6929401303435020523}
+  m_Layer: 0
+  m_Name: Input Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7077405582052012309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4417766661089891162}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1759090212416435382}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6116857582154969354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4417766661089891162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e91f7cd1fe920ee4ca437015254bc32d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RAXY.InputSystem::RAXY.InputSystem.InputActionEventBindingManager
+  InputActionBindings:
+  - unityInputAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    actionEventSO: {fileID: 11400000, guid: 0ab9e78b23a9c024c9512b8328323bb3, type: 2}
+  - unityInputAction: {fileID: 1781555164194001046, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    actionEventSO: {fileID: 11400000, guid: be1292db396088e45a579d5259b116b2, type: 2}
+  - unityInputAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    actionEventSO: {fileID: 11400000, guid: 8ca4fd552df2e294fa9e920c99b96a7e, type: 2}
+  - unityInputAction: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    actionEventSO: {fileID: 11400000, guid: 6589197725582894199b1438f00aedf0, type: 2}
+  - unityInputAction: {fileID: -2353700388070053078, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    actionEventSO: {fileID: 11400000, guid: 0d9bd5a6cd2e7a34a9ec7e17b991f8ab, type: 2}
+--- !u!114 &2566305069671272098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4417766661089891162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b264b9eb8852e964f946e011f3c9f426, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RAXY.InputSystem::RAXY.InputSystem.CursorManager
+  showCursorEvent: {fileID: 11400000, guid: 0d9bd5a6cd2e7a34a9ec7e17b991f8ab, type: 2}
+  forceShow: 0
+  isShowCursor: 0
+  isDetectMouseInput: 0
+  isDetectKeyboardInput: 0
+--- !u!114 &6929401303435020523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4417766661089891162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b10bbb9fd6498488a811fea512610d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RAXY.Event::RAXY.Event.EventSystemCleaner
+--- !u!1 &4893108785795416191
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4538217144990625336}
+  - component: {fileID: 1575802837463393448}
+  - component: {fileID: 8980397876012619685}
+  m_Layer: 0
+  m_Name: Inventory Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4538217144990625336
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4893108785795416191}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1759090212416435382}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1575802837463393448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4893108785795416191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c31b4806e6ecd234a82e87ef3b0a4a1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
+  setItemDbInitially: 1
+  ItemDatabaseSO: {fileID: 11400000, guid: fa7c246e1ec57634d914dba06475bbc1, type: 2}
+  ItemFactoryObj: {fileID: 4893108785795416191}
+  InitialItems:
+  - itemId: hr_dummy
+    amount: 1
+--- !u!114 &8980397876012619685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4893108785795416191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 393891f5045c17948bf44de5f2c06234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemFactory

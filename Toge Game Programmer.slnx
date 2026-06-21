@@ -75,7 +75,6 @@
   <Project Path="Unity.VisualScripting.SettingsProvider.Editor.csproj" />
   <Project Path="UnityEditor.UI.Analytics.csproj" />
   <Project Path="UniTask.TextMeshPro.csproj" />
-  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Unity.ScriptableBuildPipeline.csproj" />
   <Project Path="RAXY.LootSystem.csproj" />
   <Project Path="RAXY.Utility.Localization.Editor.csproj" />

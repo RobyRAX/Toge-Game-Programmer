@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using RAXY.Animation;
 using RAXY.Core;
 using Sirenix.OdinInspector;
+using ToGaProTest.Shared;
 using UnityEngine;
 
 public abstract class UnitControllerBase : MonoBehaviour, ISepObject
@@ -43,4 +44,17 @@ public abstract class UnitControllerBase : MonoBehaviour, ISepObject
     [TitleGroup("Exploration")]
     [ShowInInspector]
     public UnitStateMachine_Exploration StateMachine_Exploration { get; set; }
+
+    public void Setup_BrainExploration(BrainExplorationType brainType, BrainExplorationConfigBaseSO config)
+    {
+        if (brainType == BrainExplorationType.ActiveUnit)
+        {
+            Brain_Exploration = new ActiveUnitBrainExploration(this, 
+                                                                config as 
+                                                                ActiveUnitBrainExplorationConfigSO,
+                                                                Camera.main.transform);
+        }
+    }
+
+    
 }

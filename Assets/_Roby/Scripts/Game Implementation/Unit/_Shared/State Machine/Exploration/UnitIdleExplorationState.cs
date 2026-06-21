@@ -7,4 +7,15 @@ public class UnitIdleExplorationState : UnitStateBase_Exploration
     }
 
     public override string StateId => "Idle_Exploration";
+
+    public override void Enter()
+    {
+        StopHorizontalMovement();
+        PlayExplorationAnim(SM.AnimationClips?.Idle_Exploration);
+    }
+
+    public override void Update()
+    {
+        EvaluateLocomotionTransitions();
+    }
 }

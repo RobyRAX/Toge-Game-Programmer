@@ -22,7 +22,7 @@ public class GameplayPartyManager : Singleton<GameplayPartyManager>, ISepObject
 
         foreach (var heroInstance in allInstanceHeroes)
         {
-            SpawnHero(heroInstance.ItemId);
+            await SpawnHero(heroInstance.ItemId);
         }
     }
 
@@ -38,7 +38,7 @@ public class GameplayPartyManager : Singleton<GameplayPartyManager>, ISepObject
     {
     }
 
-    public void SpawnHero(string heroId)
+    public async UniTask SpawnHero(string heroId)
     {
         var heroDataSO = GlobalManager.Instance.HeroDatabase.GetHeroData(heroId);
 
@@ -52,6 +52,7 @@ public class GameplayPartyManager : Singleton<GameplayPartyManager>, ISepObject
         
         var heroCont = heroClone.GetComponent<HeroController>();
 
+        await heroCont.Init();
         heroCont.Setup_BrainExploration(BrainExplorationType.ActiveUnit, defaultActiveUnitBrainExplorationConfigSO);
     }
 }

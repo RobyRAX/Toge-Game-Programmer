@@ -53,8 +53,20 @@ public abstract class UnitControllerBase : MonoBehaviour, ISepObject
                                                                 config as 
                                                                 ActiveUnitBrainExplorationConfigSO,
                                                                 Camera.main.transform);
+
+            if (StateMachine_Exploration != null)
+                StateMachine_Exploration.Brain = Brain_Exploration;
         }
     }
 
-    
+    protected virtual void Update()
+    {
+        Brain_Exploration?.Update();
+        StateMachine_Exploration?.CurrentState?.Update();
+    }
+
+    protected virtual void OnDestroy()
+    {
+        Brain_Exploration?.OnDestroy();
+    }
 }

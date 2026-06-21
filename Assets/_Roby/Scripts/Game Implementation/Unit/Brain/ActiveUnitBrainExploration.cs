@@ -63,6 +63,9 @@ public class ActiveUnitBrainExploration : BrainExplorationBase
 
     public void UnsubFromInputAction()
     {
+        if (BrainConfig == null)
+            return;
+
         BrainConfig.MoveInputActionSO.Unsubscribe(MoveInputActionChangeHandler);
         BrainConfig.SprintInputActionSO.Unsubscribe(SprintInputActionChangeHandler);
         BrainConfig.AttackInputActionSO.Unsubscribe(AttackInputActionChangeHandler);
@@ -81,5 +84,10 @@ public class ActiveUnitBrainExploration : BrainExplorationBase
     void AttackInputActionChangeHandler(InputContext ctx)
     {
         Attack = ctx.BoolValue;
+    }
+
+    public override void OnDestroy()
+    {
+        UnsubFromInputAction();
     }
 }

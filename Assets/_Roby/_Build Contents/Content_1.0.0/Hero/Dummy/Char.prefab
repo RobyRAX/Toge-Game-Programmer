@@ -247,6 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b5dce44036dc8440b1919ae4c70bd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeroController
+  animationClips: {fileID: 11400000, guid: 7c4e9a2b1d8f6543e0b2c1a9f8e7d6c5, type: 2}
 --- !u!114 &631369160602705687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,15 +291,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cc3aa4b3c22cec47baf2cea87767b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovement
+  gravity: -75
   acceleration: 100
-  rotationSpeed: 15
+  rotationSpeed: 30
   gravityVelocity: {x: 0, y: 0, z: 0}
   currentHorizontalVelocity: {x: 0, y: 0, z: 0}
   finalVelocity: {x: 0, y: 0, z: 0}
   accelerationModifier: 1
-  enableRotation: 0
+  enableRotation: 1
   showVelocityGizmos: 1
   gizmoLineThickness: 3
+  runSpeed: 5
+  sprintSpeed: 8
 --- !u!114 &6468029759976560132
 MonoBehaviour:
   m_ObjectHideFlags: 0

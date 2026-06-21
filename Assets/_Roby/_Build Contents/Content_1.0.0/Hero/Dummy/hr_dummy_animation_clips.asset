@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3de32c7e201a764ebe6b35f96975c1d, type: 3}
+  m_Name: hr_dummy_animation_clips
+  m_EditorClassIdentifier: Assembly-CSharp::UnitAnimationClipsSO
+  Idle_Exploration:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  Run:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  Sprint:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  Attack_Exploration:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  JumpToEnemy_Combat:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  JumpBack_Combat:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  LightHit:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  MediumHit:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  HeavyHit:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  Die:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  EnterStun:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  Stun:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1
+  ExitStun:
+    useAddressable: 0
+    animationClip: {fileID: 0}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    speed: 1

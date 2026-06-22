@@ -5,7 +5,20 @@ using UnityEngine;
 
 public abstract class CombatAttackBaseSO : ScriptableObject
 {
+    public int staminaCost;
+
+    [TitleGroup("Attack Hit Config")]
+    public List<HitEntry> hitEntries;
+
     [TitleGroup("Attack Action Sequence")]
     [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "Label", Expanded = true)]
     public List<AttackActionEntry> attackActionEntries;
+}
+
+[Serializable]
+public class HitEntry
+{
+    [Range(0, 100)]
+    [SuffixLabel("%")]
+    public float damageProportion;
 }

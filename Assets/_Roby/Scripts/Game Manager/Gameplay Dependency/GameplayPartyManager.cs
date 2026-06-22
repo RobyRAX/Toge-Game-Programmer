@@ -18,12 +18,18 @@ public class GameplayPartyManager : Singleton<GameplayPartyManager>, ISepObject
 
     public async UniTask Init()
     {
+        GameplayDependencyManager.Instance.OnInitDone -= OnGameplayDependencyInitDoneHandler;
+        GameplayDependencyManager.Instance.OnInitDone += OnGameplayDependencyInitDoneHandler;
+
         var allInstanceHeroes = InventoryManager.Instance.GetAllItemInstanceHeroes();
 
+        SpawnedHeroObjDict = new();
         foreach (var heroInstance in allInstanceHeroes)
         {
             await SpawnHero(heroInstance.ItemId);
         }
+
+        FirstInitDone = true;
     }
 
     public async UniTask PreInit()
@@ -33,6 +39,9 @@ public class GameplayPartyManager : Singleton<GameplayPartyManager>, ISepObject
 
     [TitleGroup("Brain Config")]
     public ActiveUnitBrainExplorationConfigSO defaultActiveUnitBrainExplorationConfigSO;
+
+    [TitleGroup("Spawned Hero")]
+    public Dictionary<string, GameObject> SpawnedHeroObjDict = new();
 
     void Start()
     {
@@ -51,8 +60,20 @@ public class GameplayPartyManager : Singleton<GameplayPartyManager>, ISepObject
         heroClone.transform.SetParent(GameplayDependencyManager.Instance.heroSpawnRoot);
         
         var heroCont = heroClone.GetComponent<HeroController>();
+        heroCont.heroDataSO = heroDataSO;
+        GameplayDependencyManager.Instance.RegisterSepObject(heroCont, GameplayDependencyManager.HERO_SEP_GROUP);
 
-        await heroCont.Init();
-        heroCont.Setup_BrainExploration(BrainExplorationType.ActiveUnit, defaultActiveUnitBrainExplorationConfigSO);
+        SpawnedHeroObjDict.Add(heroId, heroClone);
+    }
+
+    void OnGameplayDependencyInitDoneHandler(bool firstInit)
+    {
+        foreach (var hero in SpawnedHeroObjDict.Values)
+        {
+            var heroCont = hero.GetComponent<HeroController>();
+            heroCont.Setup_BrainExploration(BrainExplorationType.ActiveUnit, defaultActiveUnitBrainExplorationConfigSO);
+        }
+
+        GameplayDependencyManager.Instance.OnInitDone -= OnGameplayDependencyInitDoneHandler;
     }
 }

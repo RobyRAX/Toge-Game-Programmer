@@ -22,6 +22,8 @@ public abstract class UnitControllerBase : MonoBehaviour, ISepObject
         AnimancerCont = GetComponent<AnimancerController>();
 
         StateMachine_Exploration = new UnitStateMachine_Exploration(this);
+
+        FirstInitDone = true;
     }
 
     public async UniTask PreInit()

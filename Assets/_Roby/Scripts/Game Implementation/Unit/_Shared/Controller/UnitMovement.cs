@@ -1,11 +1,14 @@
 using RAXY.Movement;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class UnitMovement : MovementController
 {
+    [TitleGroup("Unit")]
     [SerializeField]
     float runSpeed = 5f;
 
+    [TitleGroup("Unit")]
     [SerializeField]
     float sprintSpeed = 8f;
 

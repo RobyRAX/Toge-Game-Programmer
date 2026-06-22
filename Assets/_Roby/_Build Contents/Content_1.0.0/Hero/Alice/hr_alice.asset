@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68f1acfed4782f4c9afeba9852e195d, type: 3}
+  m_Name: hr_alice
+  m_EditorClassIdentifier: Assembly-CSharp::HeroDataSO
+  heroId: hr_alice
+  heroName: Alice
+  heroIcon: {fileID: 0}
+  heroPrefab: {fileID: 6181947282332787467, guid: 2988ca7aaad0453458a37c9b6916f1fe, type: 3}
+  CombatDataSO: {fileID: 11400000, guid: 1682229ce2e71c244b323ea43a777827, type: 2}
+  StatGrowth:
+    values:
+    - maxHp: 100
+      attack: 10
+      maxStamina: 50
+      defense: 5
+    - maxHp: 122
+      attack: 14
+      maxStamina: 56
+      defense: 8
+    - maxHp: 144
+      attack: 19
+      maxStamina: 61
+      defense: 11
+    - maxHp: 167
+      attack: 23
+      maxStamina: 67
+      defense: 13
+    - maxHp: 189
+      attack: 28
+      maxStamina: 72
+      defense: 16
+    - maxHp: 211
+      attack: 32
+      maxStamina: 78
+      defense: 19
+    - maxHp: 233
+      attack: 37
+      maxStamina: 83
+      defense: 22
+    - maxHp: 256
+      attack: 41
+      maxStamina: 89
+      defense: 24
+    - maxHp: 278
+      attack: 46
+      maxStamina: 94
+      defense: 27
+    - maxHp: 300
+      attack: 50
+      maxStamina: 100
+      defense: 30
+    maxLevel: 10
+    initial:
+      maxHp: 100
+      attack: 10
+      maxStamina: 50
+      defense: 5
+    max:
+      maxHp: 300
+      attack: 50
+      maxStamina: 100
+      defense: 30

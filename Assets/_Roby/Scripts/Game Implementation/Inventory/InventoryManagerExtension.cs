@@ -4,6 +4,11 @@ using RAXY.InventorySystem;
 
 public static class InventoryManagerExtension
 {
+    public static ItemInstance_Hero GetInstanceHero(this InventoryManager inventoryManager, string heroId)
+    {
+        return GetAllItemInstanceHeroes(inventoryManager).Find(x => x.HeroId == heroId);
+    }
+
     public static List<ItemInstance_Hero> GetAllItemInstanceHeroes(this InventoryManager inventoryManager)
     {
         return inventoryManager.GetAllItemInstanceHeroes(InventoryManagerBase.PLAYER_INVENTORY_ID);

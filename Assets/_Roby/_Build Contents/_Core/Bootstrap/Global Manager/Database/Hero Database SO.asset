@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Hero Database SO
   m_EditorClassIdentifier: Assembly-CSharp::HeroDatabaseSO
   heroSOs:
+  - {fileID: 11400000, guid: 5095a20d605b46f4a8e7192f6ab78c6e, type: 2}
   - {fileID: 11400000, guid: ccb98fe04a931d14b8fdb36bb4f2d725, type: 2}

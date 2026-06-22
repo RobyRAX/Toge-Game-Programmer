@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using RAXY.Utility;
 using Sirenix.OdinInspector;
@@ -30,5 +31,15 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     public void StartCombat(List<CombatantBase> teamCombatants, List<CombatantBase> enemyCombatants)
     {
         
+    }
+
+    [TitleGroup("Debug Functions")]
+    [Button]
+    public void Attack(CombatantBase attacker, 
+                        CombatantBase defender, 
+                        DamageProfileWithAttribute damageProfile)
+    {
+        var attackReq = TurnBaseCombatHelper.BuildAttackRequest(attacker, defender, damageProfile);
+        TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
     }
 }

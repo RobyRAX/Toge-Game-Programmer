@@ -198,7 +198,7 @@ MonoBehaviour:
   ItemDatabaseSO: {fileID: 11400000, guid: fa7c246e1ec57634d914dba06475bbc1, type: 2}
   ItemFactoryObj: {fileID: 4893108785795416191}
   InitialItems:
-  - itemId: hr_dummy
+  - itemId: hr_alice
     amount: 1
 --- !u!114 &8980397876012619685
 MonoBehaviour:

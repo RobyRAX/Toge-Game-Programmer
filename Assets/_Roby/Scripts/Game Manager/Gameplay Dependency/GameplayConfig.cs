@@ -1,16 +1,10 @@
+using System.Collections.Generic;
+using RAXY.Utility;
 using UnityEngine;
 
-public class GameplayConfig : MonoBehaviour
+public class GameplayConfig : Singleton<GameplayConfig>, IStatEntryProvider
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public GameplayConfigSO ConfigSO;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public List<StatEntry> StatEntries => ConfigSO.StatEntries;
 }

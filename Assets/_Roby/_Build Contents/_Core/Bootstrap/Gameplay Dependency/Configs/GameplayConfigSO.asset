@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab910dca707ce94d9603ce8b1a200ad, type: 3}
+  m_Name: GameplayConfigSO
+  m_EditorClassIdentifier: Assembly-CSharp::GameplayConfigSO
+  maxTalentLevel: 10
+  statEntries:
+  - attribute: 0
+    defaultValue: 100
+    statName: Max Hp
+    statDetail: 
+    statIcon: {fileID: 0}
+  - attribute: 1
+    defaultValue: 10
+    statName: Attack
+    statDetail: 
+    statIcon: {fileID: 0}
+  - attribute: 2
+    defaultValue: 50
+    statName: Max Stamina
+    statDetail: 
+    statIcon: {fileID: 0}
+  - attribute: 3
+    defaultValue: 5
+    statName: Defense
+    statDetail: 
+    statIcon: {fileID: 0}
+  - attribute: 6
+    defaultValue: 0
+    statName: Max Hp (%)
+    statDetail: 
+    statIcon: {fileID: 0}
+  - attribute: 7
+    defaultValue: 0
+    statName: Attack (%)
+    statDetail: 
+    statIcon: {fileID: 0}
+  - attribute: 8
+    defaultValue: 0
+    statName: Max Stamina (%)
+    statDetail: 
+    statIcon: {fileID: 0}
+  - attribute: 9
+    defaultValue: 0
+    statName: Defense (%)
+    statDetail: 
+    statIcon: {fileID: 0}
+  - attribute: 11
+    defaultValue: 1
+    statName: Attack Speed
+    statDetail: 
+    statIcon: {fileID: 0}

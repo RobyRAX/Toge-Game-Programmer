@@ -23,6 +23,7 @@ namespace ToGaProTest.Shared
         {
             StatAttribute.MaxHp,
             StatAttribute.Attack,
+            StatAttribute.MaxStamina,
             StatAttribute.Defense
         };
 
@@ -30,6 +31,7 @@ namespace ToGaProTest.Shared
         {
             StatAttribute.MaxHpPercent,
             StatAttribute.AttackPercent,
+            StatAttribute.MaxStaminaPercent,
             StatAttribute.DefensePercent,
         };
 
@@ -37,8 +39,16 @@ namespace ToGaProTest.Shared
         {
             { StatAttribute.MaxHp, StatAttribute.MaxHpPercent },
             { StatAttribute.Attack, StatAttribute.AttackPercent },
+            { StatAttribute.MaxStamina, StatAttribute.MaxStaminaPercent },
             { StatAttribute.Defense, StatAttribute.DefensePercent }
         };
+    }
+
+    public enum HeroTalentType
+    {
+        NormalAttack = 0,
+        Skill = 1,
+        Ultimate = 2,
     }
 
     public enum BrainExplorationType
@@ -52,10 +62,12 @@ namespace ToGaProTest.Shared
 
         MaxHp = 0,
         Attack = 1,
+        MaxStamina = 2,
         Defense = 3,
 
         MaxHpPercent = 6,
         AttackPercent = 7,
+        MaxStaminaPercent = 8,
         DefensePercent = 9,
 
         AttackSpeed = 11,

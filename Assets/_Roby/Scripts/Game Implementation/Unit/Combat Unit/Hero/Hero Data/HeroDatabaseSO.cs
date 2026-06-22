@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-[CreateAssetMenu(fileName = "HeroDatabaseSO", menuName = "RAXY/Unit/Hero/HeroDatabaseSO")]
+[CreateAssetMenu(fileName = "HeroDatabaseSO", menuName = "RAXY/Unit/Hero/Hero Database")]
 public class HeroDatabaseSO : ScriptableObject
 {
     public List<HeroDataSO> heroSOs;

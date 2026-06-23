@@ -67,7 +67,17 @@ public static class TurnBaseCombatHelper
         return found;
     }
 
-    public static void TeleportTo(Transform target, Vector3 worldPosition)
+    public static float GetCenterOutOffset(int index, float spacing)
+    {
+        if (index <= 0)
+            return 0f;
+
+        int ring = (index + 1) / 2;
+        float side = index % 2 == 1 ? 1f : -1f;
+        return side * ring * spacing;
+    }
+
+    public static void TeleportTo(Transform target, Vector3 worldPosition, Quaternion? worldRotation = null)
     {
         if (target == null)
             return;
@@ -76,11 +86,51 @@ public static class TurnBaseCombatHelper
         {
             characterController.enabled = false;
             target.position = worldPosition;
+            if (worldRotation.HasValue)
+                target.rotation = worldRotation.Value;
             characterController.enabled = true;
             return;
         }
 
         target.position = worldPosition;
+        if (worldRotation.HasValue)
+            target.rotation = worldRotation.Value;
+    }
+
+    public static bool TryGetFlatFacingRotation(Vector3 from, Vector3 to, out Quaternion rotation)
+    {
+        Vector3 flatDir = to - from;
+        flatDir.y = 0f;
+
+        if (flatDir.sqrMagnitude < 0.0001f)
+        {
+            rotation = Quaternion.identity;
+            return false;
+        }
+
+        rotation = Quaternion.LookRotation(flatDir.normalized, Vector3.up);
+        return true;
+    }
+
+    public static bool TryGetCombatFacingRotations(Vector3 heroAvg,
+                                                   Vector3 enemyAvg,
+                                                   out Quaternion heroFacing,
+                                                   out Quaternion enemyFacing)
+    {
+        Vector3 flatDir = enemyAvg - heroAvg;
+        flatDir.y = 0f;
+
+        if (flatDir.sqrMagnitude < 0.0001f)
+        {
+            heroFacing = Quaternion.identity;
+            enemyFacing = Quaternion.identity;
+            return false;
+        }
+
+        flatDir.Normalize();
+        heroFacing = Quaternion.LookRotation(flatDir, Vector3.up);
+        enemyFacing = Quaternion.LookRotation(-flatDir, Vector3.up);
+        return true;
     }
 
     public static List<CombatantBase> FilterNullCombatants(IEnumerable<CombatantBase> combatants)
@@ -123,6 +173,45 @@ public static class TurnBaseCombatHelper
 
         attackReq.Defender.TakeDamage(ref attackRes);
     }
+
+    #region Timeline
+
+    public const float TimelineBaseStepInterval = 12f;
+    public const float TimelineMinAttackSpeed = 0.01f;
+
+    public static float GetCombatantAttackSpeed(CombatantBase combatant)
+    {
+        if (combatant?.StatContainer == null)
+            return TimelineMinAttackSpeed;
+
+        float rawSpeed = combatant.StatContainer.GetTotalValue(StatAttribute.AttackSpeed);
+        return Mathf.Max(rawSpeed, TimelineMinAttackSpeed);
+    }
+
+    public static int CalculateStepInterval(float attackSpeed, float baseStepInterval = TimelineBaseStepInterval)
+    {
+        float clampedSpeed = Mathf.Max(attackSpeed, TimelineMinAttackSpeed);
+        return Mathf.Max(1, Mathf.RoundToInt(baseStepInterval / clampedSpeed));
+    }
+
+    public static int CalculateNextTurnStep(int currentStep, int stepInterval)
+    {
+        return currentStep + Mathf.Max(1, stepInterval);
+    }
+
+    public static int CompareTimelineTurnPriority(float rawSpeedA,
+                                                  int registrationOrderA,
+                                                  float rawSpeedB,
+                                                  int registrationOrderB)
+    {
+        int speedCompare = rawSpeedB.CompareTo(rawSpeedA);
+        if (speedCompare != 0)
+            return speedCompare;
+
+        return registrationOrderA.CompareTo(registrationOrderB);
+    }
+
+    #endregion
 }
 
 [Serializable]

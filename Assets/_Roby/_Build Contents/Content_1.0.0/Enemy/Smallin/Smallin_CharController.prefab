@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   animationClips: {fileID: 0}
-  enemyDataSO: {fileID: 0}
+  enemyDataSO: {fileID: 11400000, guid: 988b671aa80ead34396c9192368fc4f2, type: 2}
   enemyCombatant: {fileID: 0}
 --- !u!114 &2223166488862591237
 MonoBehaviour:
@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8af72ddae9309419b53a41b9673365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatant
+  enemyCombatDataSO: {fileID: 0}
 --- !u!1001 &6299959584667073701
 PrefabInstance:
   m_ObjectHideFlags: 0

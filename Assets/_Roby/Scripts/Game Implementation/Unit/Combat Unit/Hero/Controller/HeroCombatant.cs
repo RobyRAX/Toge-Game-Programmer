@@ -27,6 +27,8 @@ public class HeroCombatant : CombatantBase
     public void Init(ItemInstance_Hero heroInstance)
     {
         HeroInstance = heroInstance;
+        heroCombatDataSO = HeroInstance.heroDataSO.CombatDataSO;
+
         SetAlive();
     }
 

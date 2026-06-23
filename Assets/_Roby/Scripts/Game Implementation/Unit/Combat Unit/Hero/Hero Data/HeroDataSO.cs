@@ -33,14 +33,14 @@ public class HeroDataSO : ScriptableObject, IItemEntry
 
     [TitleGroup("Stat Growth")]
     [HideLabel]
-    public HeroStatGrowth StatGrowth;
+    public StatGrowth StatGrowth;
 }
 
 [Serializable]
-public class HeroStatGrowth
+public class StatGrowth
 {
     [TableList(ShowIndexLabels = true)]
-    public List<MainAttackValueSet> values;
+    public List<MainStatValueSet> values;
 
     public float GetValueAtLevel(StatAttribute attr, int level)
     {
@@ -65,17 +65,28 @@ public class HeroStatGrowth
             return -1;
     }
 
+    public void ApplyMainStatsTo(StatContainer_Runtime container, int level)
+    {
+        if (container == null)
+            return;
+
+        container.GetStat(StatAttribute.MaxHp).BaseValue = GetValueAtLevel(StatAttribute.MaxHp, level);
+        container.GetStat(StatAttribute.Attack).BaseValue = GetValueAtLevel(StatAttribute.Attack, level);
+        container.GetStat(StatAttribute.MaxStamina).BaseValue = GetValueAtLevel(StatAttribute.MaxStamina, level);
+        container.GetStat(StatAttribute.Defense).BaseValue = GetValueAtLevel(StatAttribute.Defense, level);
+    }
+
     [FoldoutGroup("Setup Helper")]
     [SerializeField]
     int maxLevel;
 
     [FoldoutGroup("Setup Helper")]
     [SerializeField]
-    MainAttackValueSet initial;
+    MainStatValueSet initial;
 
     [FoldoutGroup("Setup Helper")]
     [SerializeField]
-    MainAttackValueSet max;
+    MainStatValueSet max;
 
     [FoldoutGroup("Setup Helper")]
     [Button]
@@ -84,7 +95,7 @@ public class HeroStatGrowth
         if (maxLevel <= 0)
             return;
 
-        values = new List<MainAttackValueSet>(maxLevel);
+        values = new List<MainStatValueSet>(maxLevel);
 
         if (maxLevel == 1)
         {
@@ -95,7 +106,7 @@ public class HeroStatGrowth
         for (int level = 1; level <= maxLevel; level++)
         {
             float t = (level - 1) / (float)(maxLevel - 1);
-            values.Add(new MainAttackValueSet
+            values.Add(new MainStatValueSet
             {
                 maxHp = Mathf.Round(Mathf.Lerp(initial.maxHp, max.maxHp, t)),
                 attack = Mathf.Round(Mathf.Lerp(initial.attack, max.attack, t)),
@@ -105,9 +116,9 @@ public class HeroStatGrowth
         }
     }
 
-    static MainAttackValueSet CopyValueSet(MainAttackValueSet source)
+    static MainStatValueSet CopyValueSet(MainStatValueSet source)
     {
-        return new MainAttackValueSet
+        return new MainStatValueSet
         {
             maxHp = source.maxHp,
             attack = source.attack,
@@ -118,7 +129,7 @@ public class HeroStatGrowth
 }
 
 [Serializable]
-public class MainAttackValueSet
+public class MainStatValueSet
 {
     public float maxHp;
     public float attack;

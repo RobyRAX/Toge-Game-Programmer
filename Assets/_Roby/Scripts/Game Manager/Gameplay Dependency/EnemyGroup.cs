@@ -13,6 +13,11 @@ public class EnemyGroup : MonoBehaviour, ISepObject
 
     public bool isCleared;
 
+    [TitleGroup("Combat")]
+    [SerializeField]
+    int level = 1;
+    public int Level => level;
+
     public List<EnemyController> enemies;
 
     public event Action OnEnemyMemberAttacked;
@@ -59,6 +64,7 @@ public class EnemyGroup : MonoBehaviour, ISepObject
                     GameplayDependencyManager.ENEMY_SEP_GROUP);
                 }
 
+                enemyCont.EnemyGroup = this;
                 enemies.Add(enemyCont);
             }
         }

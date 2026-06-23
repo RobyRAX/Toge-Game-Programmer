@@ -88,13 +88,10 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         HeroPositions = new Transform[count];
         EnemyPositions = new Transform[count];
 
-        // Center slots around Z=0 so formationRoot feels "in the middle".
-        float zCenterOffset = (count - 1) * distancePerTeamUnit * 0.5f;
-
         for (int i = 0; i < count; i++)
         {
-            // Slots are spaced on Z so X remains "team side".
-            float z = (i * distancePerTeamUnit) - zCenterOffset;
+            // Index 0 at center, then alternate outward (+Z, -Z, +2Z, -2Z, ...).
+            float z = TurnBaseCombatHelper.GetCenterOutOffset(i, distancePerTeamUnit);
 
             var heroSlot = new GameObject($"HeroPos_{i:00}").transform;
             heroSlot.SetParent(heroRoot, false);
@@ -207,10 +204,10 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [ShowInInspector]
     public List<CombatantBase> EnemyCombatants { get; set; }
 
-    [TitleGroup("Runtime")]
-    [ReadOnly]
-    [ShowInInspector]
-    public Queue<CombatantBase> TurnQueues { get; set; }
+    [TitleGroup("Turn Timeline")]
+    [BoxGroup("Turn Timeline/Turn Timeline")]
+    [HideLabel]
+    public TurnTimeline TurnTimeline;
 
     [TitleGroup("Debug Functions")]
     [Button]
@@ -250,22 +247,32 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         AlignFormationRoot(heroAvg, enemyAvg);
         SnapSlotsToGround(HeroPositions);
         SnapSlotsToGround(EnemyPositions);
-        PlaceCombatantsOnSlots(HeroCombatants, HeroPositions);
-        PlaceCombatantsOnSlots(EnemyCombatants, EnemyPositions);
+
+        Quaternion? heroFacing = null;
+        Quaternion? enemyFacing = null;
+        if (TurnBaseCombatHelper.TryGetCombatFacingRotations(heroAvg, enemyAvg, out Quaternion heroRot, out Quaternion enemyRot))
+        {
+            heroFacing = heroRot;
+            enemyFacing = enemyRot;
+        }
+
+        PlaceCombatantsOnSlots(HeroCombatants, HeroPositions, heroFacing);
+        PlaceCombatantsOnSlots(EnemyCombatants, EnemyPositions, enemyFacing);
 
         AllCombatants = new List<CombatantBase>(HeroCombatants.Count + EnemyCombatants.Count);
         AllCombatants.AddRange(HeroCombatants);
         AllCombatants.AddRange(EnemyCombatants);
+
+        if (TurnTimeline == null)
+            TurnTimeline = new TurnTimeline();
+
+        TurnTimeline.Initialize(AllCombatants);
 
         Debug.Log("Combat Started");
     }
 
     bool EnsureFormationSlots()
     {
-        if (HeroPositions != null && HeroPositions.Length > 0 &&
-            EnemyPositions != null && EnemyPositions.Length > 0)
-            return true;
-
         if (maxMemberPerTeam <= 0)
         {
             Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: {nameof(maxMemberPerTeam)} must be greater than 0.");
@@ -324,7 +331,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         }
     }
 
-    void PlaceCombatantsOnSlots(List<CombatantBase> combatants, Transform[] slots)
+    void PlaceCombatantsOnSlots(List<CombatantBase> combatants, Transform[] slots, Quaternion? facing = null)
     {
         if (combatants == null || slots == null)
             return;
@@ -337,7 +344,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             if (combatant == null || slot == null)
                 continue;
 
-            TurnBaseCombatHelper.TeleportTo(combatant.transform, slot.position);
+            TurnBaseCombatHelper.TeleportTo(combatant.transform, slot.position, facing);
         }
     }
 
@@ -349,5 +356,65 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     {
         var attackReq = TurnBaseCombatHelper.BuildAttackRequest(attacker, defender, damageProfile);
         TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
+    }
+
+    [TitleGroup("Turn Timeline/Debug")]
+    [Button]
+    void ResolveCurrentTurn()
+    {
+        if (TurnTimeline == null || !TurnTimeline.IsInitialized)
+        {
+            Debug.Log($"{nameof(TurnBaseCombatManager)}: Turn timeline is not initialized.");
+            return;
+        }
+
+        var combatants = TurnTimeline.GetCombatantsAtCurrentStep();
+        if (combatants.Count == 0)
+        {
+            Debug.Log($"{nameof(TurnBaseCombatManager)}: No combatants due at step {TurnTimeline.CurrentStep}.");
+            return;
+        }
+
+        for (int i = 0; i < combatants.Count; i++)
+            Debug.Log($"[Timeline Step {TurnTimeline.CurrentStep}] Turn: {combatants[i].name}");
+    }
+
+    [TitleGroup("Turn Timeline/Debug")]
+    [Button]
+    void AdvanceTimelineStep()
+    {
+        if (TurnTimeline == null || !TurnTimeline.IsInitialized)
+        {
+            Debug.Log($"{nameof(TurnBaseCombatManager)}: Turn timeline is not initialized.");
+            return;
+        }
+
+        TurnTimeline.AddStep();
+        Debug.Log($"{nameof(TurnBaseCombatManager)}: Advanced to step {TurnTimeline.CurrentStep}.");
+    }
+
+    [TitleGroup("Turn Timeline/Debug")]
+    [Button]
+    void LogTimelinePreview()
+    {
+        if (TurnTimeline == null || !TurnTimeline.IsInitialized)
+        {
+            Debug.Log($"{nameof(TurnBaseCombatManager)}: Turn timeline is not initialized.");
+            return;
+        }
+
+        for (int i = 0; i < TurnTimeline.PreviewSteps.Count; i++)
+        {
+            var turnStep = TurnTimeline.PreviewSteps[i];
+            if (turnStep.Combatants == null || turnStep.Combatants.Count == 0)
+                continue;
+
+            for (int j = 0; j < turnStep.Combatants.Count; j++)
+            {
+                var combatant = turnStep.Combatants[j];
+                float speed = TurnTimeline.CombatantSpeedDict[combatant];
+                Debug.Log($"[Timeline Preview] Step {turnStep.Step}: {combatant.name} (Speed {speed})");
+            }
+        }
     }
 }

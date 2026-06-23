@@ -60,15 +60,6 @@ public class ItemInstance_Hero : ItemInstance_Base
                 _cachedStatContainer = new StatContainer_Runtime(GameplayConfig.Instance);
         }
 
-        var statGrowth = heroDataSO.StatGrowth;
-        var maxHp = _cachedStatContainer.GetStat(StatAttribute.MaxHp);
-        var attack = _cachedStatContainer.GetStat(StatAttribute.Attack);
-        var maxStamina = _cachedStatContainer.GetStat(StatAttribute.MaxStamina);
-        var defense = _cachedStatContainer.GetStat(StatAttribute.Defense);
-
-        maxHp.BaseValue = statGrowth.GetValueAtLevel(StatAttribute.MaxHp, level);
-        attack.BaseValue = statGrowth.GetValueAtLevel(StatAttribute.Attack, level);
-        maxStamina.BaseValue = statGrowth.GetValueAtLevel(StatAttribute.MaxStamina, level);
-        defense.BaseValue = statGrowth.GetValueAtLevel(StatAttribute.Defense, level);
+        heroDataSO.StatGrowth.ApplyMainStatsTo(_cachedStatContainer, level);
     }
 }

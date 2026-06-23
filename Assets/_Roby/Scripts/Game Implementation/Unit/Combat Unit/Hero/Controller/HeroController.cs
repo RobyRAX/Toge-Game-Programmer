@@ -15,7 +15,6 @@ public class HeroController : CombatUnitController
         FirstInitDone = false;
 
         heroCombatant = GetComponent<HeroCombatant>();
-        heroCombatant.heroCombatDataSO = heroDataSO.CombatDataSO;
         heroCombatant.Init(InventoryManager.Instance.GetInstanceHero(heroDataSO.ItemId));
 
         FirstInitDone = true;

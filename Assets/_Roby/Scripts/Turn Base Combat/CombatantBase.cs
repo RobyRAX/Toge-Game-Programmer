@@ -5,6 +5,8 @@ using UnityEngine;
 
 public abstract class CombatantBase : MonoBehaviour
 {
+    public virtual int Level { get; set; }
+
     [TitleGroup("Current Value")]
     [ShowInInspector]
     public virtual float CurrentHp { get; set; }

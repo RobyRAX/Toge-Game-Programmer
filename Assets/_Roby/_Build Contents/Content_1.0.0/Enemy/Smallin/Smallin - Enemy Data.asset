@@ -16,3 +16,96 @@ MonoBehaviour:
   enemyName: Smallin
   enemyIcon: {fileID: 0}
   enemyPrefab: {fileID: 7319211622741205364, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
+  StatGrowth:
+    values:
+    - maxHp: 50
+      attack: 5
+      maxStamina: 25
+      defense: 5
+    - maxHp: 74
+      attack: 7
+      maxStamina: 29
+      defense: 7
+    - maxHp: 97
+      attack: 10
+      maxStamina: 33
+      defense: 10
+    - maxHp: 121
+      attack: 12
+      maxStamina: 37
+      defense: 12
+    - maxHp: 145
+      attack: 14
+      maxStamina: 41
+      defense: 14
+    - maxHp: 168
+      attack: 17
+      maxStamina: 45
+      defense: 17
+    - maxHp: 192
+      attack: 19
+      maxStamina: 49
+      defense: 19
+    - maxHp: 216
+      attack: 22
+      maxStamina: 53
+      defense: 22
+    - maxHp: 239
+      attack: 24
+      maxStamina: 57
+      defense: 24
+    - maxHp: 263
+      attack: 26
+      maxStamina: 61
+      defense: 26
+    - maxHp: 287
+      attack: 29
+      maxStamina: 64
+      defense: 29
+    - maxHp: 311
+      attack: 31
+      maxStamina: 68
+      defense: 31
+    - maxHp: 334
+      attack: 33
+      maxStamina: 72
+      defense: 33
+    - maxHp: 358
+      attack: 36
+      maxStamina: 76
+      defense: 36
+    - maxHp: 382
+      attack: 38
+      maxStamina: 80
+      defense: 38
+    - maxHp: 405
+      attack: 41
+      maxStamina: 84
+      defense: 41
+    - maxHp: 429
+      attack: 43
+      maxStamina: 88
+      defense: 43
+    - maxHp: 453
+      attack: 45
+      maxStamina: 92
+      defense: 45
+    - maxHp: 476
+      attack: 48
+      maxStamina: 96
+      defense: 48
+    - maxHp: 500
+      attack: 50
+      maxStamina: 100
+      defense: 50
+    maxLevel: 20
+    initial:
+      maxHp: 50
+      attack: 5
+      maxStamina: 25
+      defense: 5
+    max:
+      maxHp: 500
+      attack: 50
+      maxStamina: 100
+      defense: 50

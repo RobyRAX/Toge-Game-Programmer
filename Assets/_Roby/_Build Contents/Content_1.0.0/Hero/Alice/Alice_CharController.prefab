@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeroController
   animationClips: {fileID: 11400000, guid: 7c4e9a2b1d8f6543e0b2c1a9f8e7d6c5, type: 2}
   heroDataSO: {fileID: 0}
+  heroCombatant: {fileID: 0}
 --- !u!114 &3612372217299758875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01e208402ca1ef4da67400af9a3b5a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeroCombatant
-  CombatData: {fileID: 0}
+  heroCombatDataSO: {fileID: 0}
 --- !u!1001 &6291356638778516779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -205,6 +206,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3621052224534430882}
     m_Modifications:
+    - target: {fileID: 6983906037403281175, guid: 3b0cdabab2a4a9a499f88ac90c9f9553, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7153691293331417841, guid: 3b0cdabab2a4a9a499f88ac90c9f9553, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

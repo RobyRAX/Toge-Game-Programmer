@@ -13,6 +13,16 @@ public class TurnTimeline
     [TitleGroup("Runtime")]
     [ShowInInspector]
     [ReadOnly]
+    public CombatantBase InitialTurnCombatant { get; set; }
+
+    [TitleGroup("Runtime")]
+    [ShowInInspector]
+    [ReadOnly]
+    public CombatantBase CurrentTurnCombatant { get; set; }
+
+    [TitleGroup("Runtime")]
+    [ShowInInspector]
+    [ReadOnly]
     public Dictionary<CombatantBase, float> CombatantSpeedDict { get; set; } = new();
 
     [TitleGroup("Runtime")]
@@ -47,7 +57,7 @@ public class TurnTimeline
 
     public bool IsInitialized => CombatantSpeedDict.Count > 0;
 
-    public void Initialize(List<CombatantBase> combatants)
+    public void Initialize(List<CombatantBase> combatants, CombatantBase initialTurn)
     {
         CombatantSpeedDict.Clear();
         CombatantIntervalDict.Clear();
@@ -55,11 +65,19 @@ public class TurnTimeline
         CombatantOrderDict.Clear();
         PreviewSteps.Clear();
         CurrentStep = 0;
+        InitialTurnCombatant = initialTurn;
+        CurrentTurnCombatant = null;
 
         if (combatants == null || combatants.Count == 0)
         {
             UpdatePreviewSteps();
             return;
+        }
+
+        if (initialTurn != null && !combatants.Contains(initialTurn))
+        {
+            Debug.LogWarning($"{nameof(TurnTimeline)}: Initial turn combatant '{initialTurn.name}' is not in the combatant list.");
+            InitialTurnCombatant = null;
         }
 
         int registrationOrder = 0;
@@ -80,7 +98,7 @@ public class TurnTimeline
 
             CombatantSpeedDict[combatant] = speed;
             CombatantIntervalDict[combatant] = interval;
-            CombatantNextStepDict[combatant] = 0;
+            CombatantNextStepDict[combatant] = combatant == InitialTurnCombatant ? 0 : interval;
             CombatantOrderDict[combatant] = registrationOrder;
             registrationOrder++;
         }
@@ -112,6 +130,10 @@ public class TurnTimeline
         CombatantIntervalDict.Remove(combatant);
         CombatantNextStepDict.Remove(combatant);
         CombatantOrderDict.Remove(combatant);
+
+        if (CurrentTurnCombatant == combatant)
+            CurrentTurnCombatant = null;
+
         UpdatePreviewSteps();
     }
 

@@ -36,7 +36,7 @@ public static class StatDataHelper
                     {
                         attribute = statModifier.attribute,
                         valueType = ToGaProTestShared.GetStatValueType(statModifier.attribute),
-                        round = ToGaProTestShared.ShouldRoundStat_Static(statModifier.attribute),
+                        round = StatContainer_Runtime.ShouldRoundStat(statModifier.attribute),
                         BaseValue = statModifier.value
                     };
 
@@ -223,7 +223,7 @@ public static class StatDataHelper
         {
             attribute = attribute,
             valueType = ToGaProTestShared.GetStatValueType(attribute),
-            round = ToGaProTestShared.ShouldRoundStat_Static(attribute),
+            round = StatContainer_Runtime.ShouldRoundStat(attribute),
             BaseValue = value,
             modifiers = new List<StatModifier>()
         });
@@ -241,7 +241,7 @@ public static class StatDataHelper
             {
                 attribute = flatAttribute,
                 valueType = ToGaProTestShared.GetStatValueType(flatAttribute),
-                round = ToGaProTestShared.ShouldRoundStat_Static(flatAttribute),
+                round = StatContainer_Runtime.ShouldRoundStat(flatAttribute),
                 BaseValue = 0f,
                 modifiers = new List<StatModifier>()
             };

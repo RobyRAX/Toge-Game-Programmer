@@ -584,8 +584,7 @@ MonoBehaviour:
   groundSnapYOffset: 0
   TurnTimeline:
     StepPreviewRange: 20
-    TurnThreshold: 100
-    SoftCapK: 5
+    BaseStepInterval: 12
 --- !u!4 &752373732
 Transform:
   m_ObjectHideFlags: 0

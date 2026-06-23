@@ -20,6 +20,18 @@ public class StatContainer_Runtime
     [ListDrawerSettings(ListElementLabelName = "Label")]
     public List<Stat_Runtime> Stats;
 
+    public static bool ShouldRoundStat(StatAttribute attribute)
+    {
+        if (statEntries != null)
+        {
+            var entry = statEntries.Find(e => e != null && e.attribute == attribute);
+            if (entry != null)
+                return entry.isRound;
+        }
+
+        return ToGaProTestShared.ShouldRoundStat_Static(attribute);
+    }
+
     public StatContainer_Runtime() { }
     public StatContainer_Runtime(IStatEntryProvider statEntryProvider)
     {

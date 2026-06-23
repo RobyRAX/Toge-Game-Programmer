@@ -85,6 +85,7 @@ public class EnemyGroup : MonoBehaviour, ISepObject
             enemyCombatants.Add(enemy.GetComponent<EnemyCombatant>());
         }
 
-        TurnBaseCombatManager.Instance.StartCombat(heroCombatants, enemyCombatants);
+        var initialTurn = heroCombatants.Count > 0 ? heroCombatants[0] : null;
+        TurnBaseCombatManager.Instance.StartCombat(heroCombatants, enemyCombatants, initialTurn);
     }
 }

@@ -55,6 +55,7 @@ public class GameplayConfigSO : ScriptableObject, IStatEntryProvider
             {
                 attribute = attribute,
                 defaultValue = 0f,
+                isRound = ToGaProTestShared.ShouldRoundStat_Static(attribute),
                 statName = attribute.ToString(),
             });
         }

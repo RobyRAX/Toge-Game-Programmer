@@ -9,6 +9,7 @@ public class StatEntry
 {
     public StatAttribute attribute;
     public float defaultValue;
+    public bool isRound;
 
     [Title("Details")]
     public string statName;

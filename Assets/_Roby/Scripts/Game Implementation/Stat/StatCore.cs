@@ -173,7 +173,7 @@ public class Stat_Runtime
     {
         this.attribute = statEntry.attribute;
         this.valueType = ToGaProTestShared.GetStatValueType(statEntry.attribute);
-        this.round = ToGaProTestShared.ShouldRoundStat_Static(statEntry.attribute);
+        this.round = statEntry.isRound;
         this._baseValue = statEntry.defaultValue;
         this.modifiers = new List<StatModifier>();
     }

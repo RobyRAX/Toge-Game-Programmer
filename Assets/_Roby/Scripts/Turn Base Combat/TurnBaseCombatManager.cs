@@ -211,7 +211,9 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
     [TitleGroup("Debug Functions")]
     [Button]
-    public void StartCombat(List<CombatantBase> heroCombatants, List<CombatantBase> enemyCombatants)
+    public void StartCombat(List<CombatantBase> heroCombatants,
+                            List<CombatantBase> enemyCombatants,
+                            CombatantBase initialTurn)
     {
         if (formationRoot == null)
         {
@@ -266,7 +268,8 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (TurnTimeline == null)
             TurnTimeline = new TurnTimeline();
 
-        TurnTimeline.Initialize(AllCombatants);
+        TurnTimeline.Initialize(AllCombatants, initialTurn);
+        BeginCurrentTurn();
 
         Debug.Log("Combat Started");
     }
@@ -358,6 +361,45 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
     }
 
+    void BeginCurrentTurn()
+    {
+        if (TurnTimeline == null || !TurnTimeline.IsInitialized)
+            return;
+
+        if (TryAssignCurrentTurnCombatant())
+            return;
+
+        AdvanceTimelineUntilTurnFound();
+    }
+
+    bool TryAssignCurrentTurnCombatant()
+    {
+        var dueCombatants = TurnTimeline.GetCombatantsAtCurrentStep();
+        if (dueCombatants.Count == 0)
+        {
+            TurnTimeline.CurrentTurnCombatant = null;
+            return false;
+        }
+
+        TurnTimeline.CurrentTurnCombatant = dueCombatants[0];
+        Debug.Log($"{nameof(TurnBaseCombatManager)}: Current turn -> {TurnTimeline.CurrentTurnCombatant.name} (Step {TurnTimeline.CurrentStep}).");
+        return true;
+    }
+
+    void AdvanceTimelineUntilTurnFound()
+    {
+        const int maxStepScans = 1000;
+
+        for (int i = 0; i < maxStepScans; i++)
+        {
+            TurnTimeline.AddStep();
+            if (TryAssignCurrentTurnCombatant())
+                return;
+        }
+
+        Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: No combatant found within {maxStepScans} timeline steps.");
+    }
+
     [TitleGroup("Turn Timeline/Debug")]
     [Button]
     void ResolveCurrentTurn()
@@ -368,15 +410,19 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             return;
         }
 
-        var combatants = TurnTimeline.GetCombatantsAtCurrentStep();
-        if (combatants.Count == 0)
+        if (TurnTimeline.CurrentTurnCombatant == null)
         {
-            Debug.Log($"{nameof(TurnBaseCombatManager)}: No combatants due at step {TurnTimeline.CurrentStep}.");
+            Debug.Log($"{nameof(TurnBaseCombatManager)}: No active turn to resolve.");
+            BeginCurrentTurn();
             return;
         }
 
-        for (int i = 0; i < combatants.Count; i++)
-            Debug.Log($"[Timeline Step {TurnTimeline.CurrentStep}] Turn: {combatants[i].name}");
+        var actingCombatant = TurnTimeline.CurrentTurnCombatant;
+        TurnTimeline.NotifyCombatantActed(actingCombatant);
+        TurnTimeline.CurrentTurnCombatant = null;
+
+        Debug.Log($"{nameof(TurnBaseCombatManager)}: Resolved turn for {actingCombatant.name} at step {TurnTimeline.CurrentStep}.");
+        BeginCurrentTurn();
     }
 
     [TitleGroup("Turn Timeline/Debug")]

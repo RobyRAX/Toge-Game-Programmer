@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using ToGaProTest.Shared;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyDataSO", menuName = "RAXY/Unit/Enemy/Enemy Data")]

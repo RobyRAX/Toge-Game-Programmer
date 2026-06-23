@@ -23,50 +23,62 @@ MonoBehaviour:
       attack: 10
       maxStamina: 50
       defense: 5
+      attackSpeed: 1
     - maxHp: 122
       attack: 14
       maxStamina: 56
       defense: 8
+      attackSpeed: 1.1111112
     - maxHp: 144
       attack: 19
       maxStamina: 61
       defense: 11
+      attackSpeed: 1.2222222
     - maxHp: 167
       attack: 23
       maxStamina: 67
       defense: 13
+      attackSpeed: 1.3333334
     - maxHp: 189
       attack: 28
       maxStamina: 72
       defense: 16
+      attackSpeed: 1.4444444
     - maxHp: 211
       attack: 32
       maxStamina: 78
       defense: 19
+      attackSpeed: 1.5555556
     - maxHp: 233
       attack: 37
       maxStamina: 83
       defense: 22
+      attackSpeed: 1.6666667
     - maxHp: 256
       attack: 41
       maxStamina: 89
       defense: 24
+      attackSpeed: 1.7777778
     - maxHp: 278
       attack: 46
       maxStamina: 94
       defense: 27
+      attackSpeed: 1.8888888
     - maxHp: 300
       attack: 50
       maxStamina: 100
       defense: 30
+      attackSpeed: 2
     maxLevel: 10
     initial:
       maxHp: 100
       attack: 10
       maxStamina: 50
       defense: 5
+      attackSpeed: 1
     max:
       maxHp: 300
       attack: 50
       maxStamina: 100
       defense: 30
+      attackSpeed: 2

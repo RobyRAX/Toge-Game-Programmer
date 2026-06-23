@@ -42,6 +42,20 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [FoldoutGroup("Formation/Gizmos")]
     [MinValue(0)]
     public float gizmoRootRadius = 0.35f;
+
+    [FoldoutGroup("Formation/Ground Snap")]
+    public LayerMask groundLayerMask;
+
+    [FoldoutGroup("Formation/Ground Snap")]
+    [MinValue(0)]
+    public float groundRaycastUpDistance = 5f;
+
+    [FoldoutGroup("Formation/Ground Snap")]
+    [MinValue(0)]
+    public float groundRaycastDownDistance = 10f;
+
+    [FoldoutGroup("Formation/Ground Snap")]
+    public float groundSnapYOffset;
     
     [TitleGroup("Formation")]
     [Button]
@@ -156,7 +170,26 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
             Gizmos.DrawSphere(t.position, gizmoSlotRadius);
             Gizmos.DrawLine(teamRoot.position, t.position);
+            DrawGroundRayGizmo(t.position);
         }
+    }
+
+    void DrawGroundRayGizmo(Vector3 probe)
+    {
+        Gizmos.color = new Color(1f, 1f, 0.2f, 0.7f);
+        Gizmos.DrawLine(probe, probe + Vector3.up * groundRaycastUpDistance);
+        Gizmos.DrawLine(probe, probe + Vector3.down * groundRaycastDownDistance);
+
+        if (!TurnBaseCombatHelper.TrySnapToGround(probe,
+                                                  groundRaycastUpDistance,
+                                                  groundRaycastDownDistance,
+                                                  groundLayerMask,
+                                                  groundSnapYOffset,
+                                                  out Vector3 snapped))
+            return;
+
+        Gizmos.color = new Color(0.2f, 1f, 0.2f, 0.8f);
+        Gizmos.DrawWireSphere(snapped, gizmoSlotRadius * 0.5f);
     }
 
     [TitleGroup("Current Combatans")]
@@ -183,7 +216,129 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [Button]
     public void StartCombat(List<CombatantBase> heroCombatants, List<CombatantBase> enemyCombatants)
     {
+        if (formationRoot == null)
+        {
+            Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: {nameof(formationRoot)} is null.");
+            return;
+        }
+
+        HeroCombatants = TurnBaseCombatHelper.FilterNullCombatants(heroCombatants);
+        EnemyCombatants = TurnBaseCombatHelper.FilterNullCombatants(enemyCombatants);
+
+        if (HeroCombatants.Count == 0 || EnemyCombatants.Count == 0)
+        {
+            Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: Need at least one hero and one enemy combatant.");
+            return;
+        }
+
+        int neededSlots = Mathf.Max(HeroCombatants.Count, EnemyCombatants.Count);
+        if (neededSlots > maxMemberPerTeam)
+        {
+            Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: Combatant count ({neededSlots}) exceeds {nameof(maxMemberPerTeam)} ({maxMemberPerTeam}). Extra units will be skipped.");
+        }
+
+        if (!EnsureFormationSlots())
+            return;
+
+        if (!TurnBaseCombatHelper.TryGetAveragePosition(HeroCombatants, out Vector3 heroAvg) ||
+            !TurnBaseCombatHelper.TryGetAveragePosition(EnemyCombatants, out Vector3 enemyAvg))
+        {
+            Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: Failed to compute team average positions.");
+            return;
+        }
+
+        AlignFormationRoot(heroAvg, enemyAvg);
+        SnapSlotsToGround(HeroPositions);
+        SnapSlotsToGround(EnemyPositions);
+        PlaceCombatantsOnSlots(HeroCombatants, HeroPositions);
+        PlaceCombatantsOnSlots(EnemyCombatants, EnemyPositions);
+
+        AllCombatants = new List<CombatantBase>(HeroCombatants.Count + EnemyCombatants.Count);
+        AllCombatants.AddRange(HeroCombatants);
+        AllCombatants.AddRange(EnemyCombatants);
+
         Debug.Log("Combat Started");
+    }
+
+    bool EnsureFormationSlots()
+    {
+        if (HeroPositions != null && HeroPositions.Length > 0 &&
+            EnemyPositions != null && EnemyPositions.Length > 0)
+            return true;
+
+        if (maxMemberPerTeam <= 0)
+        {
+            Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: {nameof(maxMemberPerTeam)} must be greater than 0.");
+            return false;
+        }
+
+        InitFormationPositions();
+
+        if (HeroPositions == null || HeroPositions.Length == 0 ||
+            EnemyPositions == null || EnemyPositions.Length == 0)
+        {
+            Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: Formation slots are not ready.");
+            return false;
+        }
+
+        return true;
+    }
+
+    void AlignFormationRoot(Vector3 heroAvg, Vector3 enemyAvg)
+    {
+        formationRoot.position = (heroAvg + enemyAvg) * 0.5f;
+
+        Vector3 flatDir = enemyAvg - heroAvg;
+        flatDir.y = 0f;
+
+        if (flatDir.sqrMagnitude < 0.0001f)
+            return;
+
+        formationRoot.rotation = Quaternion.FromToRotation(Vector3.right, flatDir.normalized);
+    }
+
+    void SnapSlotsToGround(Transform[] slots)
+    {
+        if (slots == null)
+            return;
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            var slot = slots[i];
+            if (slot == null)
+                continue;
+
+            Vector3 probe = slot.position;
+            if (TurnBaseCombatHelper.TrySnapToGround(probe,
+                                                     groundRaycastUpDistance,
+                                                     groundRaycastDownDistance,
+                                                     groundLayerMask,
+                                                     groundSnapYOffset,
+                                                     out Vector3 snapped))
+            {
+                slot.position = snapped;
+                continue;
+            }
+
+            Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: No ground hit for slot '{slot.name}' at {probe}.");
+        }
+    }
+
+    void PlaceCombatantsOnSlots(List<CombatantBase> combatants, Transform[] slots)
+    {
+        if (combatants == null || slots == null)
+            return;
+
+        int count = Mathf.Min(combatants.Count, slots.Length);
+        for (int i = 0; i < count; i++)
+        {
+            var combatant = combatants[i];
+            var slot = slots[i];
+            if (combatant == null || slot == null)
+                continue;
+
+            TurnBaseCombatHelper.TeleportTo(combatant.transform, slot.position);
+        }
     }
 
     [TitleGroup("Debug Functions")]

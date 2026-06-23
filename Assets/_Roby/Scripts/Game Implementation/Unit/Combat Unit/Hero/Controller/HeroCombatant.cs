@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class HeroCombatant : CombatantBase
 {
-    public HeroCombatDataSO CombatData;
+    public HeroCombatDataSO heroCombatDataSO;
+    public override CombatDataBaseSO CombatDataSO { get => heroCombatDataSO; }
 
     public ItemInstance_Hero HeroInstance { get; set; }
     public override float CurrentHp

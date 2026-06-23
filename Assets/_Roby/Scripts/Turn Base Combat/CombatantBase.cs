@@ -23,6 +23,8 @@ public abstract class CombatantBase : MonoBehaviour
     [HideLabel]
     public virtual StatContainer_Runtime StatContainer { get; set; }
 
+    public virtual CombatDataBaseSO CombatDataSO { get; set; }
+
     public virtual void TakeDamage(ref AttackResult attackRes)
     {
         if (!IsAlive)

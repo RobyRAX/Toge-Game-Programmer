@@ -4,7 +4,9 @@ using UnityEngine;
 public class HeroController : CombatUnitController
 {
     public HeroDataSO heroDataSO;
-    public HeroCombatant HeroCombatant { get; set; }
+    public HeroCombatant heroCombatant;
+
+    public override CombatantBase CombatantCont { get => heroCombatant; }
 
     public override async UniTask Init()
     {
@@ -12,9 +14,9 @@ public class HeroController : CombatUnitController
 
         FirstInitDone = false;
 
-        HeroCombatant = GetComponent<HeroCombatant>();
-        HeroCombatant.CombatData = heroDataSO.CombatDataSO;
-        HeroCombatant.Init(InventoryManager.Instance.GetInstanceHero(heroDataSO.ItemId));
+        heroCombatant = GetComponent<HeroCombatant>();
+        heroCombatant.heroCombatDataSO = heroDataSO.CombatDataSO;
+        heroCombatant.Init(InventoryManager.Instance.GetInstanceHero(heroDataSO.ItemId));
 
         FirstInitDone = true;
     }

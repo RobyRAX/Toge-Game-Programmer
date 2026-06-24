@@ -27,6 +27,10 @@ public class HeroDataSO : ScriptableObject, IItemEntry
     public string ItemAdditionalDescription => "";
     public Sprite ItemIcon => heroIcon;
 
+    [TitleGroup("Animations")]
+    [HideLabel]
+    public UnitAnimationClipsSO AnimationClipsSO;
+
     [TitleGroup("Combat Data")]
     [HideLabel]
     public HeroCombatDataSO CombatDataSO;

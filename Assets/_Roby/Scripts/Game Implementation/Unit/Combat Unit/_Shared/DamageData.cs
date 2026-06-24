@@ -17,7 +17,7 @@ public abstract class DamageProfileProviderBase
 public class EnemyDamageProfileProvider : DamageProfileProviderBase
 {
     [TableList(ShowIndexLabels = true, AlwaysExpanded = true)]
-    public List<DamageProfile> damageProfileEntries;
+    public DamageProfile damageProfileEntries;
 }
 
 [Serializable]
@@ -28,7 +28,7 @@ public class HeroDamageProfileProvider : DamageProfileProviderBase
 
     [ListDrawerSettings(ShowIndexLabels = true, Expanded = true, ListElementLabelName = "Label")]
     [OnValueChanged("Refresh_EntryPreview", IncludeChildren = true)]
-    public List<HeroAttackDamageProfileEntry> damageProfileEntries;
+    public HeroAttackDamageProfileEntry damageProfileEntry;
 
 #if UNITY_EDITOR
     [FoldoutGroup("Simulation")]
@@ -51,27 +51,20 @@ public class HeroDamageProfileProvider : DamageProfileProviderBase
 
     public void OnTalentChangedHandler()
     {
-        if (damageProfileEntries == null)
+        if (damageProfileEntry == null)
             return;
 
-        foreach (var entry in damageProfileEntries)
-        {
-            entry.attributeId = null;
-            entry.damageProfile_Preview = new DamageProfile();
-        }
+        damageProfileEntry.attributeId = null;
+        damageProfileEntry.damageProfile_Preview = new DamageProfile();
     }
-
 
     public void Refresh_EntryPreview()
     {
-        if (damageProfileEntries == null)
+        if (damageProfileEntry == null)
             return;
 
-        foreach (var entry in damageProfileEntries)
-        {
-            var dmgProfile = attackAttribute.GetDamageProfile(entry.attributeId, talentLevel);
-            entry.Set_DamageProfilePreview(dmgProfile);
-        }
+        var dmgProfile = attackAttribute.GetDamageProfile(damageProfileEntry.attributeId, talentLevel);
+        damageProfileEntry.Set_DamageProfilePreview(dmgProfile);
     }
 
     public override void Set_EditorData(CombatAttackBaseSO attackSO)
@@ -132,7 +125,7 @@ public class HeroAttackDamageProfileEntry
 }
 
 [Serializable]
-public struct DamageProfile
+public class DamageProfile
 {
     public float flatDamage;
     [SuffixLabel("%")]
@@ -140,7 +133,7 @@ public struct DamageProfile
 }
 
 [Serializable]
-public struct DamageProfileWithAttribute
+public class DamageProfileWithAttribute
 {
     public float flatDamage;
     public float multiplierDamage;

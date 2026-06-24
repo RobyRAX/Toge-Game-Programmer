@@ -16,6 +16,7 @@ MonoBehaviour:
   heroName: Alice
   heroIcon: {fileID: 0}
   heroPrefab: {fileID: 6181947282332787467, guid: 2988ca7aaad0453458a37c9b6916f1fe, type: 3}
+  AnimationClipsSO: {fileID: 11400000, guid: ab22ad19b54ab1042a1c16b1be962506, type: 2}
   CombatDataSO: {fileID: 11400000, guid: 1682229ce2e71c244b323ea43a777827, type: 2}
   StatGrowth:
     values:

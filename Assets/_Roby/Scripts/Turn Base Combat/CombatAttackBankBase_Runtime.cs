@@ -22,6 +22,8 @@ public class Attack_Runtime
     public CombatAttackBaseSO AttackSO { get; set; }
     public int StaminaCost => AttackSO.staminaCost;
 
+    public DamageProfileWithAttribute damageProfile; 
+
     public List<AttackActionBase_Runtime> AttackActions;
     public bool IsActionRunning { get; set; }
 
@@ -33,5 +35,30 @@ public class Attack_Runtime
     public void EndAttackActionSequence()
     {
         IsActionRunning = false;
+    }
+
+    public Attack_Runtime() { }
+    public Attack_Runtime(CombatAttackBaseSO attackSO, CombatantBase combatantOwner)
+    {
+        BuildAttack();
+    }
+
+    public void BuildAttack()
+    {
+        if (AttackSO == null || CombatantOwner == null)
+            return;
+
+        damageProfile = AttackSO.DamageProfile;
+        if (damageProfile == null)
+        {
+            damageProfile = CombatantOwner.GetDamageProfile(AttackSO);
+        }
+        
+        AttackActions = new();
+    }
+
+    public void RefreshDamageProfile()
+    {
+        damageProfile = CombatantOwner.GetDamageProfile(AttackSO);
     }
 }

@@ -61,6 +61,7 @@ public class GameplayPartyManager : Singleton<GameplayPartyManager>, ISepObject
         
         var heroCont = heroClone.GetComponent<HeroController>();
         heroCont.heroDataSO = heroDataSO;
+        heroCont.AnimationClips = heroDataSO.AnimationClipsSO;
         GameplayDependencyManager.Instance.RegisterSepObject(heroCont, GameplayDependencyManager.HERO_SEP_GROUP);
 
         SpawnedHeroObjDict.Add(heroId, heroClone);

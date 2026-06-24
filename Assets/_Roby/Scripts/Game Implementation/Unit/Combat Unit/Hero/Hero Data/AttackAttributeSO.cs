@@ -64,6 +64,39 @@ public class AttributeEntry
     public string attributeId;
     public string attributeName;
 
-    [TitleGroup("Value")]
+    [TitleGroup("Value Per Level")]
+    [TableList(ShowIndexLabels = true)]
     public List<DamageProfile> damageProfiles;
+
+    [FoldoutGroup("Setup Helper")]
+    [SerializeField]
+    int maxLevel;
+
+    [FoldoutGroup("Setup Helper")]
+    [SerializeField]
+    DamageProfile initial;
+
+    [FoldoutGroup("Setup Helper")]
+    [SerializeField]
+    DamageProfile max;
+
+    [FoldoutGroup("Setup Helper")]
+    [Button]
+    public void Setup()
+    {
+        if (maxLevel <= 0)
+            return;
+
+        damageProfiles = new List<DamageProfile>(maxLevel);
+
+        for (int level = 1; level <= maxLevel; level++)
+        {
+            float t = (level - 1) / (float)(maxLevel - 1);
+            damageProfiles.Add(new DamageProfile
+            {
+                flatDamage = Mathf.Round(Mathf.Lerp(initial.flatDamage, max.flatDamage, t)),
+                multiplierDamage = Mathf.Round(Mathf.Lerp(initial.multiplierDamage, max.multiplierDamage, t))
+            });
+        }
+    }
 }

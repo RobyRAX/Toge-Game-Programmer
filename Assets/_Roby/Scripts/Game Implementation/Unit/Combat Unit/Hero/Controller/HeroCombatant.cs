@@ -4,7 +4,18 @@ using UnityEngine;
 public class HeroCombatant : CombatantBase
 {
     public HeroCombatDataSO heroCombatDataSO;
-    public override CombatDataBaseSO CombatDataSO { get => heroCombatDataSO; }
+    public override CombatDataBaseSO CombatDataSO
+    {
+        get => heroCombatDataSO;
+        set => heroCombatDataSO = value as HeroCombatDataSO;
+    }
+
+    HeroAttackBank_Runtime heroAttackBank;
+    public override CombatAttackBankBase_Runtime AttackBank
+    {
+        get => heroAttackBank;
+        set => heroAttackBank = value as HeroAttackBank_Runtime;
+    }
 
     public ItemInstance_Hero HeroInstance { get; set; }
     public override float CurrentHp
@@ -28,6 +39,8 @@ public class HeroCombatant : CombatantBase
     {
         HeroInstance = heroInstance;
         heroCombatDataSO = HeroInstance.heroDataSO.CombatDataSO;
+
+        AttackBank = new HeroAttackBank_Runtime(this);
 
         SetAlive();
     }

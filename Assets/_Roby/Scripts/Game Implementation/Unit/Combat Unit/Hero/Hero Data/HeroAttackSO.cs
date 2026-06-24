@@ -8,9 +8,12 @@ public class HeroAttackSO : CombatAttackBaseSO
     [HideLabel]
     public HeroDamageProfileProvider damageProfileProvider;
 
+    public override DamageProfileWithAttribute DamageProfile => null;
+
 #if UNITY_EDITOR
     [TitleGroup("Editor")]
     public HeroCombatDataSO heroCombatDataSO_editorData;
+
 #endif
 }
 

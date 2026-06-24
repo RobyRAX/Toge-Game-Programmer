@@ -13,6 +13,8 @@ public abstract class CombatAttackBaseSO : ScriptableObject
     [TitleGroup("Attack Action Sequence")]
     [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "Label", Expanded = true)]
     public List<AttackActionEntry> attackActionEntries;
+
+    public abstract DamageProfileWithAttribute DamageProfile { get; }
 }
 
 [Serializable]

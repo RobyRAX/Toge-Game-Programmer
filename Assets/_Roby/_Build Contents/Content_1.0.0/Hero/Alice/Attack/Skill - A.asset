@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9178e220231e2fc4eaacc30691c7442d, type: 3}
+  m_Name: Skill - A
+  m_EditorClassIdentifier: Assembly-CSharp::HeroAttackSO
+  staminaCost: 0
+  hitEntries: []
+  attackActionEntries: []
+  damageProfileProvider:
+    talent: 0
+    damageProfileEntries: []
+    configSO: {fileID: 0}
+    talentLevel: 0
+  heroCombatDataSO_editorData: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

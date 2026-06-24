@@ -6,5 +6,19 @@ public class EnemyAttackSO : CombatAttackBaseSO
 {
     [TitleGroup("Damage Profile")]
     [HideLabel]
-    public EnemyDamageProfileProvider damageProfileProvider;
+    [SerializeField]
+    DamageProfile damageProfileEntry;
+
+    public override DamageProfileWithAttribute DamageProfile
+    {
+        get
+        {
+            var newDamageProfile = new DamageProfileWithAttribute();
+            newDamageProfile.flatDamage = damageProfileEntry.flatDamage;
+            newDamageProfile.multiplierDamage = damageProfileEntry.multiplierDamage;
+            newDamageProfile.attribute = ToGaProTest.Shared.StatAttribute.Attack;
+
+            return newDamageProfile;
+        }
+    }
 }

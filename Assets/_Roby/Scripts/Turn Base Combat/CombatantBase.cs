@@ -1,4 +1,5 @@
 
+using System;
 using Sirenix.OdinInspector;
 using ToGaProTest.Shared;
 using UnityEngine;
@@ -25,6 +26,11 @@ public abstract class CombatantBase : MonoBehaviour
     [HideLabel]
     public virtual StatContainer_Runtime StatContainer { get; set; }
 
+    [TitleGroup("Attack Bank")]
+    [ShowInInspector]
+    [HideReferenceObjectPicker]
+    public virtual CombatAttackBankBase_Runtime AttackBank { get; set; }
+
     public virtual CombatDataBaseSO CombatDataSO { get; set; }
 
     public virtual void TakeDamage(ref AttackResult attackRes)
@@ -45,5 +51,10 @@ public abstract class CombatantBase : MonoBehaviour
 
         attackRes.ReceivedDamage = afterDefense;
         attackRes.IsDefenderDead = CurrentHp <= 0;
+    }
+
+    public virtual DamageProfileWithAttribute GetDamageProfile(CombatAttackBaseSO attackSO)
+    {
+        return attackSO.DamageProfile;
     }
 }

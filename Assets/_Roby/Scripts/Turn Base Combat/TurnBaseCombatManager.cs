@@ -2,10 +2,15 @@ using System;
 using System.Collections.Generic;
 using RAXY.Utility;
 using Sirenix.OdinInspector;
+using Unity.Cinemachine;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 {
+    [TitleGroup("Formation")]
+    public CinemachineTargetGroup targetGroup;
+
     [TitleGroup("Formation")]
     public int maxMemberPerTeam;
 
@@ -204,6 +209,47 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [ShowInInspector]
     public List<CombatantBase> EnemyCombatants { get; set; }
 
+    [TitleGroup("Current Combatant Attack Queue")]
+    [ShowInInspector]
+    public CombatantBase CurrentCombatant => TurnTimeline.CurrentTurnCombatant;
+
+    [TitleGroup("Current Combatant Attack Queue")]
+    [ShowInInspector]
+    public CombatantBase TargetCombatant { get; set; }
+
+    [TitleGroup("Current Combatant Attack Queue")]
+    [ShowInInspector]
+    public Attack_Runtime SelectedAttack { get; set; }
+
+    [TitleGroup("Current Combatant Attack Queue")]
+    [Button]
+    public void TakeRandomAttack()
+    {
+        if (CurrentCombatant == null)
+            return;
+        
+        var attacks = CurrentCombatant.AttackBank.Attacks;
+        int lastIndex = attacks.Count - 1;
+        int rand = Random.Range(0, lastIndex);
+
+        if (rand == -1)
+            return;
+
+        SelectedAttack = attacks[rand];
+    }
+
+    [TitleGroup("Current Combatant Attack Queue")]
+    [Button]
+    public void ExecuteAttack()
+    {
+        var attackReq = TurnBaseCombatHelper.
+                        BuildAttackRequest(CurrentCombatant, 
+                                            TargetCombatant, 
+                                            SelectedAttack.damageProfile);
+                                            
+        TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
+    }
+
     [TitleGroup("Turn Timeline")]
     [BoxGroup("Turn Timeline/Turn Timeline")]
     [HideLabel]
@@ -351,15 +397,15 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         }
     }
 
-    [TitleGroup("Debug Functions")]
-    [Button]
-    public void Attack(CombatantBase attacker, 
-                        CombatantBase defender, 
-                        DamageProfileWithAttribute damageProfile)
-    {
-        var attackReq = TurnBaseCombatHelper.BuildAttackRequest(attacker, defender, damageProfile);
-        TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
-    }
+    // [TitleGroup("Debug Functions")]
+    // [Button]
+    // public void Attack(CombatantBase attacker, 
+    //                     CombatantBase defender, 
+    //                     DamageProfileWithAttribute damageProfile)
+    // {
+    //     var attackReq = TurnBaseCombatHelper.BuildAttackRequest(attacker, defender, damageProfile);
+    //     TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
+    // }
 
     void BeginCurrentTurn()
     {
@@ -400,7 +446,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: No combatant found within {maxStepScans} timeline steps.");
     }
 
-    [TitleGroup("Turn Timeline/Debug")]
+    [TitleGroup("Debug Functions")]
     [Button]
     void ResolveCurrentTurn()
     {
@@ -425,7 +471,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         BeginCurrentTurn();
     }
 
-    [TitleGroup("Turn Timeline/Debug")]
+    [TitleGroup("Debug Functions")]
     [Button]
     void AdvanceTimelineStep()
     {
@@ -439,7 +485,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         Debug.Log($"{nameof(TurnBaseCombatManager)}: Advanced to step {TurnTimeline.CurrentStep}.");
     }
 
-    [TitleGroup("Turn Timeline/Debug")]
+    [TitleGroup("Debug Functions")]
     [Button]
     void LogTimelinePreview()
     {

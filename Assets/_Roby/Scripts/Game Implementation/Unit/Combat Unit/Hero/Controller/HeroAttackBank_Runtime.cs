@@ -30,37 +30,48 @@ public class HeroAttackBank_Runtime : CombatAttackBankBase_Runtime
 
     public void BuildAttacks()
     {
-        if (heroCombatant == null || combatDataSO == null)
+        if (heroCombatant == null || combatDataSO == null || HeroInstance == null)
             return;
 
         _attacks = new();
 
-        NormalAttackTalent = new();
-        NormalAttackTalent.level = HeroInstance.NormalAttackTalentLevel;
-        foreach (var attackSO in combatDataSO.NormalAttackTalent.attacks)
+        NormalAttackTalent = BuildTalentAttacks(
+            combatDataSO.NormalAttackTalent,
+            HeroInstance.NormalAttackTalentLevel);
+
+        SkillTalent = BuildTalentAttacks(
+            combatDataSO.SkillTalent,
+            HeroInstance.SkillTalentLevel);
+
+        UltimateTalent = BuildTalentAttacks(
+            combatDataSO.UltimateTalent,
+            HeroInstance.UltimateTalentLevel);
+    }
+
+    Talent_Runtime BuildTalentAttacks(Talent talentData, int level)
+    {
+        var talentRuntime = new Talent_Runtime { level = level };
+
+        if (talentData?.attacks == null)
+            return talentRuntime;
+
+        foreach (var attackSO in talentData.attacks)
         {
+            if (attackSO == null)
+                continue;
+
             var newAttack = CreateAttackRuntime(attackSO);
-            NormalAttackTalent.attacks.Add(newAttack);
+            if (newAttack == null)
+                continue;
+
+            if (newAttack.damageProfile == null)
+                Debug.LogWarning($"{nameof(HeroAttackBank_Runtime)}: {attackSO.name} has no damage profile.");
+
+            talentRuntime.attacks.Add(newAttack);
             _attacks.Add(newAttack);
         }
 
-        SkillTalent = new();
-        SkillTalent.level = HeroInstance.SkillTalentLevel;
-        foreach (var attackSO in combatDataSO.SkillTalent.attacks)
-        {
-            var newAttack = CreateAttackRuntime(attackSO);
-            SkillTalent.attacks.Add(newAttack);
-            _attacks.Add(newAttack);
-        }
-
-        UltimateTalent = new();
-        UltimateTalent.level = HeroInstance.UltimateTalentLevel;
-        foreach (var attackSO in combatDataSO.UltimateTalent.attacks)
-        {
-            var newAttack = CreateAttackRuntime(attackSO);
-            UltimateTalent.attacks.Add(newAttack);
-            _attacks.Add(newAttack);
-        }
+        return talentRuntime;
     }
 
     public Attack_Runtime CreateAttackRuntime(HeroAttackSO attackSO)
@@ -76,5 +87,7 @@ public class HeroAttackBank_Runtime : CombatAttackBankBase_Runtime
 public class Talent_Runtime
 {
     public int level;
+
+    [HideReferenceObjectPicker]
     public List<Attack_Runtime> attacks = new();
 }

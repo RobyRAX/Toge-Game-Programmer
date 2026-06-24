@@ -12,6 +12,9 @@ public class MoveToTargetAttackActionSO : AttackActionBaseSO
     [SerializeField]
     MoveToTargetAttackActionParameter exampleParameter;
     public override AttackActionParameterBase ExampleParameter => exampleParameter;
+
+    public override AttackActionBase_Runtime CreateRuntime(AttackActionEntry entry, CombatantBase combatantOwner)
+        => new MoveToTargetAttackAction_Runtime(entry, combatantOwner);
 }
 
 [Serializable]

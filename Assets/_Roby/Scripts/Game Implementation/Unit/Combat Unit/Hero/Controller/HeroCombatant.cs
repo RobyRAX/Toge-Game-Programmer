@@ -35,6 +35,26 @@ public class HeroCombatant : CombatantBase
         }
     }
 
+    public override DamageProfileWithAttribute GetDamageProfile(CombatAttackBaseSO attackSO)
+    {
+        if (attackSO is not HeroAttackSO heroAttackSO)
+            return base.GetDamageProfile(attackSO);
+
+        var provider = heroAttackSO.damageProfileProvider;
+        if (provider == null || HeroInstance == null)
+            return null;
+
+        int talentLevel = provider.talent switch
+        {
+            HeroTalentType.NormalAttack => HeroInstance.NormalAttackTalentLevel,
+            HeroTalentType.Skill => HeroInstance.SkillTalentLevel,
+            HeroTalentType.Ultimate => HeroInstance.UltimateTalentLevel,
+            _ => 1
+        };
+
+        return provider.ResolveDamageProfile(heroCombatDataSO, talentLevel);
+    }
+
     public void Init(ItemInstance_Hero heroInstance)
     {
         HeroInstance = heroInstance;

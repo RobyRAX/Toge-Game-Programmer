@@ -14,6 +14,9 @@ public class StayAnimationAttackActionSO : AttackActionBaseSO
     public override AttackActionParameterBase ExampleParameter => exampleParameter;
 
     public override string ActionName => "Stay Animation";
+
+    public override AttackActionBase_Runtime CreateRuntime(AttackActionEntry entry, CombatantBase combatantOwner)
+        => new StayAnimationAttackAction_Runtime(entry, combatantOwner);
 }
 
 [Serializable]

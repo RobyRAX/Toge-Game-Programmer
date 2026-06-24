@@ -215,11 +215,15 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
     [TitleGroup("Current Combatant Attack Queue")]
     [ShowInInspector]
-    public CombatantBase TargetCombatant { get; set; }
+    public Attack_Runtime SelectedAttack { get; set; }
 
     [TitleGroup("Current Combatant Attack Queue")]
     [ShowInInspector]
-    public Attack_Runtime SelectedAttack { get; set; }
+    public CombatantBase TargetOpponent { get; set; }
+
+    [TitleGroup("Current Combatant Attack Queue")]
+    [ShowInInspector]
+    public CombatantBase TargetTeam { get; set; }
 
     [TitleGroup("Current Combatant Attack Queue")]
     [Button]
@@ -228,14 +232,11 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (CurrentCombatant == null)
             return;
         
-        var attacks = CurrentCombatant.AttackBank.Attacks;
-        int lastIndex = attacks.Count - 1;
-        int rand = Random.Range(0, lastIndex);
-
-        if (rand == -1)
+        var attacks = CurrentCombatant.AttackBank?.Attacks;
+        if (attacks == null || attacks.Count == 0)
             return;
 
-        SelectedAttack = attacks[rand];
+        SelectedAttack = attacks[Random.Range(0, attacks.Count)];
     }
 
     [TitleGroup("Current Combatant Attack Queue")]
@@ -244,9 +245,9 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     {
         var attackReq = TurnBaseCombatHelper.
                         BuildAttackRequest(CurrentCombatant, 
-                                            TargetCombatant, 
+                                            TargetOpponent, 
                                             SelectedAttack.damageProfile);
-                                            
+
         TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
     }
 

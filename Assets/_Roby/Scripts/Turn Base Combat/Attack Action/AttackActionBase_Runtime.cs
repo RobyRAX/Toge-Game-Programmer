@@ -1,6 +1,11 @@
+using System;
+using Sirenix.OdinInspector;
+
 public abstract class AttackActionBase_Runtime
 {
     public CombatantBase CombatantOwner { get; set; }
+
+    [HideReferenceObjectPicker]
     public AttackActionEntry entry;
 
     public bool IsRunning { get; set; }

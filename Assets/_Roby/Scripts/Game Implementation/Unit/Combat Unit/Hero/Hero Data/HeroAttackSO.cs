@@ -43,6 +43,41 @@ public class HeroDamageProfileProvider
     [HideLabel]
     public HeroAttackDamageProfileEntry damageProfileEntry = new();
 
+    public DamageProfileWithAttribute ResolveDamageProfile(HeroCombatDataSO combatData, int talentLevel)
+    {
+        if (combatData == null || damageProfileEntry == null || string.IsNullOrEmpty(damageProfileEntry.attributeId))
+            return null;
+
+        var attackAttribute = GetAttackAttribute(combatData);
+        if (attackAttribute == null)
+            return null;
+
+        var profile = attackAttribute.GetDamageProfile(damageProfileEntry.attributeId, talentLevel);
+        if (profile == null)
+            return null;
+
+        return new DamageProfileWithAttribute
+        {
+            flatDamage = profile.flatDamage,
+            multiplierDamage = profile.multiplierDamage,
+            attribute = damageProfileEntry.attribute
+        };
+    }
+
+    public AttackAttribute GetAttackAttribute(HeroCombatDataSO combatData)
+    {
+        if (combatData == null)
+            return null;
+
+        return talent switch
+        {
+            HeroTalentType.NormalAttack => combatData.NormalAttackTalent?.AttackAttribute,
+            HeroTalentType.Skill => combatData.SkillTalent?.AttackAttribute,
+            HeroTalentType.Ultimate => combatData.UltimateTalent?.AttackAttribute,
+            _ => null
+        };
+    }
+
 #if UNITY_EDITOR
     HeroAttackSO _editorHeroAttackSO;
 
@@ -93,28 +128,8 @@ public class HeroDamageProfileProvider
 
     void Refresh_AttackAttribute()
     {
-        attackAttribute = null;
-
         var heroCombatData = _editorHeroAttackSO?.heroCombatDataSO_editorData;
-        if (heroCombatData == null)
-        {
-            HeroAttackDamageProfileEntry.Set_EditorData(null);
-            return;
-        }
-
-        switch (talent)
-        {
-            case HeroTalentType.NormalAttack:
-                attackAttribute = heroCombatData.NormalAttackTalent.AttackAttribute;
-                break;
-            case HeroTalentType.Skill:
-                attackAttribute = heroCombatData.SkillTalent.AttackAttribute;
-                break;
-            case HeroTalentType.Ultimate:
-                attackAttribute = heroCombatData.UltimateTalent.AttackAttribute;
-                break;
-        }
-
+        attackAttribute = GetAttackAttribute(heroCombatData);
         HeroAttackDamageProfileEntry.Set_EditorData(attackAttribute?.AttributeIds);
     }
 #endif

@@ -25,42 +25,42 @@ MonoBehaviour:
         attributeName: Attack A DMG
         damageProfiles:
         - flatDamage: 0
-          multiplierDamage: 15
+          multiplierDamage: 35
         - flatDamage: 0
-          multiplierDamage: 30
+          multiplierDamage: 46
         - flatDamage: 0
-          multiplierDamage: 45
+          multiplierDamage: 58
         - flatDamage: 0
-          multiplierDamage: 60
+          multiplierDamage: 69
         - flatDamage: 0
-          multiplierDamage: 75
+          multiplierDamage: 80
         maxLevel: 5
         initial:
           flatDamage: 0
-          multiplierDamage: 15
+          multiplierDamage: 35
         max:
           flatDamage: 0
-          multiplierDamage: 75
+          multiplierDamage: 80
       - attributeId: normalAttack_B
         attributeName: Attack B DMG
         damageProfiles:
         - flatDamage: 0
-          multiplierDamage: 10
+          multiplierDamage: 30
         - flatDamage: 0
-          multiplierDamage: 22
+          multiplierDamage: 40
         - flatDamage: 0
-          multiplierDamage: 35
-        - flatDamage: 0
-          multiplierDamage: 48
+          multiplierDamage: 50
         - flatDamage: 0
           multiplierDamage: 60
+        - flatDamage: 0
+          multiplierDamage: 70
         maxLevel: 5
         initial:
           flatDamage: 0
-          multiplierDamage: 10
+          multiplierDamage: 30
         max:
           flatDamage: 0
-          multiplierDamage: 60
+          multiplierDamage: 70
   SkillTalent:
     talentIcon: {fileID: 0}
     attacks:
@@ -74,42 +74,42 @@ MonoBehaviour:
         attributeName: Skill A DMG
         damageProfiles:
         - flatDamage: 0
-          multiplierDamage: 15
-        - flatDamage: 0
-          multiplierDamage: 30
-        - flatDamage: 0
           multiplierDamage: 45
         - flatDamage: 0
-          multiplierDamage: 60
+          multiplierDamage: 55
+        - flatDamage: 0
+          multiplierDamage: 65
         - flatDamage: 0
           multiplierDamage: 75
+        - flatDamage: 0
+          multiplierDamage: 85
         maxLevel: 5
         initial:
           flatDamage: 0
-          multiplierDamage: 15
+          multiplierDamage: 45
         max:
           flatDamage: 0
-          multiplierDamage: 75
+          multiplierDamage: 85
       - attributeId: skill_B
         attributeName: Skill B DMG
         damageProfiles:
         - flatDamage: 0
-          multiplierDamage: 10
-        - flatDamage: 0
-          multiplierDamage: 22
-        - flatDamage: 0
-          multiplierDamage: 35
-        - flatDamage: 0
-          multiplierDamage: 48
+          multiplierDamage: 50
         - flatDamage: 0
           multiplierDamage: 60
+        - flatDamage: 0
+          multiplierDamage: 70
+        - flatDamage: 0
+          multiplierDamage: 80
+        - flatDamage: 0
+          multiplierDamage: 90
         maxLevel: 5
         initial:
           flatDamage: 0
-          multiplierDamage: 10
+          multiplierDamage: 50
         max:
           flatDamage: 0
-          multiplierDamage: 60
+          multiplierDamage: 90
   UltimateTalent:
     talentIcon: {fileID: 0}
     attacks: []

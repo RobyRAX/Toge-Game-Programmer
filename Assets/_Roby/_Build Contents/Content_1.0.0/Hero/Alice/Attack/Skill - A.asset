@@ -16,7 +16,13 @@ MonoBehaviour:
   targetTeam: 0
   staminaCost: 0
   hitEntries: []
-  attackActionEntries: []
+  attackActionEntries:
+  - AttackActionSO: {fileID: 11400000, guid: ff5d089f767c8cd4a9949ccec3e00154, type: 2}
+    AttackActionParameter:
+      rid: 899525312807436431
+  - AttackActionSO: {fileID: 11400000, guid: fe5265a7fc27a7b42af4231822666922, type: 2}
+    AttackActionParameter:
+      rid: 899525312807436435
   damageProfileProvider:
     talent: 1
     damageProfileEntry:
@@ -30,4 +36,40 @@ MonoBehaviour:
   heroCombatDataSO_editorData: {fileID: 11400000, guid: 1682229ce2e71c244b323ea43a777827, type: 2}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 899525312807436431
+      type: {class: StayAnimationAttackActionParameter, ns: , asm: Assembly-CSharp}
+      data:
+        playAnimation: 0
+        animation:
+          useAddressable: 0
+          animationClip: {fileID: 0}
+          animationClipRef:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_SubObjectGUID: 
+            m_EditorAssetChanged: 0
+          speed: 1
+          showAeTool: 0
+        stayDuration: 1
+    - rid: 899525312807436435
+      type: {class: MoveToTargetAttackActionParameter, ns: , asm: Assembly-CSharp}
+      data:
+        playAnimation: 0
+        animation:
+          useAddressable: 0
+          animationClip: {fileID: 0}
+          animationClipRef:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_SubObjectGUID: 
+            m_EditorAssetChanged: 0
+          speed: 1
+          showAeTool: 0
+        targetPositionAngle: 0
+        distanceFromTarget: 2
+        useParabolicJump: 0
+        jumpHeight: 3
+        timeToReachTargetPosition: 1

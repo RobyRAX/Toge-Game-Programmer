@@ -157,7 +157,7 @@ public static class TurnBaseCombatHelper
         attackReq.Defender = defender;
 
         var attack = attacker.StatContainer.GetTotalValue(StatAttribute.Attack);
-        attackReq.RawDamage = (attack * damageProfile.multiplierDamage) + damageProfile.flatDamage;
+        attackReq.RawDamage = (attack * damageProfile.multiplierDamage / 100) + damageProfile.flatDamage;
 
         return attackReq;
     }

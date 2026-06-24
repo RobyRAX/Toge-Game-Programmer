@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class ReturnToFormationAttackAction_Runtime : AttackActionBase_Runtime
 {
@@ -20,8 +21,19 @@ public class ReturnToFormationAttackAction_Runtime : AttackActionBase_Runtime
         if (ownerTransform == null)
             return;
 
+        if (parameter.useDirectionTurn &&
+            TurnBaseCombatHelper.TryGetFlatFacingRotation(ownerTransform.position, slot.position, out Quaternion towardSlot))
+        {
+            await AttackActionMovementHelper.RotateTransformAsync(
+                ownerTransform,
+                towardSlot,
+                parameter.timeToTurnTowardMovement);
+        }
+
         var unitClips = CombatantOwner.GetComponent<CombatUnitController>()?.AnimationClips;
         AttackActionAnimationHelper.TryPlay(CombatantOwner, parameter, unitClips?.BackToFormation);
+
+        Quaternion? endRotation = parameter.useDirectionTurn ? null : slot.rotation;
 
         await AttackActionMovementHelper.MoveTransformAsync(
             ownerTransform,
@@ -29,6 +41,14 @@ public class ReturnToFormationAttackAction_Runtime : AttackActionBase_Runtime
             parameter.timeToReachFormationPosition,
             parameter.useParabolicJump,
             parameter.jumpHeight,
-            slot.rotation);
+            endRotation);
+
+        if (parameter.useDirectionTurn)
+        {
+            await AttackActionMovementHelper.RotateTransformAsync(
+                ownerTransform,
+                slot.rotation,
+                parameter.timeToRestoreFormationFacing);
+        }
     }
 }

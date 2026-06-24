@@ -35,6 +35,12 @@ public class MoveToTargetAttackActionParameter : AttackActionParameterBase
     [ShowIf("@useParabolicJump")]
     public float jumpHeight = 3;
 
+    [SuffixLabel("seconds")]
+    public float timeToTurnTowardMovement = 0.25f;
+
+    [SuffixLabel("seconds")]
+    public float timeToFaceTarget = 0.25f;
+
     [PropertySpace(5, 0)]
     [SuffixLabel("seconds")]
     public float timeToReachTargetPosition = 1;

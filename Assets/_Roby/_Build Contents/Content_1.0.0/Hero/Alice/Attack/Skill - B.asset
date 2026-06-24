@@ -43,7 +43,7 @@ MonoBehaviour:
     - rid: 899525312807436436
       type: {class: MoveToTargetAttackActionParameter, ns: , asm: Assembly-CSharp}
       data:
-        playAnimation: 0
+        playAnimation: 1
         animation:
           useAddressable: 0
           animationClip: {fileID: 7400000, guid: 7b0f554c54c556f4d83b4555aae93b5f, type: 2}
@@ -55,6 +55,7 @@ MonoBehaviour:
             m_EditorAssetChanged: 0
           speed: 1
           showAeTool: 0
+        useDefaultAnimation: 1
         targetPositionAngle: 0
         distanceFromTarget: 2
         useParabolicJump: 0
@@ -63,7 +64,7 @@ MonoBehaviour:
     - rid: 899525312807436446
       type: {class: ReturnToFormationAttackActionParameter, ns: , asm: Assembly-CSharp}
       data:
-        playAnimation: 0
+        playAnimation: 1
         animation:
           useAddressable: 0
           animationClip: {fileID: 0}
@@ -75,6 +76,10 @@ MonoBehaviour:
             m_EditorAssetChanged: 0
           speed: 1
           showAeTool: 0
+        useDefaultAnimation: 1
+        useDirectionTurn: 1
+        timeToTurnTowardMovement: 0.25
+        timeToRestoreFormationFacing: 0.25
         useParabolicJump: 0
         jumpHeight: 3
         timeToReachFormationPosition: 1

@@ -18,6 +18,16 @@ public class MoveToTargetAttackAction_Runtime : AttackActionBase_Runtime
             return;
 
         Vector3 destination = ResolveDestination(targetOpponent, parameter, ownerTransform.position);
+
+        if (TurnBaseCombatHelper.TryGetFlatFacingRotation(
+                ownerTransform.position, destination, out Quaternion towardDestination))
+        {
+            await AttackActionMovementHelper.RotateTransformAsync(
+                ownerTransform,
+                towardDestination,
+                parameter.timeToTurnTowardMovement);
+        }
+
         var unitClips = CombatantOwner.GetComponent<CombatUnitController>()?.AnimationClips;
         AttackActionAnimationHelper.TryPlay(CombatantOwner, parameter, unitClips?.MoveToTarget);
 
@@ -27,7 +37,16 @@ public class MoveToTargetAttackAction_Runtime : AttackActionBase_Runtime
             parameter.timeToReachTargetPosition,
             parameter.useParabolicJump,
             parameter.jumpHeight,
-            ResolveFacing(targetOpponent, destination));
+            null);
+
+        var faceTarget = ResolveFacing(targetOpponent, destination);
+        if (faceTarget.HasValue)
+        {
+            await AttackActionMovementHelper.RotateTransformAsync(
+                ownerTransform,
+                faceTarget.Value,
+                parameter.timeToFaceTarget);
+        }
     }
 
     static Vector3 ResolveDestination(CombatantBase targetOpponent, MoveToTargetAttackActionParameter parameter, Vector3 fallbackPosition)

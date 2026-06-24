@@ -25,6 +25,17 @@ public class ReturnToFormationAttackActionParameter : AttackActionParameterBase
 
     public override bool UseDefaultAnimation => useDefaultAnimation;
 
+    [Tooltip("Putar menghadap arah gerak sebelum move, lalu putar balik ke facing formasi setelah sampai. Untuk anim jalan/lari maju.")]
+    public bool useDirectionTurn;
+
+    [ShowIf("@useDirectionTurn")]
+    [SuffixLabel("seconds")]
+    public float timeToTurnTowardMovement = 0.25f;
+
+    [ShowIf("@useDirectionTurn")]
+    [SuffixLabel("seconds")]
+    public float timeToRestoreFormationFacing = 0.25f;
+
     public bool useParabolicJump;
 
     [ShowIf("@useParabolicJump")]

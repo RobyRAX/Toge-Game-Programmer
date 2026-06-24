@@ -42,4 +42,32 @@ public static class AttackActionMovementHelper
 
         TurnBaseCombatHelper.TeleportTo(transform, destination, endRotation);
     }
+
+    public static async UniTask RotateTransformAsync(
+        Transform transform,
+        Quaternion targetRotation,
+        float duration)
+    {
+        if (transform == null)
+            return;
+
+        if (duration <= 0f)
+        {
+            TurnBaseCombatHelper.TeleportTo(transform, transform.position, targetRotation);
+            return;
+        }
+
+        Quaternion startRotation = transform.rotation;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            TurnBaseCombatHelper.TeleportTo(transform, transform.position, Quaternion.Slerp(startRotation, targetRotation, t));
+            await UniTask.Yield(PlayerLoopTiming.Update);
+        }
+
+        TurnBaseCombatHelper.TeleportTo(transform, transform.position, targetRotation);
+    }
 }

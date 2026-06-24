@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab910dca707ce94d9603ce8b1a200ad, type: 3}
   m_Name: GameplayConfigSO
   m_EditorClassIdentifier: Assembly-CSharp::GameplayConfigSO
-  maxTalentLevel: 10
+  maxTalentLevel: 5
   statEntries:
   - attribute: 0
     defaultValue: 100

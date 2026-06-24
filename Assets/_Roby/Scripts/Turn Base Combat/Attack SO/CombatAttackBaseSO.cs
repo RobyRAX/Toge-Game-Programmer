@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using ToGaProTest.Shared;
 using UnityEngine;
 
 public abstract class CombatAttackBaseSO : ScriptableObject
 {
+    public bool targetOpponent = true;
+    public bool targetTeam;
     public int staminaCost;
 
     [TitleGroup("Attack Hit Config")]

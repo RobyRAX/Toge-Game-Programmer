@@ -12,15 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9178e220231e2fc4eaacc30691c7442d, type: 3}
   m_Name: Normal Attack - A
   m_EditorClassIdentifier: Assembly-CSharp::HeroAttackSO
+  targetOpponent: 1
+  targetTeam: 0
   staminaCost: 0
   hitEntries: []
   attackActionEntries: []
   damageProfileProvider:
     talent: 0
-    damageProfileEntries: []
-    configSO: {fileID: 0}
-    talentLevel: 0
-  heroCombatDataSO_editorData: {fileID: 0}
+    damageProfileEntry:
+      attributeId: normalAttack_B
+      attribute: 1
+      damageProfile_Preview:
+        flatDamage: 0
+        multiplierDamage: 10
+    configSO: {fileID: 11400000, guid: 17769c2ccd795ab43a0a9e84db8aff64, type: 2}
+    talentLevel: 1
+  heroCombatDataSO_editorData: {fileID: 11400000, guid: 1682229ce2e71c244b323ea43a777827, type: 2}
   references:
     version: 2
     RefIds: []

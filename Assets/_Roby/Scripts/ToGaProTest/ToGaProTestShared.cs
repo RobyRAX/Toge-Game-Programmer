@@ -6,6 +6,22 @@ using UnityEngine;
 namespace ToGaProTest.Shared
 {
     [Serializable]
+    public class DamageProfile
+    {
+        public float flatDamage;
+        [SuffixLabel("%")]
+        public float multiplierDamage;
+    }
+
+    [Serializable]
+    public class DamageProfileWithAttribute
+    {
+        public float flatDamage;
+        public float multiplierDamage;
+        public StatAttribute attribute;
+    }
+
+    [Serializable]
     public class StatGrowth
     {
         [TableList(ShowIndexLabels = true)]

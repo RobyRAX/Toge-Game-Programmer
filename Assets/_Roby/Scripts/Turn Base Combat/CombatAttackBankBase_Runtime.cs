@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ToGaProTest.Shared;
 
 public abstract class CombatAttackBankBase_Runtime
 {

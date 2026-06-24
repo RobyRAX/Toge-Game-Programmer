@@ -241,6 +241,16 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
     [TitleGroup("Current Combatant Attack Queue")]
     [Button]
+    public async void PlaySelectedAttackVisual()
+    {
+        if (CurrentCombatant == null || SelectedAttack == null)
+            return;
+
+        await SelectedAttack.ExecuteAttackActionSequenceAsync(TargetOpponent, TargetTeam);
+    }
+
+    [TitleGroup("Current Combatant Attack Queue")]
+    [Button]
     public void ExecuteAttack()
     {
         var attackReq = TurnBaseCombatHelper.
@@ -394,7 +404,11 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             if (combatant == null || slot == null)
                 continue;
 
+            if (facing.HasValue)
+                slot.rotation = facing.Value;
+
             TurnBaseCombatHelper.TeleportTo(combatant.transform, slot.position, facing);
+            combatant.SetFormationSlot(slot);
         }
     }
 

@@ -17,6 +17,15 @@ public class UnitAnimationClipsSO : ScriptableObject
     [TitleGroup("Exploration")]
     public AnimationClipSet Attack_Exploration;
 
+    [TitleGroup("Combat Default")]
+    public AnimationClipSet CombatIdle;
+
+    [TitleGroup("Combat Default")]
+    public AnimationClipSet MoveToTarget;
+
+    [TitleGroup("Combat Default")]
+    public AnimationClipSet BackToFormation;
+
     [TitleGroup("Damaged")]
     public AnimationClipSet LightHit;
 

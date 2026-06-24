@@ -56,6 +56,28 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     speed: 1
     showAeTool: 0
+  MoveToTarget:
+    useAddressable: 0
+    animationClip: {fileID: 7400000, guid: 1d1ba4b59f8e1a84094a72a8224edeea, type: 2}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    speed: 2
+    showAeTool: 0
+  BackToFormation:
+    useAddressable: 0
+    animationClip: {fileID: 7400000, guid: 1d1ba4b59f8e1a84094a72a8224edeea, type: 2}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    speed: 2
+    showAeTool: 0
   LightHit:
     useAddressable: 0
     animationClip: {fileID: 0}

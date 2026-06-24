@@ -17,12 +17,15 @@ MonoBehaviour:
   staminaCost: 0
   hitEntries: []
   attackActionEntries:
-  - AttackActionSO: {fileID: 11400000, guid: ff5d089f767c8cd4a9949ccec3e00154, type: 2}
-    AttackActionParameter:
-      rid: 899525312807436431
   - AttackActionSO: {fileID: 11400000, guid: fe5265a7fc27a7b42af4231822666922, type: 2}
     AttackActionParameter:
       rid: 899525312807436435
+  - AttackActionSO: {fileID: 11400000, guid: ff5d089f767c8cd4a9949ccec3e00154, type: 2}
+    AttackActionParameter:
+      rid: 899525312807436457
+  - AttackActionSO: {fileID: 11400000, guid: 409afd75def133749b2bfa3c30961964, type: 2}
+    AttackActionParameter:
+      rid: 899525312807436445
   damageProfileProvider:
     talent: 1
     damageProfileEntry:
@@ -37,7 +40,45 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 899525312807436431
+    - rid: 899525312807436435
+      type: {class: MoveToTargetAttackActionParameter, ns: , asm: Assembly-CSharp}
+      data:
+        playAnimation: 1
+        animation:
+          useAddressable: 0
+          animationClip: {fileID: 7400000, guid: 8fc6410eecb57cd4999251c081803919, type: 2}
+          animationClipRef:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_SubObjectGUID: 
+            m_EditorAssetChanged: 0
+          speed: 1
+          showAeTool: 0
+        targetPositionAngle: 0
+        distanceFromTarget: 2
+        useParabolicJump: 0
+        jumpHeight: 3
+        timeToReachTargetPosition: 0.43333334
+    - rid: 899525312807436445
+      type: {class: ReturnToFormationAttackActionParameter, ns: , asm: Assembly-CSharp}
+      data:
+        playAnimation: 0
+        animation:
+          useAddressable: 0
+          animationClip: {fileID: 0}
+          animationClipRef:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_SubObjectGUID: 
+            m_EditorAssetChanged: 0
+          speed: 1
+          showAeTool: 0
+        useParabolicJump: 0
+        jumpHeight: 3
+        timeToReachFormationPosition: 1
+    - rid: 899525312807436457
       type: {class: StayAnimationAttackActionParameter, ns: , asm: Assembly-CSharp}
       data:
         playAnimation: 0
@@ -53,23 +94,3 @@ MonoBehaviour:
           speed: 1
           showAeTool: 0
         stayDuration: 1
-    - rid: 899525312807436435
-      type: {class: MoveToTargetAttackActionParameter, ns: , asm: Assembly-CSharp}
-      data:
-        playAnimation: 0
-        animation:
-          useAddressable: 0
-          animationClip: {fileID: 0}
-          animationClipRef:
-            m_AssetGUID: 
-            m_SubObjectName: 
-            m_SubObjectType: 
-            m_SubObjectGUID: 
-            m_EditorAssetChanged: 0
-          speed: 1
-          showAeTool: 0
-        targetPositionAngle: 0
-        distanceFromTarget: 2
-        useParabolicJump: 0
-        jumpHeight: 3
-        timeToReachTargetPosition: 1

@@ -33,6 +33,18 @@ public abstract class CombatantBase : MonoBehaviour
 
     public virtual CombatDataBaseSO CombatDataSO { get; set; }
 
+    [TitleGroup("Formation")]
+    [ShowInInspector]
+    [ReadOnly]
+    public Transform FormationSlot { get; private set; }
+
+    public bool HasFormationSlot => FormationSlot != null;
+
+    public void SetFormationSlot(Transform slot)
+    {
+        FormationSlot = slot;
+    }
+
     public virtual void TakeDamage(ref AttackResult attackRes)
     {
         if (!IsAlive)

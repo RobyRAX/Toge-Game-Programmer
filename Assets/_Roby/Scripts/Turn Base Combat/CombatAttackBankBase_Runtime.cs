@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using ToGaProTest.Shared;
 
@@ -21,6 +22,8 @@ public class Attack_Runtime
 
     public CombatantBase CombatantOwner { get; set; }
 
+    [PropertyOrder(-1)]
+    [ShowInInspector]
     public CombatAttackBaseSO AttackSO { get; set; }
     public int StaminaCost => AttackSO.staminaCost;
 
@@ -31,9 +34,26 @@ public class Attack_Runtime
     public List<AttackActionBase_Runtime> AttackActions;
     public bool IsActionRunning { get; set; }
 
-    public void ExecuteAttackActionSequence()
+    public async UniTask ExecuteAttackActionSequenceAsync(CombatantBase targetOpponent, CombatantBase targetTeam)
     {
+        if (IsActionRunning || AttackActions == null || AttackActions.Count == 0)
+            return;
+
         IsActionRunning = true;
+        OnActionStarted?.Invoke();
+
+        foreach (var action in AttackActions)
+        {
+            if (action == null)
+                continue;
+
+            action.Start();
+            await action.ExecuteAsync(targetOpponent, targetTeam);
+            action.SetAsCompleted();
+        }
+
+        EndAttackActionSequence();
+        OnActionEnded?.Invoke();
     }
 
     public void EndAttackActionSequence()

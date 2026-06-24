@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 
 public abstract class AttackActionBase_Runtime
@@ -31,4 +32,9 @@ public abstract class AttackActionBase_Runtime
         IsRunning = false;
         IsCompleted = true;
     }
+
+    public abstract UniTask ExecuteAsync(CombatantBase targetOpponent, CombatantBase targetTeam);
+
+    protected T GetParameter<T>() where T : AttackActionParameterBase
+        => entry?.AttackActionParameter as T;
 }

@@ -3,17 +3,101 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using RAXY.Utility;
 using Sirenix.OdinInspector;
-using Unity.Cinemachine;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 {
-    [TitleGroup("Camera")]
-    public CinemachineCamera combatCamera;
+    #region State Machine
+
+    [TitleGroup("State")]
+    [ShowInInspector]
+    [ReadOnly]
+    public TurnBaseCombatPhase CurrentPhase => StateMachine?.CurrentPhase ?? default;
+
+    public TurnBaseCombatStateMachine StateMachine { get; private set; }
+
+    public bool HasValidAttackSelection()
+    {
+        return CurrentCombatant != null && SelectedAttack != null;
+    }
+
+    public void SubmitSelectedAttack(Attack_Runtime attack)
+    {
+        if (StateMachine?.CurrentPhase != TurnBaseCombatPhase.PlayerSelectAttack)
+            return;
+
+        if (attack == null)
+            return;
+
+        SelectedAttack = attack;
+        StateMachine.ChangePhase(TurnBaseCombatPhase.PlayerSelectTargetEnemy);
+    }
+
+    public void SubmitTargetOpponent(CombatantBase target)
+    {
+        if (StateMachine?.CurrentPhase != TurnBaseCombatPhase.PlayerSelectTargetEnemy)
+            return;
+
+        TargetOpponent = target;
+        StateMachine.ChangePhase(TurnBaseCombatPhase.PlayerSelectTargetTeam);
+    }
+
+    public void SubmitTargetTeam(CombatantBase target)
+    {
+        if (StateMachine?.CurrentPhase != TurnBaseCombatPhase.PlayerSelectTargetTeam)
+            return;
+
+        TargetTeam = target;
+        StateMachine.ChangePhase(TurnBaseCombatPhase.PlayerAttack);
+    }
+
+    internal void PickRandomAttackForCurrentCombatant()
+    {
+        if (CurrentCombatant == null)
+            return;
+
+        var attacks = CurrentCombatant.AttackBank?.Attacks;
+        if (attacks == null || attacks.Count == 0)
+            return;
+
+        SelectedAttack = attacks[Random.Range(0, attacks.Count)];
+    }
+
+    internal void PickRandomTargetsForCurrentCombatant()
+    {
+        if (CurrentCombatant == null)
+            return;
+
+        if (PlayerCombatants != null && PlayerCombatants.Contains(CurrentCombatant))
+        {
+            TargetOpponent = PickRandomAliveCombatant(EnemyCombatants);
+            TargetTeam = PickRandomAliveCombatant(PlayerCombatants);
+        }
+        else if (EnemyCombatants != null && EnemyCombatants.Contains(CurrentCombatant))
+        {
+            TargetOpponent = PickRandomAliveCombatant(PlayerCombatants);
+            TargetTeam = PickRandomAliveCombatant(EnemyCombatants);
+        }
+    }
+
+    void EnterTurnPhaseForCurrentCombatant()
+    {
+        if (TurnTimeline?.CurrentTurnCombatant == null)
+            return;
+
+        bool isPlayer = PlayerCombatants != null &&
+                        PlayerCombatants.Contains(TurnTimeline.CurrentTurnCombatant);
+
+        StateMachine.ChangePhase(isPlayer
+            ? TurnBaseCombatPhase.PlayerSelectAttack
+            : TurnBaseCombatPhase.EnemySelectAttack);
+    }
+
+    #endregion
 
     [TitleGroup("Camera")]
-    public CinemachineTargetGroup targetGroup;
+    public CombatCameraDirector CameraDirector;
 
     [TitleGroup("Formation")]
     public int maxMemberPerTeam;
@@ -235,12 +319,12 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     {
         if (CurrentCombatant == null)
             return;
-        
+
         var attacks = CurrentCombatant.AttackBank?.Attacks;
         if (attacks == null || attacks.Count == 0)
             return;
 
-        SelectedAttack = attacks[Random.Range(0, attacks.Count)];
+        SubmitSelectedAttack(attacks[Random.Range(0, attacks.Count)]);
     }
 
     [HorizontalGroup("Current Combatant Attack Queue/Op")]
@@ -250,16 +334,40 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (CurrentCombatant == null)
             return;
 
+        if (CurrentPhase == TurnBaseCombatPhase.PlayerSelectTargetEnemy)
+        {
+            SubmitTargetOpponent(PickRandomOpponentForCurrentCombatant());
+
+            if (CurrentPhase == TurnBaseCombatPhase.PlayerSelectTargetTeam)
+                SubmitTargetTeam(PickRandomTeamTargetForCurrentCombatant());
+
+            return;
+        }
+
+        if (CurrentPhase == TurnBaseCombatPhase.PlayerSelectTargetTeam)
+            SubmitTargetTeam(PickRandomTeamTargetForCurrentCombatant());
+    }
+
+    CombatantBase PickRandomOpponentForCurrentCombatant()
+    {
         if (PlayerCombatants != null && PlayerCombatants.Contains(CurrentCombatant))
-        {
-            TargetOpponent = PickRandomAliveCombatant(EnemyCombatants);
-            TargetTeam = PickRandomAliveCombatant(PlayerCombatants);
-        }
-        else if (EnemyCombatants != null && EnemyCombatants.Contains(CurrentCombatant))
-        {
-            TargetOpponent = PickRandomAliveCombatant(PlayerCombatants);
-            TargetTeam = PickRandomAliveCombatant(EnemyCombatants);
-        }
+            return PickRandomAliveCombatant(EnemyCombatants);
+
+        if (EnemyCombatants != null && EnemyCombatants.Contains(CurrentCombatant))
+            return PickRandomAliveCombatant(PlayerCombatants);
+
+        return null;
+    }
+
+    CombatantBase PickRandomTeamTargetForCurrentCombatant()
+    {
+        if (PlayerCombatants != null && PlayerCombatants.Contains(CurrentCombatant))
+            return PickRandomAliveCombatant(PlayerCombatants);
+
+        if (EnemyCombatants != null && EnemyCombatants.Contains(CurrentCombatant))
+            return PickRandomAliveCombatant(EnemyCombatants);
+
+        return null;
     }
 
     static CombatantBase PickRandomAliveCombatant(List<CombatantBase> combatants)
@@ -292,6 +400,12 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
     [HorizontalGroup("Current Combatant Attack Queue/Op2")]
     [Button]
+    void DebugExecuteAttack()
+    {
+        if (CurrentPhase == TurnBaseCombatPhase.PlayerSelectTargetTeam)
+            SubmitTargetTeam(TargetTeam ?? PickRandomTeamTargetForCurrentCombatant());
+    }
+
     public async UniTask ExecuteAttack()
     {
         if (CurrentCombatant == null || SelectedAttack == null)
@@ -378,6 +492,8 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         PlaceCombatantsOnSlots(PlayerCombatants, HeroPositions, heroFacing);
         PlaceCombatantsOnSlots(EnemyCombatants, EnemyPositions, enemyFacing);
 
+        CameraDirector?.Setup(HeroPositions, EnemyPositions);
+
         AllCombatants = new List<CombatantBase>(PlayerCombatants.Count + EnemyCombatants.Count);
         AllCombatants.AddRange(PlayerCombatants);
         AllCombatants.AddRange(EnemyCombatants);
@@ -395,8 +511,9 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
         CurrentTurnCount = 0;
 
+        StateMachine ??= new TurnBaseCombatStateMachine(this);
         TurnTimeline.Initialize(AllCombatants, initialTurn);
-        AdvanceTimelineUntilTurnFound();
+        StateMachine.ChangePhase(TurnBaseCombatPhase.Start);
 
         Debug.Log("Combat Started");
     }
@@ -498,10 +615,11 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         TargetTeam = null;
 
         Debug.Log($"{nameof(TurnBaseCombatManager)}: Current turn -> {TurnTimeline.CurrentTurnCombatant.name} (Step {TurnTimeline.CurrentStep}, Turn {CurrentTurnCount}).");
+        EnterTurnPhaseForCurrentCombatant();
         return true;
     }
 
-    void AdvanceTimelineUntilTurnFound()
+    public void AdvanceTimelineUntilTurnFound()
     {
         if (TurnTimeline == null || !TurnTimeline.IsInitialized)
             return;

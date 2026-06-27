@@ -48,9 +48,9 @@ public abstract class CombatantBase : MonoBehaviour
     [TitleGroup("Combat")]
     [ShowInInspector]
     public CombatantState CurrentState => StateMachine != null ? StateMachine.CurrentState : CombatantState.Idle;
-
     public CombatantStateMachine StateMachine { get; private set; }
 
+    public CombatantInfo CombatantInfo { get; set; }
     public bool HasFormationSlot => FormationSlot != null;
 
     protected void InitStateMachine()
@@ -128,4 +128,10 @@ public enum CombatantState
     Hit,
     Stun,
     Dead
+}
+
+public class CombatantInfo
+{
+    public string unitName;
+    public Sprite unitIcon;
 }

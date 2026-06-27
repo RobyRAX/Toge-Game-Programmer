@@ -25,6 +25,8 @@ public class StayAnimationAttackActionParameter : AttackActionParameterBase
     [SuffixLabel("seconds")]
     public float stayDuration = 1;
 
+    public override float MaxTime => stayDuration;
+
 #if UNITY_EDITOR
     [Button]
     [ShowIf("@playAnimation")]

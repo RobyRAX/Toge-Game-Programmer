@@ -35,7 +35,7 @@ public abstract class CombatantBase : MonoBehaviour
 
     public virtual CombatDataBaseSO CombatDataSO { get; set; }
 
-    [TitleGroup("Formation")]
+    [TitleGroup("Combat")]
     [ShowInInspector]
     [ReadOnly]
     public Transform FormationSlot { get; private set; }
@@ -44,7 +44,24 @@ public abstract class CombatantBase : MonoBehaviour
     [ShowInInspector]
     public ICombatAnimationClipsProvider AnimationClips;
 
+    [TitleGroup("Combat")]
+    [ShowInInspector]
+    public CombatantState CurrentState => StateMachine != null ? StateMachine.CurrentState : CombatantState.Idle;
+
+    public CombatantStateMachine StateMachine { get; private set; }
+
     public bool HasFormationSlot => FormationSlot != null;
+
+    protected void InitStateMachine()
+    {
+        StateMachine = new CombatantStateMachine(this);
+        StateMachine.ChangeState(CombatantState.Idle);
+    }
+
+    protected virtual void Update()
+    {
+        AttackBank?.Tick(Time.deltaTime);
+    }
 
     public void SetFormationSlot(Transform slot)
     {
@@ -85,4 +102,14 @@ public abstract class CombatantBase : MonoBehaviour
     {
         return attackSO.DamageProfile;
     }
+}
+
+public enum CombatantState
+{
+    Idle,
+    Ready,
+    Attack,
+    Hit,
+    Stun,
+    Dead
 }

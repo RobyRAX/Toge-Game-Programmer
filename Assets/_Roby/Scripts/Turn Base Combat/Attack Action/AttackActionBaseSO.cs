@@ -20,4 +20,6 @@ public abstract class AttackActionParameterBase
 
     [ShowIf("@playAnimation && !UseDefaultAnimation")]
     public AnimationClipSet animation;
+
+    public abstract float MaxTime { get; }
 }

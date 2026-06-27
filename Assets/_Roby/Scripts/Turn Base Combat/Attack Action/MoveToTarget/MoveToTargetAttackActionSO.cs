@@ -45,6 +45,8 @@ public class MoveToTargetAttackActionParameter : AttackActionParameterBase
     [Tooltip("x = waktu mulai gerak, y = waktu sampai target (detik). Durasi = y - x.")]
     public Vector2 timeToReachTargetPosition = new Vector2(0f, 1f);
 
+    public override float MaxTime => timeToTurnTowardMovement + timeToReachTargetPosition.y + timeToFaceTarget;
+
 #if UNITY_EDITOR
     [Button]
     [ShowIf("@playAnimation && !useDefaultAnimation")]

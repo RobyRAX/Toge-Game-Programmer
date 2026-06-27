@@ -6,7 +6,7 @@ public class StayAnimationAttackAction_Runtime : AttackActionBase_Runtime
     {
     }
 
-    public override async UniTask ExecuteAsync(CombatantBase targetOpponent, CombatantBase targetTeam)
+    protected override async UniTask ExecuteAsync(CombatantBase targetOpponent, CombatantBase targetTeam)
     {
         var parameter = GetParameter<StayAnimationAttackActionParameter>();
         if (parameter == null)

@@ -7,7 +7,7 @@ public class ReturnToFormationAttackAction_Runtime : AttackActionBase_Runtime
     {
     }
 
-    public override async UniTask ExecuteAsync(CombatantBase targetOpponent, CombatantBase targetTeam)
+    protected override async UniTask ExecuteAsync(CombatantBase targetOpponent, CombatantBase targetTeam)
     {
         var parameter = GetParameter<ReturnToFormationAttackActionParameter>();
         if (parameter == null || CombatantOwner == null)

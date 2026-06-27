@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class AttackActionEntry
 {
-    string Label => AttackActionSO?.ActionName ?? "";
+    public string Label => AttackActionSO?.ActionName ?? "";
 
     [OnValueChanged("OnAttackActionChanged")]
     [InlineButton("OnAttackActionChanged", "Sync")]

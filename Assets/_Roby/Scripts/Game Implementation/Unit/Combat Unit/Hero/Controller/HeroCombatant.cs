@@ -61,6 +61,7 @@ public class HeroCombatant : CombatantBase
         heroCombatDataSO = HeroInstance.heroDataSO.heroCombatDataSO;
 
         AnimationClips = HeroInstance.heroDataSO.AnimationClipsSO;
+        InitStateMachine();
 
         AttackBank = new HeroAttackBank_Runtime(this);
 

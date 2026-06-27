@@ -15,7 +15,6 @@ MonoBehaviour:
   targetOpponent: 1
   targetTeam: 0
   staminaCost: 0
-  hitEntries: []
   attackActionEntries:
   - AttackActionSO: {fileID: 11400000, guid: fe5265a7fc27a7b42af4231822666922, type: 2}
     AttackActionParameter:
@@ -26,6 +25,10 @@ MonoBehaviour:
   - AttackActionSO: {fileID: 11400000, guid: 409afd75def133749b2bfa3c30961964, type: 2}
     AttackActionParameter:
       rid: 899525371273674870
+  hitEntries:
+  - damageProportion: 100
+    attackActionIndex: 0
+    timeToCall: 1.05
   damageProfileEntry:
     flatDamage: 0
     multiplierDamage: 33

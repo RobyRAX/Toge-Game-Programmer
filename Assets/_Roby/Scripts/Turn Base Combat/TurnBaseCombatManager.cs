@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using RAXY.Utility;
 using Sirenix.OdinInspector;
 using Unity.Cinemachine;
@@ -239,15 +240,6 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         SelectedAttack = attacks[Random.Range(0, attacks.Count)];
     }
 
-    [TitleGroup("Current Combatant Attack Queue")]
-    [Button]
-    public async void PlaySelectedAttackVisual()
-    {
-        if (CurrentCombatant == null || SelectedAttack == null)
-            return;
-
-        await SelectedAttack.ExecuteAttackActionSequenceAsync(TargetOpponent, TargetTeam);
-    }
 
     [TitleGroup("Current Combatant Attack Queue")]
     [Button]
@@ -259,6 +251,11 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
                                             SelectedAttack.damageProfile);
 
         TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
+
+        if (CurrentCombatant == null || SelectedAttack == null)
+            return;
+
+        SelectedAttack.ExecuteAttackActionSequenceAsync(TargetOpponent, TargetTeam).Forget();
     }
 
     [TitleGroup("Turn Timeline")]
@@ -414,16 +411,6 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             combatant.SetFormationSlot(slot);
         }
     }
-
-    // [TitleGroup("Debug Functions")]
-    // [Button]
-    // public void Attack(CombatantBase attacker, 
-    //                     CombatantBase defender, 
-    //                     DamageProfileWithAttribute damageProfile)
-    // {
-    //     var attackReq = TurnBaseCombatHelper.BuildAttackRequest(attacker, defender, damageProfile);
-    //     TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
-    // }
 
     void BeginCurrentTurn()
     {

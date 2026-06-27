@@ -45,6 +45,8 @@ public class ReturnToFormationAttackActionParameter : AttackActionParameterBase
     [Tooltip("x = waktu mulai gerak, y = waktu sampai target (detik). Durasi = y - x.")]
     public Vector2 timeToReachFormationPosition = new Vector2(0f, 1f);
 
+    public override float MaxTime => (useDirectionTurn ? timeToTurnTowardMovement : 0f) + timeToReachFormationPosition.y + timeToRestoreFormationFacing;
+
 #if UNITY_EDITOR
     [Button]
     [ShowIf("@playAnimation && !useDefaultAnimation")]

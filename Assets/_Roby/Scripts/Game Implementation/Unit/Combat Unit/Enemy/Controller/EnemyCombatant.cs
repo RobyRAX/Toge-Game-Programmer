@@ -23,6 +23,7 @@ public class EnemyCombatant : CombatantBase
         Level = enemyCont.EnemyGroup.Level;
 
         AnimationClips = enemyCont.AnimationClips;
+        InitStateMachine();
 
         UpdateStatContainer();
         AttackBank = new EnemyAttackBank_Runtime(this);

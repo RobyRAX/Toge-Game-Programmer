@@ -16,6 +16,15 @@ public abstract class CombatAttackBankBase_Runtime
     {
         CombatantOwner = combatantOwner;
     }
+
+    public void Tick(float deltaTime)
+    {
+        if (Attacks == null)
+            return;
+
+        foreach (var attack in Attacks)
+            attack?.Tick(deltaTime);
+    }
 }
 
 public class Attack_Runtime
@@ -50,9 +59,7 @@ public class Attack_Runtime
             if (action == null)
                 continue;
 
-            action.Start();
-            await action.ExecuteAsync(targetOpponent, targetTeam);
-            action.SetAsCompleted();
+            await action.Start(targetOpponent, targetTeam);
         }
 
         EndAttackActionSequence();
@@ -62,6 +69,15 @@ public class Attack_Runtime
     public void EndAttackActionSequence()
     {
         IsActionRunning = false;
+    }
+
+    public void Tick(float deltaTime)
+    {
+        if (!IsActionRunning || AttackActions == null)
+            return;
+
+        foreach (var action in AttackActions)
+            action?.Tick(deltaTime);
     }
 
     public Attack_Runtime() { }

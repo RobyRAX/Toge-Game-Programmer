@@ -84,11 +84,12 @@ public static class TurnBaseCombatHelper
 
         if (target.TryGetComponent(out CharacterController characterController))
         {
+            bool wasEnabled = characterController.enabled;
             characterController.enabled = false;
             target.position = worldPosition;
             if (worldRotation.HasValue)
                 target.rotation = worldRotation.Value;
-            characterController.enabled = true;
+            characterController.enabled = wasEnabled;
             return;
         }
 

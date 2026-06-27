@@ -1,26 +1,12 @@
 using Sirenix.OdinInspector;
-using ToGaProTest.Shared;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyDataSO", menuName = "RAXY/Unit/Enemy/Enemy Data")]
-public class EnemyDataSO : ScriptableObject
+public class EnemyDataSO : UnitDataSO
 {
-    [SerializeField] 
-    string enemyId;
-
-    [SerializeField]  
-    string enemyName;
-
-    [SerializeField]  
-    Sprite enemyIcon;
-
-    public GameObject enemyPrefab;
-
     [TitleGroup("Combat Data")]
     [HideLabel]
-    public EnemyCombatDataSO CombatDataSO;
+    public EnemyCombatDataSO enemyCombatDataSO;
 
-    [TitleGroup("Stat Growth")]
-    [HideLabel]
-    public StatGrowth StatGrowth;
+    public override CombatDataBaseSO CombatDataSO => enemyCombatDataSO;
 }

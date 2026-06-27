@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e523604cf93d845be143091f50de9a, type: 3}
   m_Name: Smallin - Enemy Data
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDataSO
-  enemyId: smallin
-  enemyName: Smallin
-  enemyIcon: {fileID: 0}
-  enemyPrefab: {fileID: 7319211622741205364, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
-  CombatDataSO: {fileID: 0}
+  unitId: smallin
+  unitName: Smallin
+  unitIcon: {fileID: 0}
+  unitPrefab: {fileID: 7319211622741205364, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
+  AnimationClipsSO: {fileID: 11400000, guid: 50a463f19421c284ebb2005aee99eefd, type: 2}
   StatGrowth:
     values:
     - maxHp: 50
@@ -132,3 +132,4 @@ MonoBehaviour:
       maxStamina: 100
       defense: 50
       attackSpeed: 2
+  enemyCombatDataSO: {fileID: 11400000, guid: 9d09e6a3de958314db6bcfbc583e86f4, type: 2}

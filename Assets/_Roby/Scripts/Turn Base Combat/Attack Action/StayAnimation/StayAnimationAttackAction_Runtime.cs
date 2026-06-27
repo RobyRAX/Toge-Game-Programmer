@@ -12,7 +12,7 @@ public class StayAnimationAttackAction_Runtime : AttackActionBase_Runtime
         if (parameter == null)
             return;
 
-        AttackActionAnimationHelper.TryPlay(CombatantOwner, parameter);
+        AttackActionHelper.TryPlay(CombatantOwner, parameter);
 
         if (parameter.stayDuration <= 0f)
             return;

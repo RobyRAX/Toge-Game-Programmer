@@ -54,7 +54,7 @@ public class GameplayPartyManager : Singleton<GameplayPartyManager>, ISepObject
         if (heroDataSO == null)
             return;
         
-        var heroPrefab = heroDataSO.heroPrefab;
+        var heroPrefab = heroDataSO.unitPrefab;
 
         var heroClone = Instantiate(heroPrefab);
         heroClone.transform.SetParent(GameplayDependencyManager.Instance.heroSpawnRoot);

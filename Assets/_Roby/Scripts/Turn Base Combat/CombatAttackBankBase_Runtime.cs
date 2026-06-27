@@ -7,7 +7,10 @@ using ToGaProTest.Shared;
 public abstract class CombatAttackBankBase_Runtime
 {
     public virtual CombatantBase CombatantOwner { get; set; }
-    public abstract List<Attack_Runtime> Attacks { get; }
+
+    [ShowInInspector]
+    [HideReferenceObjectPicker]
+    public virtual List<Attack_Runtime> Attacks { get; set; }
 
     public CombatAttackBankBase_Runtime(CombatantBase combatantOwner)
     {

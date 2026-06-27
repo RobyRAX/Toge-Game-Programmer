@@ -745,6 +745,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
   m_PrefabInstance: {fileID: 7486266849393686536}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &778101309 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2682030264291163626, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
+  m_PrefabInstance: {fileID: 7486266849393686536}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c376f74887cf8a40845c9008e64c252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
 --- !u!1 &984847709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,7 +1158,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyGroup
   isCleared: 0
   level: 1
-  enemies: []
+  enemies:
+  - {fileID: 778101309}
 --- !u!4 &1689589235
 Transform:
   m_ObjectHideFlags: 0

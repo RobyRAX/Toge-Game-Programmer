@@ -24,31 +24,31 @@ public class ReturnToFormationAttackAction_Runtime : AttackActionBase_Runtime
         if (parameter.useDirectionTurn &&
             TurnBaseCombatHelper.TryGetFlatFacingRotation(ownerTransform.position, slot.position, out Quaternion towardSlot))
         {
-            await AttackActionMovementHelper.RotateTransformAsync(
+            await AttackActionHelper.RotateTransformAsync(
                 ownerTransform,
                 towardSlot,
                 parameter.timeToTurnTowardMovement);
         }
 
-        var unitClips = CombatantOwner.GetComponent<CombatUnitController>()?.AnimationClips;
-        AttackActionAnimationHelper.TryPlay(CombatantOwner, parameter, unitClips?.BackToFormation);
+        var unitClips = CombatantOwner.AnimationClips;
+        AttackActionHelper.TryPlay(CombatantOwner, parameter, unitClips?.BackToFormation);
 
-        Quaternion? endRotation = parameter.useDirectionTurn ? null : slot.rotation;
+        float startMove = parameter.timeToReachFormationPosition.x;
+        float reachMove = parameter.timeToReachFormationPosition.y;
+        if (startMove > 0f)
+            await UniTask.Delay(System.TimeSpan.FromSeconds(startMove));
 
-        await AttackActionMovementHelper.MoveTransformAsync(
+        await AttackActionHelper.MoveTransformAsync(
             ownerTransform,
             slot.position,
-            parameter.timeToReachFormationPosition,
+            Mathf.Max(0f, reachMove - startMove),
             parameter.useParabolicJump,
             parameter.jumpHeight,
-            endRotation);
+            null);
 
-        if (parameter.useDirectionTurn)
-        {
-            await AttackActionMovementHelper.RotateTransformAsync(
-                ownerTransform,
-                slot.rotation,
-                parameter.timeToRestoreFormationFacing);
-        }
+        await AttackActionHelper.RotateTransformAsync(
+            ownerTransform,
+            slot.rotation,
+            parameter.timeToRestoreFormationFacing);
     }
 }

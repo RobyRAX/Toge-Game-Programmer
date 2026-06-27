@@ -58,7 +58,9 @@ public class HeroCombatant : CombatantBase
     public void Init(ItemInstance_Hero heroInstance)
     {
         HeroInstance = heroInstance;
-        heroCombatDataSO = HeroInstance.heroDataSO.CombatDataSO;
+        heroCombatDataSO = HeroInstance.heroDataSO.heroCombatDataSO;
+
+        AnimationClips = HeroInstance.heroDataSO.AnimationClipsSO;
 
         AttackBank = new HeroAttackBank_Runtime(this);
 

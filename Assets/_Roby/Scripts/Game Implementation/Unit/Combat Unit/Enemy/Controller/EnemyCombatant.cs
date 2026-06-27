@@ -7,15 +7,25 @@ public class EnemyCombatant : CombatantBase
     public EnemyCombatDataSO enemyCombatDataSO;
     public override CombatDataBaseSO CombatDataSO { get => enemyCombatDataSO; }
 
+    EnemyAttackBank_Runtime enemyAttackBank;
+    public override CombatAttackBankBase_Runtime AttackBank
+    {
+        get => enemyAttackBank;
+        set => enemyAttackBank = value as EnemyAttackBank_Runtime;
+    }
+
     EnemyController _enemyCont;
 
     public void Init(EnemyController enemyCont)
     {
         _enemyCont = enemyCont;
-        enemyCombatDataSO = enemyCont.enemyDataSO.CombatDataSO;
+        enemyCombatDataSO = enemyCont.enemyDataSO.enemyCombatDataSO;
         Level = enemyCont.EnemyGroup.Level;
 
+        AnimationClips = enemyCont.AnimationClips;
+
         UpdateStatContainer();
+        AttackBank = new EnemyAttackBank_Runtime(this);
         SetAlive();
     }
 

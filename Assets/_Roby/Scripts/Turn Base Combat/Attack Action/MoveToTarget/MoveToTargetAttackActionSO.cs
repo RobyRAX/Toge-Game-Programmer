@@ -42,8 +42,8 @@ public class MoveToTargetAttackActionParameter : AttackActionParameterBase
     public float timeToFaceTarget = 0.25f;
 
     [PropertySpace(5, 0)]
-    [SuffixLabel("seconds")]
-    public float timeToReachTargetPosition = 1;
+    [Tooltip("x = waktu mulai gerak, y = waktu sampai target (detik). Durasi = y - x.")]
+    public Vector2 timeToReachTargetPosition = new Vector2(0f, 1f);
 
 #if UNITY_EDITOR
     [Button]
@@ -54,7 +54,7 @@ public class MoveToTargetAttackActionParameter : AttackActionParameterBase
         if (clip == null)
             return;
 
-        timeToReachTargetPosition = clip.length / (animation.speed <= 0f ? 1f : animation.speed);
+        timeToReachTargetPosition.y = clip.length / (animation.speed <= 0f ? 1f : animation.speed);
     }
 #endif
 }

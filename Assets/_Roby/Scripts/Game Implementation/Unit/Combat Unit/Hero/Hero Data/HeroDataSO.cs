@@ -1,41 +1,20 @@
-using System;
-using System.Collections.Generic;
-using RAXY.Core.Addressable;
 using RAXY.InventorySystem;
 using Sirenix.OdinInspector;
-using ToGaProTest.Shared;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HeroDataSO", menuName = "RAXY/Unit/Hero/Hero Data")]
-public class HeroDataSO : ScriptableObject, IItemEntry
+public class HeroDataSO : UnitDataSO, IItemEntry
 {
-    [SerializeField] 
-    string heroId;
-
-    [SerializeField]  
-    string heroName;
-
-    [SerializeField]  
-    Sprite heroIcon;
-
-    public GameObject heroPrefab;
-
-    public string ItemId => heroId;
-    public bool IsStackable => false;
-    public string ItemName => heroName;
-    public string ItemDescription => "";
-    public string ItemAdditionalDescription => "";
-    public Sprite ItemIcon => heroIcon;
-
-    [TitleGroup("Animations")]
-    [HideLabel]
-    public UnitAnimationClipsSO AnimationClipsSO;
-
     [TitleGroup("Combat Data")]
     [HideLabel]
-    public HeroCombatDataSO CombatDataSO;
+    public HeroCombatDataSO heroCombatDataSO;
 
-    [TitleGroup("Stat Growth")]
-    [HideLabel]
-    public StatGrowth StatGrowth;
+    public override CombatDataBaseSO CombatDataSO => heroCombatDataSO;
+
+    public string ItemId => unitId;
+    public bool IsStackable => false;
+    public string ItemName => unitName;
+    public string ItemDescription => "";
+    public string ItemAdditionalDescription => "";
+    public Sprite ItemIcon => unitIcon;
 }

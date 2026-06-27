@@ -32,7 +32,7 @@ public class ReturnToFormationAttackActionParameter : AttackActionParameterBase
     [SuffixLabel("seconds")]
     public float timeToTurnTowardMovement = 0.25f;
 
-    [ShowIf("@useDirectionTurn")]
+    [Tooltip("Waktu putar halus ke facing formasi setelah sampai di slot. Berlaku untuk mode mundur maupun arah gerak.")]
     [SuffixLabel("seconds")]
     public float timeToRestoreFormationFacing = 0.25f;
 
@@ -42,8 +42,8 @@ public class ReturnToFormationAttackActionParameter : AttackActionParameterBase
     public float jumpHeight = 3;
 
     [PropertySpace(5, 0)]
-    [SuffixLabel("seconds")]
-    public float timeToReachFormationPosition = 1;
+    [Tooltip("x = waktu mulai gerak, y = waktu sampai target (detik). Durasi = y - x.")]
+    public Vector2 timeToReachFormationPosition = new Vector2(0f, 1f);
 
 #if UNITY_EDITOR
     [Button]
@@ -54,7 +54,7 @@ public class ReturnToFormationAttackActionParameter : AttackActionParameterBase
         if (clip == null)
             return;
 
-        timeToReachFormationPosition = clip.length / (animation.speed <= 0f ? 1f : animation.speed);
+        timeToReachFormationPosition.y = clip.length / (animation.speed <= 0f ? 1f : animation.speed);
     }
 #endif
 }

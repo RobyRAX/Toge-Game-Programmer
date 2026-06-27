@@ -1,5 +1,6 @@
 
 using System;
+using RAXY.Movement;
 using Sirenix.OdinInspector;
 using ToGaProTest.Shared;
 using UnityEngine;
@@ -29,6 +30,7 @@ public abstract class CombatantBase : MonoBehaviour
     [TitleGroup("Attack Bank")]
     [ShowInInspector]
     [HideReferenceObjectPicker]
+    [HideLabel]
     public virtual CombatAttackBankBase_Runtime AttackBank { get; set; }
 
     public virtual CombatDataBaseSO CombatDataSO { get; set; }
@@ -38,11 +40,25 @@ public abstract class CombatantBase : MonoBehaviour
     [ReadOnly]
     public Transform FormationSlot { get; private set; }
 
+    [TitleGroup("Animation Clips")]
+    [ShowInInspector]
+    public ICombatAnimationClipsProvider AnimationClips;
+
     public bool HasFormationSlot => FormationSlot != null;
 
     public void SetFormationSlot(Transform slot)
     {
         FormationSlot = slot;
+    }
+
+    public void SetExplorationMovementEnabled(bool isEnabled)
+    {
+        if (TryGetComponent(out UnitMovement movement))
+            movement.enabled = isEnabled;
+        if (TryGetComponent(out GroundChecker groundChecker))
+            groundChecker.enabled = isEnabled;
+        if (TryGetComponent(out CharacterController controller))
+            controller.enabled = isEnabled;
     }
 
     public virtual void TakeDamage(ref AttackResult attackRes)

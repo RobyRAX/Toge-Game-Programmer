@@ -18,7 +18,6 @@ public abstract class AttackActionParameterBase
 
     public virtual bool UseDefaultAnimation => false;
 
-    [PropertySpace(0, 5)]
     [ShowIf("@playAnimation && !UseDefaultAnimation")]
     public AnimationClipSet animation;
 }

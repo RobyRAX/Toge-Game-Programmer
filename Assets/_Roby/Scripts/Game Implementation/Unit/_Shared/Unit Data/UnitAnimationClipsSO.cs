@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UnitAnimationClipsSO", menuName = "RAXY/Unit/Animation Clips SO")]
-public class UnitAnimationClipsSO : ScriptableObject
+public class UnitAnimationClipsSO : ScriptableObject, ICombatAnimationClipsProvider
 {
     [TitleGroup("Exploration")]
     public AnimationClipSet Idle_Exploration;
@@ -18,32 +18,48 @@ public class UnitAnimationClipsSO : ScriptableObject
     public AnimationClipSet Attack_Exploration;
 
     [TitleGroup("Combat Default")]
-    public AnimationClipSet CombatIdle;
+    [SerializeField]
+    AnimationClipSet combatIdle;
 
     [TitleGroup("Combat Default")]
-    public AnimationClipSet MoveToTarget;
+    [SerializeField]
+    AnimationClipSet combatReady;
 
     [TitleGroup("Combat Default")]
-    public AnimationClipSet BackToFormation;
+    [SerializeField]
+    AnimationClipSet moveToTarget;
+
+    [TitleGroup("Combat Default")]
+    [SerializeField]
+    AnimationClipSet backToFormation;
 
     [TitleGroup("Damaged")]
-    public AnimationClipSet LightHit;
+    [SerializeField]
+    AnimationClipSet lightHit;
 
     [TitleGroup("Damaged")]
-    public AnimationClipSet MediumHit;
+    [SerializeField]
+    AnimationClipSet mediumHit;
 
     [TitleGroup("Damaged")]
-    public AnimationClipSet HeavyHit;
+    [SerializeField]
+    AnimationClipSet heavyHit;
 
     [TitleGroup("Damaged")]
-    public AnimationClipSet Die;
+    [SerializeField]
+    AnimationClipSet stun;
 
-    [TitleGroup("Stun")]
-    public AnimationClipSet EnterStun;
+    [TitleGroup("Damaged")]
+    [SerializeField]
+    AnimationClipSet die;
 
-    [TitleGroup("Stun")]
-    public AnimationClipSet Stun;
-
-    [TitleGroup("Stun")]
-    public AnimationClipSet ExitStun;
+    public AnimationClipSet CombatIdle => combatIdle;
+    public AnimationClipSet Ready => combatReady;
+    public AnimationClipSet MoveToTarget => moveToTarget;
+    public AnimationClipSet BackToFormation => backToFormation;
+    public AnimationClipSet LightHit => lightHit;
+    public AnimationClipSet MediumHit => mediumHit;
+    public AnimationClipSet HeavyHit => heavyHit;
+    public AnimationClipSet Die => die;
+    public AnimationClipSet Stun => stun;
 }

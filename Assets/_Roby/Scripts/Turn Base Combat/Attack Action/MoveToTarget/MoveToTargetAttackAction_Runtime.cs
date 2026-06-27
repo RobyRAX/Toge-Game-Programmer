@@ -22,19 +22,24 @@ public class MoveToTargetAttackAction_Runtime : AttackActionBase_Runtime
         if (TurnBaseCombatHelper.TryGetFlatFacingRotation(
                 ownerTransform.position, destination, out Quaternion towardDestination))
         {
-            await AttackActionMovementHelper.RotateTransformAsync(
+            await AttackActionHelper.RotateTransformAsync(
                 ownerTransform,
                 towardDestination,
                 parameter.timeToTurnTowardMovement);
         }
 
-        var unitClips = CombatantOwner.GetComponent<CombatUnitController>()?.AnimationClips;
-        AttackActionAnimationHelper.TryPlay(CombatantOwner, parameter, unitClips?.MoveToTarget);
+        var unitClips = CombatantOwner.AnimationClips;
+        AttackActionHelper.TryPlay(CombatantOwner, parameter, unitClips?.MoveToTarget);
 
-        await AttackActionMovementHelper.MoveTransformAsync(
+        float startMove = parameter.timeToReachTargetPosition.x;
+        float reachMove = parameter.timeToReachTargetPosition.y;
+        if (startMove > 0f)
+            await UniTask.Delay(System.TimeSpan.FromSeconds(startMove));
+
+        await AttackActionHelper.MoveTransformAsync(
             ownerTransform,
             destination,
-            parameter.timeToReachTargetPosition,
+            Mathf.Max(0f, reachMove - startMove),
             parameter.useParabolicJump,
             parameter.jumpHeight,
             null);
@@ -42,7 +47,7 @@ public class MoveToTargetAttackAction_Runtime : AttackActionBase_Runtime
         var faceTarget = ResolveFacing(targetOpponent, destination);
         if (faceTarget.HasValue)
         {
-            await AttackActionMovementHelper.RotateTransformAsync(
+            await AttackActionHelper.RotateTransformAsync(
                 ownerTransform,
                 faceTarget.Value,
                 parameter.timeToFaceTarget);

@@ -1,8 +1,31 @@
 using Cysharp.Threading.Tasks;
+using RAXY.Animation;
 using UnityEngine;
 
-public static class AttackActionMovementHelper
+public static class AttackActionHelper
 {
+    public const float DefaultFadeDuration = 0.2f;
+
+    public static void TryPlay(
+        CombatantBase owner,
+        AttackActionParameterBase parameter,
+        AnimationClipSet unitDefaultClip = null,
+        float fadeDuration = DefaultFadeDuration)
+    {
+        if (owner == null || parameter == null || !parameter.playAnimation)
+            return;
+
+        AnimationClipSet clipSet = parameter.UseDefaultAnimation
+            ? unitDefaultClip
+            : parameter.animation;
+
+        if (clipSet == null)
+            return;
+
+        var animancer = owner.GetComponent<CombatUnitController>()?.AnimancerCont;
+        animancer?.PlayAnimation(clipSet, fadeDuration);
+    }
+
     public static async UniTask MoveTransformAsync(
         Transform transform,
         Vector3 destination,

@@ -322,6 +322,9 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         AllCombatants.AddRange(HeroCombatants);
         AllCombatants.AddRange(EnemyCombatants);
 
+        foreach (var combatant in AllCombatants)
+            combatant?.SetExplorationMovementEnabled(false);
+
         if (TurnTimeline == null)
             TurnTimeline = new TurnTimeline();
 

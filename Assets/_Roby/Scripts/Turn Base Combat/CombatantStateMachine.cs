@@ -39,6 +39,7 @@ public class CombatantStateMachine
         if (clipSet == null || animancerCont == null)
             return;
 
+        animancerCont.StopAnimation(clipSet);
         animancerCont.PlayAnimation(clipSet, DefaultFadeDuration);
 
         ReturnToIdleAfterHit(clipSet).Forget();

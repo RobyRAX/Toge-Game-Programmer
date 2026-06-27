@@ -9,7 +9,10 @@ using Random = UnityEngine.Random;
 
 public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 {
-    [TitleGroup("Formation")]
+    [TitleGroup("Camera")]
+    public CinemachineCamera combatCamera;
+
+    [TitleGroup("Camera")]
     public CinemachineTargetGroup targetGroup;
 
     [TitleGroup("Formation")]
@@ -302,7 +305,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
         History?.Record(attackRes, TurnTimeline != null ? TurnTimeline.CurrentStep : 0, CurrentTurnCount);
 
-        await CurrentCombatant.ExecuteAttack(SelectedAttack, TargetOpponent, TargetTeam);
+        await CurrentCombatant.ExecuteAttack(SelectedAttack, TargetOpponent, TargetTeam, attackRes);
 
         CompleteCurrentTurn();
     }

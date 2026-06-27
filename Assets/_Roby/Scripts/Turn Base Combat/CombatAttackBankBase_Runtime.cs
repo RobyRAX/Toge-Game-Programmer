@@ -25,6 +25,16 @@ public abstract class CombatAttackBankBase_Runtime
         foreach (var attack in Attacks)
             attack?.Tick(deltaTime);
     }
+
+    [Button("Rebuild Attack Bank")]
+    public void RebuildBank()
+    {
+        if (Attacks == null)
+            return;
+
+        foreach (var attack in Attacks)
+            attack?.BuildAttack();
+    }
 }
 
 public class Attack_Runtime
@@ -40,20 +50,22 @@ public class Attack_Runtime
     public int StaminaCost => AttackSO.staminaCost;
 
     [HideReferenceObjectPicker]
-    public DamageProfileWithAttribute damageProfile; 
+    public DamageProfileWithAttribute damageProfile;
 
     [HideReferenceObjectPicker]
     public List<AttackActionBase_Runtime> AttackActions;
     public bool IsActionRunning { get; set; }
 
-    public async UniTask ExecuteAttackActionSequenceAsync(CombatantBase targetOpponent, CombatantBase targetTeam)
+    public async UniTask ExecuteAttackActionSequenceAsync(
+        CombatantBase targetOpponent,
+        CombatantBase targetTeam,
+        AttackResult attackResult = default)
     {
         if (IsActionRunning || AttackActions == null || AttackActions.Count == 0)
             return;
 
         IsActionRunning = true;
         OnActionStarted?.Invoke();
-
         CombatantOwner.StateMachine.ChangeState(CombatantState.Attack);
 
         foreach (var action in AttackActions)
@@ -61,7 +73,7 @@ public class Attack_Runtime
             if (action == null)
                 continue;
 
-            await action.Start(targetOpponent, targetTeam);
+            await action.Start(targetOpponent, targetTeam, attackResult);
         }
 
         EndAttackActionSequence();
@@ -104,8 +116,9 @@ public class Attack_Runtime
         if (AttackSO.attackActionEntries == null)
             return;
 
-        foreach (var entry in AttackSO.attackActionEntries)
+        for (int i = 0; i < AttackSO.attackActionEntries.Count; i++)
         {
+            var entry = AttackSO.attackActionEntries[i];
             if (entry?.AttackActionSO == null)
                 continue;
 
@@ -113,6 +126,7 @@ public class Attack_Runtime
             if (actionRuntime == null)
                 continue;
 
+            actionRuntime.SetHits(CollectHitsForActionIndex(i));
             AttackActions.Add(actionRuntime);
         }
     }
@@ -121,4 +135,29 @@ public class Attack_Runtime
     {
         damageProfile = CombatantOwner.GetDamageProfile(AttackSO);
     }
+
+    List<HitEntry> CollectHitsForActionIndex(int actionIndex)
+    {
+        var result = new List<HitEntry>();
+        if (AttackSO?.hitEntries == null)
+            return result;
+
+        foreach (var hit in AttackSO.hitEntries)
+        {
+            if (hit != null && hit.attackActionIndex == actionIndex)
+                result.Add(hit);
+        }
+
+        return result;
+    }
+}
+
+public struct CombatHitInfo
+{
+    public CombatantBase Attacker;
+    public CombatantBase Defender;
+    public int HitIndex;
+    public float DamageProportion;
+    public float HitDamage;
+    public HitSeverity Severity;
 }

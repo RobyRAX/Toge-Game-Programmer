@@ -25,7 +25,10 @@ MonoBehaviour:
   - AttackActionSO: {fileID: 11400000, guid: 409afd75def133749b2bfa3c30961964, type: 2}
     AttackActionParameter:
       rid: 899525312807436444
-  hitEntries: []
+  hitEntries:
+  - damageProportion: 100
+    attackActionIndex: 1
+    timeToCall: 0.131
   damageProfileProvider:
     talent: 0
     damageProfileEntry:

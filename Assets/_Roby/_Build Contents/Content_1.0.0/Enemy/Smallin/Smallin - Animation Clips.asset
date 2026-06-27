@@ -69,7 +69,7 @@ MonoBehaviour:
     showAeTool: 0
   combatReady:
     useAddressable: 0
-    animationClip: {fileID: 0}
+    animationClip: {fileID: 7400000, guid: aba868e926de1fd47a279d7dab2a4161, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -102,7 +102,7 @@ MonoBehaviour:
     showAeTool: 0
   lightHit:
     useAddressable: 0
-    animationClip: {fileID: 0}
+    animationClip: {fileID: 7400000, guid: b67b4c8703e3722409af699b1f0de7a6, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -113,7 +113,7 @@ MonoBehaviour:
     showAeTool: 0
   mediumHit:
     useAddressable: 0
-    animationClip: {fileID: 0}
+    animationClip: {fileID: 7400000, guid: f7c45e23f46d05c4e9384ba057519bf0, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -124,7 +124,7 @@ MonoBehaviour:
     showAeTool: 0
   heavyHit:
     useAddressable: 0
-    animationClip: {fileID: 0}
+    animationClip: {fileID: 7400000, guid: 9d7187a8f42dcc34abb6b8e613e1cc72, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 

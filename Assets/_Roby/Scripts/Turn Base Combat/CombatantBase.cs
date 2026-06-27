@@ -104,14 +104,19 @@ public abstract class CombatantBase : MonoBehaviour
         return attackSO.DamageProfile;
     }
 
-    public async UniTask ExecuteAttack(Attack_Runtime attack, 
-                                        CombatantBase targetOpponent, 
-                                        CombatantBase targetTeam)
+    public event Action<CombatHitInfo> OnDoHit;
+
+    public void RaiseDoHit(CombatHitInfo hitInfo) => OnDoHit?.Invoke(hitInfo);
+
+    public async UniTask ExecuteAttack(Attack_Runtime attack,
+                                        CombatantBase targetOpponent,
+                                        CombatantBase targetTeam,
+                                        AttackResult attackResult = default)
     {
         if (AttackBank.Attacks.Contains(attack) == false)
             return;
-        
-        await attack.ExecuteAttackActionSequenceAsync(targetOpponent, targetTeam);
+
+        await attack.ExecuteAttackActionSequenceAsync(targetOpponent, targetTeam, attackResult);
     }
 }
 

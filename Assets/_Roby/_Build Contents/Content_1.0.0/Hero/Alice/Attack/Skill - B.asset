@@ -15,7 +15,6 @@ MonoBehaviour:
   targetOpponent: 1
   targetTeam: 0
   staminaCost: 0
-  hitEntries: []
   attackActionEntries:
   - AttackActionSO: {fileID: 11400000, guid: fe5265a7fc27a7b42af4231822666922, type: 2}
     AttackActionParameter:
@@ -26,6 +25,13 @@ MonoBehaviour:
   - AttackActionSO: {fileID: 11400000, guid: 409afd75def133749b2bfa3c30961964, type: 2}
     AttackActionParameter:
       rid: 899525312807436446
+  hitEntries:
+  - damageProportion: 30
+    attackActionIndex: 1
+    timeToCall: 0.53333336
+  - damageProportion: 70
+    attackActionIndex: 1
+    timeToCall: 1.3
   damageProfileProvider:
     talent: 1
     damageProfileEntry:
@@ -56,11 +62,13 @@ MonoBehaviour:
           speed: 1
           showAeTool: 0
         useDefaultAnimation: 1
-        targetPositionAngle: 0
         distanceFromTarget: 2
+        moveBehindTarget: 0
         useParabolicJump: 0
         jumpHeight: 3
-        timeToReachTargetPosition: 0.5
+        timeToTurnTowardMovement: 0.25
+        timeToFaceTarget: 0.25
+        timeToReachTargetPosition: {x: 0, y: 1}
     - rid: 899525312807436446
       type: {class: ReturnToFormationAttackActionParameter, ns: , asm: Assembly-CSharp}
       data:
@@ -82,7 +90,7 @@ MonoBehaviour:
         timeToRestoreFormationFacing: 0.25
         useParabolicJump: 0
         jumpHeight: 3
-        timeToReachFormationPosition: 1
+        timeToReachFormationPosition: {x: 0, y: 1}
     - rid: 899525312807436449
       type: {class: StayAnimationAttackActionParameter, ns: , asm: Assembly-CSharp}
       data:

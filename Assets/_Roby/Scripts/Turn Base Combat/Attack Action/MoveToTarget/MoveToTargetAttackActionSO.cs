@@ -25,11 +25,8 @@ public class MoveToTargetAttackActionParameter : AttackActionParameterBase
 
     public override bool UseDefaultAnimation => useDefaultAnimation;
 
-    [SuffixLabel("°")]
-    [Range(0, 360)]
-    [Tooltip("0 is target's front")]
-    public float targetPositionAngle = 0;
     public float distanceFromTarget = 2;
+    public bool moveBehindTarget;
     public bool useParabolicJump;
 
     [ShowIf("@useParabolicJump")]
@@ -45,7 +42,10 @@ public class MoveToTargetAttackActionParameter : AttackActionParameterBase
     [Tooltip("x = waktu mulai gerak, y = waktu sampai target (detik). Durasi = y - x.")]
     public Vector2 timeToReachTargetPosition = new Vector2(0f, 1f);
 
-    public override float MaxTime => timeToTurnTowardMovement + timeToReachTargetPosition.y + timeToFaceTarget;
+    public override float MaxTime =>
+        timeToTurnTowardMovement
+        + timeToReachTargetPosition.y
+        + (moveBehindTarget ? timeToFaceTarget : 0f);
 
 #if UNITY_EDITOR
     [Button]

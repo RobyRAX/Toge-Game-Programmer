@@ -54,6 +54,8 @@ public class Attack_Runtime
         IsActionRunning = true;
         OnActionStarted?.Invoke();
 
+        CombatantOwner.StateMachine.ChangeState(CombatantState.Attack);
+
         foreach (var action in AttackActions)
         {
             if (action == null)
@@ -68,6 +70,7 @@ public class Attack_Runtime
 
     public void EndAttackActionSequence()
     {
+        CombatantOwner.StateMachine.ChangeState(CombatantState.Idle);
         IsActionRunning = false;
     }
 

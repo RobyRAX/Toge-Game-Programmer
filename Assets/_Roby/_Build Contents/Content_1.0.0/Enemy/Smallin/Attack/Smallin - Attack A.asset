@@ -28,7 +28,7 @@ MonoBehaviour:
   hitEntries:
   - damageProportion: 100
     attackActionIndex: 0
-    timeToCall: 1.05
+    timeToCall: 0.8
   damageProfileEntry:
     flatDamage: 0
     multiplierDamage: 33
@@ -51,8 +51,8 @@ MonoBehaviour:
           speed: 1
           showAeTool: 0
         useDefaultAnimation: 0
-        targetPositionAngle: 0
         distanceFromTarget: 2
+        moveBehindTarget: 0
         useParabolicJump: 0
         jumpHeight: 3
         timeToTurnTowardMovement: 0.25
@@ -73,7 +73,7 @@ MonoBehaviour:
             m_EditorAssetChanged: 0
           speed: 1
           showAeTool: 0
-        stayDuration: 0.25
+        stayDuration: 0.5
     - rid: 899525371273674870
       type: {class: ReturnToFormationAttackActionParameter, ns: , asm: Assembly-CSharp}
       data:
@@ -92,7 +92,7 @@ MonoBehaviour:
         useDefaultAnimation: 1
         useDirectionTurn: 0
         timeToTurnTowardMovement: 0.25
-        timeToRestoreFormationFacing: 0.25
+        timeToRestoreFormationFacing: 0.075
         useParabolicJump: 1
         jumpHeight: 1.5
         timeToReachFormationPosition: {x: 0, y: 0.5}

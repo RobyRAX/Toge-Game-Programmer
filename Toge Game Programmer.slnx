@@ -69,6 +69,7 @@
   <Project Path="Unity.AI.Navigation.Editor.csproj" />
   <Project Path="RAXY.UI.csproj" />
   <Project Path="RAXY.VfxManager.csproj" />
+  <Project Path="DamageNumbersPro.csproj" />
   <Project Path="Unity.Multiplayer.Center.Common.csproj" />
   <Project Path="RAXY.Utility.Gizmo.csproj" />
   <Project Path="DOTween.Modules.csproj" />

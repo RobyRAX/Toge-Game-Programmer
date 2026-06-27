@@ -1,5 +1,6 @@
 
 using System;
+using Cysharp.Threading.Tasks;
 using RAXY.Movement;
 using Sirenix.OdinInspector;
 using ToGaProTest.Shared;
@@ -101,6 +102,16 @@ public abstract class CombatantBase : MonoBehaviour
     public virtual DamageProfileWithAttribute GetDamageProfile(CombatAttackBaseSO attackSO)
     {
         return attackSO.DamageProfile;
+    }
+
+    public async UniTask ExecuteAttack(Attack_Runtime attack, 
+                                        CombatantBase targetOpponent, 
+                                        CombatantBase targetTeam)
+    {
+        if (AttackBank.Attacks.Contains(attack) == false)
+            return;
+        
+        await attack.ExecuteAttackActionSequenceAsync(targetOpponent, targetTeam);
     }
 }
 

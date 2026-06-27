@@ -203,7 +203,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [TitleGroup("Current Combatans")]
     [ReadOnly]
     [ShowInInspector]
-    public List<CombatantBase> HeroCombatants { get; set; }
+    public List<CombatantBase> PlayerCombatants { get; set; }
 
     [TitleGroup("Current Combatans")]
     [ReadOnly]
@@ -226,7 +226,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [ShowInInspector]
     public CombatantBase TargetTeam { get; set; }
 
-    [TitleGroup("Current Combatant Attack Queue")]
+    [HorizontalGroup("Current Combatant Attack Queue/Op")]
     [Button]
     public void TakeRandomAttack()
     {
@@ -240,22 +240,71 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         SelectedAttack = attacks[Random.Range(0, attacks.Count)];
     }
 
-
-    [TitleGroup("Current Combatant Attack Queue")]
+    [HorizontalGroup("Current Combatant Attack Queue/Op")]
     [Button]
-    public void ExecuteAttack()
+    public void TakeRandomTarget()
     {
-        var attackReq = TurnBaseCombatHelper.
-                        BuildAttackRequest(CurrentCombatant, 
-                                            TargetOpponent, 
-                                            SelectedAttack.damageProfile);
+        if (CurrentCombatant == null)
+            return;
 
-        TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
+        if (PlayerCombatants != null && PlayerCombatants.Contains(CurrentCombatant))
+        {
+            TargetOpponent = PickRandomAliveCombatant(EnemyCombatants);
+            TargetTeam = PickRandomAliveCombatant(PlayerCombatants);
+        }
+        else if (EnemyCombatants != null && EnemyCombatants.Contains(CurrentCombatant))
+        {
+            TargetOpponent = PickRandomAliveCombatant(PlayerCombatants);
+            TargetTeam = PickRandomAliveCombatant(EnemyCombatants);
+        }
+    }
 
+    static CombatantBase PickRandomAliveCombatant(List<CombatantBase> combatants)
+    {
+        if (combatants == null || combatants.Count == 0)
+            return null;
+
+        var alive = new List<CombatantBase>(combatants.Count);
+        foreach (var combatant in combatants)
+        {
+            if (combatant != null && combatant.IsAlive)
+                alive.Add(combatant);
+        }
+
+        if (alive.Count == 0)
+            return null;
+
+        return alive[Random.Range(0, alive.Count)];
+    }
+
+    [HorizontalGroup("Current Combatant Attack Queue/Op2")]
+    [Button]
+    void TestAction()
+    {
         if (CurrentCombatant == null || SelectedAttack == null)
             return;
 
-        SelectedAttack.ExecuteAttackActionSequenceAsync(TargetOpponent, TargetTeam).Forget();
+        CurrentCombatant.ExecuteAttack(SelectedAttack, TargetOpponent, TargetTeam).Forget();
+    }
+
+    [HorizontalGroup("Current Combatant Attack Queue/Op2")]
+    [Button]
+    public async UniTask ExecuteAttack()
+    {
+        if (CurrentCombatant == null || SelectedAttack == null)
+            return;
+
+        var attackReq = TurnBaseCombatHelper.
+                        BuildAttackRequest(CurrentCombatant,
+                                            TargetOpponent,
+                                            SelectedAttack.damageProfile);
+
+        TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
+        History?.Record(attackRes, TurnTimeline != null ? TurnTimeline.CurrentStep : 0, CurrentTurnCount);
+
+        await CurrentCombatant.ExecuteAttack(SelectedAttack, TargetOpponent, TargetTeam);
+
+        CompleteCurrentTurn();
     }
 
     [TitleGroup("Turn Timeline")]
@@ -263,9 +312,20 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [HideLabel]
     public TurnTimeline TurnTimeline;
 
+    [TitleGroup("Turn Timeline")]
+    [ShowInInspector]
+    [ReadOnly]
+    public int CurrentTurnCount { get; private set; }
+
+    [TitleGroup("Combat History")]
+    [ShowInInspector]
+    [HideReferenceObjectPicker]
+    [HideLabel]
+    public CombatHistory History { get; private set; }
+
     [TitleGroup("Debug Functions")]
     [Button]
-    public void StartCombat(List<CombatantBase> heroCombatants,
+    public void StartCombat(List<CombatantBase> playerCombatants,
                             List<CombatantBase> enemyCombatants,
                             CombatantBase initialTurn)
     {
@@ -275,16 +335,16 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             return;
         }
 
-        HeroCombatants = TurnBaseCombatHelper.FilterNullCombatants(heroCombatants);
+        PlayerCombatants = TurnBaseCombatHelper.FilterNullCombatants(playerCombatants);
         EnemyCombatants = TurnBaseCombatHelper.FilterNullCombatants(enemyCombatants);
 
-        if (HeroCombatants.Count == 0 || EnemyCombatants.Count == 0)
+        if (PlayerCombatants.Count == 0 || EnemyCombatants.Count == 0)
         {
             Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: Need at least one hero and one enemy combatant.");
             return;
         }
 
-        int neededSlots = Mathf.Max(HeroCombatants.Count, EnemyCombatants.Count);
+        int neededSlots = Mathf.Max(PlayerCombatants.Count, EnemyCombatants.Count);
         if (neededSlots > maxMemberPerTeam)
         {
             Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: Combatant count ({neededSlots}) exceeds {nameof(maxMemberPerTeam)} ({maxMemberPerTeam}). Extra units will be skipped.");
@@ -293,7 +353,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (!EnsureFormationSlots())
             return;
 
-        if (!TurnBaseCombatHelper.TryGetAveragePosition(HeroCombatants, out Vector3 heroAvg) ||
+        if (!TurnBaseCombatHelper.TryGetAveragePosition(PlayerCombatants, out Vector3 heroAvg) ||
             !TurnBaseCombatHelper.TryGetAveragePosition(EnemyCombatants, out Vector3 enemyAvg))
         {
             Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: Failed to compute team average positions.");
@@ -312,11 +372,11 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             enemyFacing = enemyRot;
         }
 
-        PlaceCombatantsOnSlots(HeroCombatants, HeroPositions, heroFacing);
+        PlaceCombatantsOnSlots(PlayerCombatants, HeroPositions, heroFacing);
         PlaceCombatantsOnSlots(EnemyCombatants, EnemyPositions, enemyFacing);
 
-        AllCombatants = new List<CombatantBase>(HeroCombatants.Count + EnemyCombatants.Count);
-        AllCombatants.AddRange(HeroCombatants);
+        AllCombatants = new List<CombatantBase>(PlayerCombatants.Count + EnemyCombatants.Count);
+        AllCombatants.AddRange(PlayerCombatants);
         AllCombatants.AddRange(EnemyCombatants);
 
         foreach (var combatant in AllCombatants)
@@ -325,8 +385,15 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (TurnTimeline == null)
             TurnTimeline = new TurnTimeline();
 
+        if (History == null)
+            History = new CombatHistory();
+        else
+            History.Clear();
+
+        CurrentTurnCount = 0;
+
         TurnTimeline.Initialize(AllCombatants, initialTurn);
-        BeginCurrentTurn();
+        AdvanceTimelineUntilTurnFound();
 
         Debug.Log("Combat Started");
     }
@@ -412,17 +479,6 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         }
     }
 
-    void BeginCurrentTurn()
-    {
-        if (TurnTimeline == null || !TurnTimeline.IsInitialized)
-            return;
-
-        if (TryAssignCurrentTurnCombatant())
-            return;
-
-        AdvanceTimelineUntilTurnFound();
-    }
-
     bool TryAssignCurrentTurnCombatant()
     {
         var dueCombatants = TurnTimeline.GetCombatantsAtCurrentStep();
@@ -433,12 +489,23 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         }
 
         TurnTimeline.CurrentTurnCombatant = dueCombatants[0];
-        Debug.Log($"{nameof(TurnBaseCombatManager)}: Current turn -> {TurnTimeline.CurrentTurnCombatant.name} (Step {TurnTimeline.CurrentStep}).");
+        CurrentTurnCount++;
+        SelectedAttack = null;
+        TargetOpponent = null;
+        TargetTeam = null;
+
+        Debug.Log($"{nameof(TurnBaseCombatManager)}: Current turn -> {TurnTimeline.CurrentTurnCombatant.name} (Step {TurnTimeline.CurrentStep}, Turn {CurrentTurnCount}).");
         return true;
     }
 
     void AdvanceTimelineUntilTurnFound()
     {
+        if (TurnTimeline == null || !TurnTimeline.IsInitialized)
+            return;
+
+        if (TryAssignCurrentTurnCombatant())
+            return;
+
         const int maxStepScans = 1000;
 
         for (int i = 0; i < maxStepScans; i++)
@@ -453,7 +520,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
     [TitleGroup("Debug Functions")]
     [Button]
-    void ResolveCurrentTurn()
+    void CompleteCurrentTurn()
     {
         if (TurnTimeline == null || !TurnTimeline.IsInitialized)
         {
@@ -464,7 +531,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (TurnTimeline.CurrentTurnCombatant == null)
         {
             Debug.Log($"{nameof(TurnBaseCombatManager)}: No active turn to resolve.");
-            BeginCurrentTurn();
+            AdvanceTimelineUntilTurnFound();
             return;
         }
 
@@ -473,45 +540,6 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         TurnTimeline.CurrentTurnCombatant = null;
 
         Debug.Log($"{nameof(TurnBaseCombatManager)}: Resolved turn for {actingCombatant.name} at step {TurnTimeline.CurrentStep}.");
-        BeginCurrentTurn();
-    }
-
-    [TitleGroup("Debug Functions")]
-    [Button]
-    void AdvanceTimelineStep()
-    {
-        if (TurnTimeline == null || !TurnTimeline.IsInitialized)
-        {
-            Debug.Log($"{nameof(TurnBaseCombatManager)}: Turn timeline is not initialized.");
-            return;
-        }
-
-        TurnTimeline.AddStep();
-        Debug.Log($"{nameof(TurnBaseCombatManager)}: Advanced to step {TurnTimeline.CurrentStep}.");
-    }
-
-    [TitleGroup("Debug Functions")]
-    [Button]
-    void LogTimelinePreview()
-    {
-        if (TurnTimeline == null || !TurnTimeline.IsInitialized)
-        {
-            Debug.Log($"{nameof(TurnBaseCombatManager)}: Turn timeline is not initialized.");
-            return;
-        }
-
-        for (int i = 0; i < TurnTimeline.PreviewSteps.Count; i++)
-        {
-            var turnStep = TurnTimeline.PreviewSteps[i];
-            if (turnStep.Combatants == null || turnStep.Combatants.Count == 0)
-                continue;
-
-            for (int j = 0; j < turnStep.Combatants.Count; j++)
-            {
-                var combatant = turnStep.Combatants[j];
-                float speed = TurnTimeline.CombatantSpeedDict[combatant];
-                Debug.Log($"[Timeline Preview] Step {turnStep.Step}: {combatant.name} (Speed {speed})");
-            }
-        }
+        AdvanceTimelineUntilTurnFound();
     }
 }

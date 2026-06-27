@@ -56,7 +56,29 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     speed: 1
     showAeTool: 0
-  MoveToTarget:
+  combatIdle:
+    useAddressable: 0
+    animationClip: {fileID: 7400000, guid: 5f37d95ecfbef2446a24fe8051df72d8, type: 2}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    speed: 1
+    showAeTool: 0
+  combatReady:
+    useAddressable: 0
+    animationClip: {fileID: 7400000, guid: 5f37d95ecfbef2446a24fe8051df72d8, type: 2}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    speed: 1
+    showAeTool: 0
+  moveToTarget:
     useAddressable: 0
     animationClip: {fileID: 7400000, guid: 1d1ba4b59f8e1a84094a72a8224edeea, type: 2}
     animationClipRef:
@@ -67,7 +89,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     speed: 2
     showAeTool: 0
-  BackToFormation:
+  backToFormation:
     useAddressable: 0
     animationClip: {fileID: 7400000, guid: 1d1ba4b59f8e1a84094a72a8224edeea, type: 2}
     animationClipRef:
@@ -78,7 +100,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     speed: 2
     showAeTool: 0
-  LightHit:
+  lightHit:
     useAddressable: 0
     animationClip: {fileID: 0}
     animationClipRef:
@@ -89,7 +111,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     speed: 1
     showAeTool: 0
-  MediumHit:
+  mediumHit:
     useAddressable: 0
     animationClip: {fileID: 0}
     animationClipRef:
@@ -100,7 +122,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     speed: 1
     showAeTool: 0
-  HeavyHit:
+  heavyHit:
     useAddressable: 0
     animationClip: {fileID: 0}
     animationClipRef:
@@ -111,7 +133,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     speed: 1
     showAeTool: 0
-  Die:
+  stun:
     useAddressable: 0
     animationClip: {fileID: 0}
     animationClipRef:
@@ -122,29 +144,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     speed: 1
     showAeTool: 0
-  EnterStun:
-    useAddressable: 0
-    animationClip: {fileID: 0}
-    animationClipRef:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 0
-    speed: 1
-    showAeTool: 0
-  Stun:
-    useAddressable: 0
-    animationClip: {fileID: 0}
-    animationClipRef:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 0
-    speed: 1
-    showAeTool: 0
-  ExitStun:
+  die:
     useAddressable: 0
     animationClip: {fileID: 0}
     animationClipRef:

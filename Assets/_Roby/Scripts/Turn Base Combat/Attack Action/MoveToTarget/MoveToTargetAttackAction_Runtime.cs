@@ -44,24 +44,43 @@ public class MoveToTargetAttackAction_Runtime : AttackActionBase_Runtime
             parameter.jumpHeight,
             null);
 
-        var faceTarget = ResolveFacing(targetOpponent, destination);
-        if (faceTarget.HasValue)
+        if (parameter.moveBehindTarget)
         {
-            await AttackActionHelper.RotateTransformAsync(
-                ownerTransform,
-                faceTarget.Value,
-                parameter.timeToFaceTarget);
+            var faceTarget = ResolveFacing(targetOpponent, destination);
+            if (faceTarget.HasValue)
+            {
+                await AttackActionHelper.RotateTransformAsync(
+                    ownerTransform,
+                    faceTarget.Value,
+                    parameter.timeToFaceTarget);
+            }
         }
     }
 
-    static Vector3 ResolveDestination(CombatantBase targetOpponent, MoveToTargetAttackActionParameter parameter, Vector3 fallbackPosition)
+    static Vector3 ResolveDestination(CombatantBase targetOpponent, MoveToTargetAttackActionParameter parameter, Vector3 ownerPosition)
     {
         if (targetOpponent == null)
-            return fallbackPosition;
+            return ownerPosition;
 
         Transform targetTransform = targetOpponent.transform;
-        Vector3 offset = Quaternion.Euler(0f, parameter.targetPositionAngle, 0f) * Vector3.forward * parameter.distanceFromTarget;
-        return targetTransform.position + targetTransform.rotation * offset;
+        Vector3 targetPosition = targetTransform.position;
+
+        if (parameter.moveBehindTarget)
+        {
+            Vector3 flatBack = targetTransform.forward;
+            flatBack.y = 0f;
+            if (flatBack.sqrMagnitude < 0.0001f)
+                return targetPosition;
+
+            return targetPosition - flatBack.normalized * parameter.distanceFromTarget;
+        }
+
+        Vector3 flatDir = targetPosition - ownerPosition;
+        flatDir.y = 0f;
+        if (flatDir.sqrMagnitude < 0.0001f)
+            return targetPosition;
+
+        return targetPosition - flatDir.normalized * parameter.distanceFromTarget;
     }
 
     static Quaternion? ResolveFacing(CombatantBase targetOpponent, Vector3 fromPosition)

@@ -5612,7 +5612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10873,6 +10873,7 @@ GameObject:
   - component: {fileID: 2136515599}
   - component: {fileID: 2136515600}
   - component: {fileID: 2136515601}
+  - component: {fileID: 2136515602}
   m_Layer: 0
   m_Name: Combat UI
   m_TagString: Untagged
@@ -10914,6 +10915,7 @@ MonoBehaviour:
   attackContainer: {fileID: 1869651623}
   attackUiPrefab: {fileID: 2105214085646169580, guid: dd9a7ebb3399a2745bb63dddda066f8e, type: 3}
   targetSelector: {fileID: 2136515601}
+  enemyHpBarManager: {fileID: 2136515602}
   playerTurnIndicator: {fileID: 0}
   enemyTurnIndicator: {fileID: 0}
 --- !u!114 &2136515601
@@ -10930,8 +10932,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatTargetSelector
   targetLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1536
   highlightPrefab: {fileID: 5289245871519748276, guid: 15f4d497aa248204fa1f24419387a748, type: 3}
+--- !u!114 &2136515602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136515598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98216772ef025c84cb5cdebf69cf1a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatEnemyHpBarManager
+  worldHpBarPrefab: {fileID: 5190631822578752156, guid: 954561dbe42b4e24d9a8131b811e1861, type: 3}
+  worldYOffset: 2
 --- !u!1001 &2747420644708511728
 PrefabInstance:
   m_ObjectHideFlags: 0

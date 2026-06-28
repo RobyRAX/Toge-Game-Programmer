@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using RAXY.Animation;
 using Sirenix.OdinInspector;
@@ -11,6 +12,8 @@ public class CombatantStateMachine
     readonly CombatantBase owner;
     readonly AnimancerController animancerCont;
 
+    CancellationTokenSource hitCts;
+
     [ShowInInspector]
     public CombatantState CurrentState { get; private set; }
 
@@ -22,6 +25,9 @@ public class CombatantStateMachine
 
     public void ChangeState(CombatantState state)
     {
+        if (state != CombatantState.Idle)
+            CancelHitReturn();
+
         CurrentState = state;
 
         var clipSet = GetClip(state);
@@ -39,17 +45,36 @@ public class CombatantStateMachine
         if (clipSet == null || animancerCont == null)
             return;
 
+        CancelHitReturn();
+        hitCts = new CancellationTokenSource();
+
         animancerCont.StopAnimation(clipSet);
         animancerCont.PlayAnimation(clipSet, DefaultFadeDuration);
 
-        ReturnToIdleAfterHit(clipSet).Forget();
+        ReturnToIdleAfterHit(clipSet, hitCts.Token).Forget();
     }
 
-    async UniTask ReturnToIdleAfterHit(AnimationClipSet clipSet)
+    void CancelHitReturn()
+    {
+        if (hitCts == null)
+            return;
+
+        hitCts.Cancel();
+        hitCts.Dispose();
+        hitCts = null;
+    }
+
+    async UniTask ReturnToIdleAfterHit(AnimationClipSet clipSet, CancellationToken token)
     {
         float duration = GetClipDuration(clipSet);
-        await UniTask.WaitForSeconds(duration);
+        bool canceled = await UniTask
+            .WaitForSeconds(duration, cancellationToken: token)
+            .SuppressCancellationThrow();
 
+        if (canceled || token.IsCancellationRequested)
+            return;
+
+        CancelHitReturn();
         ChangeState(CombatantState.Idle);
     }
 

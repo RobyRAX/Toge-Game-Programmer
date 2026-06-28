@@ -56,6 +56,14 @@ public class Attack_Runtime
     public List<AttackActionBase_Runtime> AttackActions;
     public bool IsActionRunning { get; set; }
 
+    [TitleGroup("Status")]
+    [ShowInInspector]
+    float ElapsedTime { get; set; }
+
+    List<bool> hitFired;
+    AttackResult currentAttackResult;
+    CombatantBase currentTargetOpponent;
+
     public async UniTask ExecuteAttackActionSequenceAsync(
         CombatantBase targetOpponent,
         CombatantBase targetTeam,
@@ -65,6 +73,8 @@ public class Attack_Runtime
             return;
 
         IsActionRunning = true;
+        ElapsedTime = 0f;
+        PrepareHits(targetOpponent, attackResult);
         OnActionStarted?.Invoke();
         CombatantOwner.StateMachine.ChangeState(CombatantState.Attack);
 
@@ -73,9 +83,10 @@ public class Attack_Runtime
             if (action == null)
                 continue;
 
-            await action.Start(targetOpponent, targetTeam, attackResult);
+            await action.Start(targetOpponent, targetTeam);
         }
 
+        FlushRemainingHits();
         EndAttackActionSequence();
         OnActionEnded?.Invoke();
     }
@@ -88,11 +99,11 @@ public class Attack_Runtime
 
     public void Tick(float deltaTime)
     {
-        if (!IsActionRunning || AttackActions == null)
+        if (!IsActionRunning)
             return;
 
-        foreach (var action in AttackActions)
-            action?.Tick(deltaTime);
+        ElapsedTime += deltaTime;
+        EvaluateHits();
     }
 
     public Attack_Runtime() { }
@@ -126,7 +137,6 @@ public class Attack_Runtime
             if (actionRuntime == null)
                 continue;
 
-            actionRuntime.SetHits(CollectHitsForActionIndex(i));
             AttackActions.Add(actionRuntime);
         }
     }
@@ -136,19 +146,87 @@ public class Attack_Runtime
         damageProfile = CombatantOwner.GetDamageProfile(AttackSO);
     }
 
-    List<HitEntry> CollectHitsForActionIndex(int actionIndex)
+    void PrepareHits(CombatantBase targetOpponent, AttackResult attackResult)
     {
-        var result = new List<HitEntry>();
-        if (AttackSO?.hitEntries == null)
-            return result;
+        currentAttackResult = attackResult;
+        currentTargetOpponent = targetOpponent;
+        hitFired = null;
 
-        foreach (var hit in AttackSO.hitEntries)
+        if (AttackSO?.hitEntries == null || AttackSO.hitEntries.Count == 0)
+            return;
+
+        hitFired = new List<bool>(AttackSO.hitEntries.Count);
+        for (int i = 0; i < AttackSO.hitEntries.Count; i++)
+            hitFired.Add(false);
+    }
+
+    void EvaluateHits()
+    {
+        if (hitFired == null || AttackSO?.hitEntries == null)
+            return;
+
+        for (int i = 0; i < hitFired.Count; i++)
         {
-            if (hit != null && hit.attackActionIndex == actionIndex)
-                result.Add(hit);
-        }
+            if (hitFired[i])
+                continue;
 
-        return result;
+            var hit = AttackSO.hitEntries[i];
+            if (hit == null)
+            {
+                hitFired[i] = true;
+                continue;
+            }
+
+            if (ElapsedTime >= hit.timeToCall)
+            {
+                FireHit(i, hit);
+                hitFired[i] = true;
+            }
+        }
+    }
+
+    void FlushRemainingHits()
+    {
+        if (hitFired == null || AttackSO?.hitEntries == null)
+            return;
+
+        for (int i = 0; i < hitFired.Count; i++)
+        {
+            if (hitFired[i])
+                continue;
+
+            var hit = AttackSO.hitEntries[i];
+            if (hit == null)
+            {
+                hitFired[i] = true;
+                continue;
+            }
+
+            FireHit(i, hit);
+            hitFired[i] = true;
+        }
+    }
+
+    void FireHit(int hitIndex, HitEntry hit)
+    {
+        var defender = currentAttackResult.Defender != null ? currentAttackResult.Defender : currentTargetOpponent;
+        if (defender == null)
+            return;
+
+        float hitDamage = currentAttackResult.ReceivedDamage * hit.damageProportion / 100f;
+        float maxHp = defender.StatContainer != null ? defender.StatContainer.GetTotalValue(StatAttribute.MaxHp) : 0f;
+        var severity = CombatantStateMachine.ResolveHitSeverity(hitDamage, maxHp);
+
+        defender.StateMachine?.ChangeHitState(severity);
+        CombatantOwner?.RaiseDoHit(new CombatHitInfo
+        {
+            Attacker = CombatantOwner,
+            Defender = defender,
+            HitIndex = hitIndex,
+            DamageProportion = hit.damageProportion,
+            HitDamage = hitDamage,
+            Severity = severity,
+        });
     }
 }
 

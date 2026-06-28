@@ -36,30 +36,30 @@ public class TurnBaseCombatStateMachine
                 break;
 
             case TurnBaseCombatPhase.BeginTurn:
-                camDir?.FocusOnCombatant(manager.CurrentCombatant);
+                FocusCameraOnHeroSide();
                 ChangePhase(TurnBaseCombatPhase.SelectAttack);
                 break;
 
             case TurnBaseCombatPhase.SelectAttack:
-                camDir?.FocusOnCombatant(manager.CurrentCombatant);
+                FocusCameraOnHeroSide();
                 if (manager.CurrentTurnSide == TurnSide.Enemy)
                 {
                     manager.PickRandomAttackForCurrentCombatant();
-                    ChangePhase(TurnBaseCombatPhase.SelectTargetOpponent);
+                    ChangePhase(manager.GetFirstTargetPhase());
                 }
                 break;
 
             case TurnBaseCombatPhase.SelectTargetOpponent:
-                camDir?.FocusOnCombatant(manager.CurrentCombatant);
+                FocusCameraOnHeroSide();
                 if (manager.CurrentTurnSide == TurnSide.Enemy)
                 {
                     manager.AutoPickOpponentTarget();
-                    ChangePhase(TurnBaseCombatPhase.SelectTargetTeam);
+                    ChangePhase(manager.GetPhaseAfterOpponentTarget());
                 }
                 break;
 
             case TurnBaseCombatPhase.SelectTargetTeam:
-                camDir?.FocusOnCombatant(manager.CurrentCombatant);
+                FocusCameraOnHeroSide();
                 if (manager.CurrentTurnSide == TurnSide.Enemy)
                 {
                     manager.AutoPickTeamTarget();
@@ -68,6 +68,7 @@ public class TurnBaseCombatStateMachine
                 break;
 
             case TurnBaseCombatPhase.Attack:
+                FocusCameraOnHeroSide();
                 if (!manager.HasValidAttackSelection())
                 {
                     Debug.LogWarning($"{nameof(TurnBaseCombatStateMachine)}: Invalid attack selection.");
@@ -95,6 +96,26 @@ public class TurnBaseCombatStateMachine
 
     void Exit(TurnBaseCombatPhase phase)
     {
+    }
+
+    // Camera always anchors to a hero slot, never to an enemy.
+    // - Player turn: camera sits behind the acting hero.
+    // - Enemy turn: camera swings behind the hero being targeted (once known), otherwise the default hero slot.
+    void FocusCameraOnHeroSide()
+    {
+        if (camDir == null)
+            return;
+
+        if (manager.CurrentTurnSide == TurnSide.Enemy)
+        {
+            if (manager.TargetOpponent != null)
+                camDir.FocusOnCombatant(manager.TargetOpponent);
+            else
+                camDir.FocusOnDefault();
+            return;
+        }
+
+        camDir.FocusOnCombatant(manager.CurrentCombatant);
     }
 }
 

@@ -39,15 +39,15 @@ public abstract class CombatAttackBaseSO : ScriptableObject
     {
         if (SirenixEditorGUI.ToolbarButton(EditorIcons.Refresh))
         {
-            var tempTimes = new List<float>();
+            float totalTime = 0f;
 
             if (attackActionEntries != null)
             {
                 foreach (var attackAction in attackActionEntries)
-                    tempTimes.Add(attackAction?.AttackActionParameter?.MaxTime ?? 0f);
+                    totalTime += attackAction?.AttackActionParameter?.MaxTime ?? 0f;
             }
 
-            HitEntry.Set_EditorData(tempTimes);
+            HitEntry.Set_EditorData(totalTime);
         }
     }
 
@@ -74,34 +74,21 @@ public class HitEntry
     [Range(0, 100)]
     [SuffixLabel("%")]
     public float damageProportion;
-    
-    [PropertyRange(0, "AttackActionCount")]
-    public int attackActionIndex;
 
     [PropertyRange(0, "MaxTime")]
     [SuffixLabel("seconds")]
     public float timeToCall;
 
-    string Label => $"{damageProportion}% | {attackActionIndex} | {timeToCall}s";
+    string Label => $"{damageProportion}% @ {timeToCall}s";
 
 #if UNITY_EDITOR
-    float MaxTime
-    {
-        get
-        {
-            if (Times == null || attackActionIndex < 0 || attackActionIndex >= Times.Count)
-                return 0;
-            
-            return Times[attackActionIndex];
-        }
-    }
+    float MaxTime => TotalAttackDuration;
 
-    static List<float> Times;
-    static int AttackActionCount => Times != null ? Times.Count - 1 : 0;
+    static float TotalAttackDuration;
 
-    public static void Set_EditorData(List<float> times)
+    public static void Set_EditorData(float totalAttackDuration)
     {
-        Times = times;
+        TotalAttackDuration = totalAttackDuration;
     }
 #endif
 }

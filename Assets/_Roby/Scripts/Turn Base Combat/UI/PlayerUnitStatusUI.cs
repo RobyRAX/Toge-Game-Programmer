@@ -66,7 +66,7 @@ public class PlayerUnitStatusUI : MonoBehaviour
         if (hpBarSlider != null)
         {
             hpBarSlider.maxValue = maxHp;
-            hpBarSlider.value = Combatant.CurrentHp;
+            hpBarSlider.value = Combatant.DisplayedHp;
         }
 
         float maxStamina = Combatant.StatContainer.GetTotalValue(StatAttribute.MaxStamina);

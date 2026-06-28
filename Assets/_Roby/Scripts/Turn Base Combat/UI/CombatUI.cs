@@ -20,6 +20,9 @@ public class CombatUI : MonoBehaviour
     [SerializeField]
     CombatTargetSelector targetSelector;
 
+    [TitleGroup("Enemy HP Bar")]
+    public CombatEnemyHpBarManager enemyHpBarManager;
+
     [TitleGroup("Turn Side Indicator")]
     [SerializeField]
     GameObject playerTurnIndicator;
@@ -48,6 +51,7 @@ public class CombatUI : MonoBehaviour
         turnTimelineUI?.Setup(manager);
         turnPhaseTimelineUI?.Setup(manager);
         targetSelector?.Setup(manager);
+        enemyHpBarManager?.Setup(manager);
 
         HandlePhaseChanged(manager.CurrentPhase);
         HandleTurnAdvanced();
@@ -66,6 +70,7 @@ public class CombatUI : MonoBehaviour
 
         ClearAttackButtons();
         targetSelector?.SetActive(false);
+        enemyHpBarManager?.Teardown();
         manager = null;
     }
 

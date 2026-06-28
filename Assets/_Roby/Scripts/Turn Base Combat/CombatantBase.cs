@@ -16,6 +16,11 @@ public abstract class CombatantBase : MonoBehaviour
 
     [TitleGroup("Current Value")]
     [ShowInInspector]
+    [ReadOnly]
+    public float DisplayedHp { get; private set; }
+
+    [TitleGroup("Current Value")]
+    [ShowInInspector]
     public virtual float CurrentStamina { get; set; }
 
     [TitleGroup("Current Value")]
@@ -57,6 +62,24 @@ public abstract class CombatantBase : MonoBehaviour
 
     protected void NotifyStatsChanged() => OnStatsChanged?.Invoke(this);
 
+    public void InitDisplayedHp()
+    {
+        DisplayedHp = CurrentHp;
+        NotifyStatsChanged();
+    }
+
+    public void ApplyVisualHit(float hitDamage)
+    {
+        DisplayedHp = Mathf.Max(0f, DisplayedHp - hitDamage);
+        NotifyStatsChanged();
+    }
+
+    public void SyncDisplayedHp()
+    {
+        DisplayedHp = CurrentHp;
+        NotifyStatsChanged();
+    }
+
     protected void InitStateMachine()
     {
         StateMachine = new CombatantStateMachine(this);
@@ -79,8 +102,11 @@ public abstract class CombatantBase : MonoBehaviour
             movement.enabled = isEnabled;
         if (TryGetComponent(out GroundChecker groundChecker))
             groundChecker.enabled = isEnabled;
+
+        // CharacterController sengaja dibiarkan enabled agar tetap jadi collider
+        // yang bisa di-raycast untuk hover/klik target saat combat.
         if (TryGetComponent(out CharacterController controller))
-            controller.enabled = isEnabled;
+            controller.enabled = true;
     }
 
     public virtual void TakeDamage(ref AttackResult attackRes)

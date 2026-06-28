@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3612372217299758875}
   - component: {fileID: 4317528374489314531}
   - component: {fileID: 4931784027100836713}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Alice_CharController
   m_TagString: Untagged
   m_Icon: {fileID: 0}

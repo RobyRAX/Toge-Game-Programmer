@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 149991029225713754}
   - component: {fileID: 2682030264291163626}
   - component: {fileID: 2223166488862591237}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Smallin_CharController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c376f74887cf8a40845c9008e64c252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
-  animationClips: {fileID: 0}
   enemyDataSO: {fileID: 11400000, guid: 988b671aa80ead34396c9192368fc4f2, type: 2}
   enemyCombatant: {fileID: 0}
 --- !u!114 &2223166488862591237

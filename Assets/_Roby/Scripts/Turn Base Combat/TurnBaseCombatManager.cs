@@ -50,6 +50,25 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         return CurrentCombatant != null && SelectedAttack != null;
     }
 
+    bool AttackTargetsOpponent => SelectedAttack?.AttackSO != null && SelectedAttack.AttackSO.targetOpponent;
+    bool AttackTargetsTeam => SelectedAttack?.AttackSO != null && SelectedAttack.AttackSO.targetTeam;
+
+    public TurnBaseCombatPhase GetFirstTargetPhase()
+    {
+        if (AttackTargetsOpponent)
+            return TurnBaseCombatPhase.SelectTargetOpponent;
+
+        if (AttackTargetsTeam)
+            return TurnBaseCombatPhase.SelectTargetTeam;
+
+        return TurnBaseCombatPhase.Attack;
+    }
+
+    public TurnBaseCombatPhase GetPhaseAfterOpponentTarget()
+    {
+        return AttackTargetsTeam ? TurnBaseCombatPhase.SelectTargetTeam : TurnBaseCombatPhase.Attack;
+    }
+
     public void SubmitSelectedAttack(Attack_Runtime attack)
     {
         if (!IsPlayerTurn || StateMachine?.CurrentPhase != TurnBaseCombatPhase.SelectAttack)
@@ -62,7 +81,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             return;
 
         SelectedAttack = attack;
-        StateMachine.ChangePhase(TurnBaseCombatPhase.SelectTargetOpponent);
+        StateMachine.ChangePhase(GetFirstTargetPhase());
     }
 
     public void SubmitTargetOpponent(CombatantBase target)
@@ -71,7 +90,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             return;
 
         TargetOpponent = target;
-        StateMachine.ChangePhase(TurnBaseCombatPhase.SelectTargetTeam);
+        StateMachine.ChangePhase(GetPhaseAfterOpponentTarget());
     }
 
     public void SubmitTargetTeam(CombatantBase target)
@@ -624,7 +643,25 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
             combatant.OnStatsChanged -= HandleCombatantStatsChanged;
             combatant.OnStatsChanged += HandleCombatantStatsChanged;
+
+            combatant.InitDisplayedHp();
+            combatant.OnDoHit -= HandleCombatantDoHit;
+            combatant.OnDoHit += HandleCombatantDoHit;
         }
+    }
+
+    void HandleCombatantDoHit(CombatHitInfo hitInfo)
+    {
+        hitInfo.Defender?.ApplyVisualHit(hitInfo.HitDamage);
+    }
+
+    void SyncAllDisplayedHp()
+    {
+        if (AllCombatants == null)
+            return;
+
+        foreach (var combatant in AllCombatants)
+            combatant?.SyncDisplayedHp();
     }
 
     void HandleCombatantStatsChanged(CombatantBase combatant) => RaiseCombatantStatsChanged(combatant);
@@ -777,6 +814,8 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             Debug.Log($"{nameof(TurnBaseCombatManager)}: Turn timeline is not initialized.");
             return;
         }
+
+        SyncAllDisplayedHp();
 
         if (TurnTimeline.CurrentTurnCombatant == null)
         {

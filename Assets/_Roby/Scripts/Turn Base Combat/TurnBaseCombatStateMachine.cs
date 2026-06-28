@@ -59,11 +59,15 @@ public class TurnBaseCombatStateMachine
                 break;
 
             case TurnBaseCombatPhase.SelectTargetTeam:
-                FocusCameraOnHeroSide();
                 if (manager.CurrentTurnSide == TurnSide.Enemy)
                 {
+                    FocusCameraOnHeroSide();
                     manager.AutoPickTeamTarget();
                     ChangePhase(TurnBaseCombatPhase.Attack);
+                }
+                else
+                {
+                    camDir?.FocusOnPlayerTeam();
                 }
                 break;
 
@@ -83,19 +87,19 @@ public class TurnBaseCombatStateMachine
                 break;
 
             case TurnBaseCombatPhase.EndTurn:
-                manager.CompleteCurrentTurn();
+                manager.ResolveEndTurnAsync().Forget();
                 break;
 
             case TurnBaseCombatPhase.EndCombat:
-                camDir?.FocusOnDefault();
-                Debug.Log($"{nameof(TurnBaseCombatStateMachine)}: Combat ended. Winner: {manager.WinningSide}.");
-                manager.RaiseCombatEnded();
+                manager.ResolveEndCombatAsync().Forget();
                 break;
         }
     }
 
     void Exit(TurnBaseCombatPhase phase)
     {
+        if (phase == TurnBaseCombatPhase.SelectTargetTeam)
+            camDir?.RestoreCombatCamera();
     }
 
     // Camera always anchors to a hero slot, never to an enemy.

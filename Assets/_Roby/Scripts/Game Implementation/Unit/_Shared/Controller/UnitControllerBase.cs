@@ -38,6 +38,7 @@ public abstract class UnitControllerBase : MonoBehaviour, ISepObject
     public AnimancerController AnimancerCont { get; set; }
 
     public virtual UnitAnimationClipsSO AnimationClips { get; set; }
+    public virtual UnitDataSO UnitData => null;
     
     [TitleGroup("Exploration")]
     [ShowInInspector]

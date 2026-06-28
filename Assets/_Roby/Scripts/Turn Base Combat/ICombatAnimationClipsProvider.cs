@@ -12,4 +12,5 @@ public interface ICombatAnimationClipsProvider
     public AnimationClipSet HeavyHit { get; }
     public AnimationClipSet Die { get; }
     public AnimationClipSet Stun { get; }
+    public AnimationClipSet Win { get; }
 }

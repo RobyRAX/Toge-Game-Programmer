@@ -196,8 +196,13 @@ public class TurnTimeline
 
         foreach (var pair in nextStepDict)
         {
-            if (pair.Value == targetStep)
-                due.Add(pair.Key);
+            if (pair.Value != targetStep)
+                continue;
+
+            if (pair.Key == null || !pair.Key.IsAlive)
+                continue;
+
+            due.Add(pair.Key);
         }
 
         due.Sort(CompareCombatantPriority);

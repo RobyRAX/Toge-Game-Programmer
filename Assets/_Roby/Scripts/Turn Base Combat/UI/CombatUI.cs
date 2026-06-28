@@ -23,6 +23,9 @@ public class CombatUI : MonoBehaviour
     [TitleGroup("Enemy HP Bar")]
     public CombatEnemyHpBarManager enemyHpBarManager;
 
+    [TitleGroup("Damage Number")]
+    public CombatDamageNumberSpawner damageNumberSpawner;
+
     [TitleGroup("Turn Side Indicator")]
     [SerializeField]
     GameObject playerTurnIndicator;
@@ -52,10 +55,25 @@ public class CombatUI : MonoBehaviour
         turnPhaseTimelineUI?.Setup(manager);
         targetSelector?.Setup(manager);
         enemyHpBarManager?.Setup(manager);
+        damageNumberSpawner?.Setup(manager);
 
         HandlePhaseChanged(manager.CurrentPhase);
         HandleTurnAdvanced();
         RefreshTurnSideIndicators();
+    }
+
+    public void Shutdown()
+    {
+        if (attackContainer != null)
+            attackContainer.gameObject.SetActive(false);
+
+        if (playerTurnIndicator != null)
+            playerTurnIndicator.SetActive(false);
+
+        if (enemyTurnIndicator != null)
+            enemyTurnIndicator.SetActive(false);
+
+        Teardown();
     }
 
     void Teardown()
@@ -71,6 +89,7 @@ public class CombatUI : MonoBehaviour
         ClearAttackButtons();
         targetSelector?.SetActive(false);
         enemyHpBarManager?.Teardown();
+        damageNumberSpawner?.Teardown();
         manager = null;
     }
 

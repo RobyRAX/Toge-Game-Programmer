@@ -14,6 +14,10 @@ public class CombatantStateMachine
 
     CancellationTokenSource hitCts;
 
+    bool deathStarted;
+    float deathStartedAt;
+    float deathDuration;
+
     [ShowInInspector]
     public CombatantState CurrentState { get; private set; }
 
@@ -75,7 +79,46 @@ public class CombatantStateMachine
             return;
 
         CancelHitReturn();
+
+        if (!owner.IsAlive)
+            return;
+
         ChangeState(CombatantState.Idle);
+    }
+
+    public void StartDeath()
+    {
+        if (deathStarted)
+            return;
+
+        deathStarted = true;
+        deathStartedAt = Time.time;
+
+        var clipSet = GetClip(CombatantState.Dead);
+        deathDuration = GetClipDuration(clipSet);
+
+        ChangeState(CombatantState.Dead);
+    }
+
+    public async UniTask WaitForDeathAsync()
+    {
+        if (!deathStarted)
+            StartDeath();
+
+        if (deathDuration <= 0f)
+            return;
+
+        float elapsed = Time.time - deathStartedAt;
+        float remaining = deathDuration - elapsed;
+        if (remaining > 0f)
+            await UniTask.WaitForSeconds(remaining);
+    }
+
+    public UniTask PlayDeathAsync() => WaitForDeathAsync();
+
+    public void PlayWin()
+    {
+        ChangeState(CombatantState.Win);
     }
 
     static float GetClipDuration(AnimationClipSet clipSet)
@@ -120,6 +163,7 @@ public class CombatantStateMachine
             CombatantState.Hit => clips.LightHit,
             CombatantState.Stun => clips.Stun,
             CombatantState.Dead => clips.Die,
+            CombatantState.Win => clips.Win,
             _ => null
         };
     }

@@ -57,13 +57,19 @@ public abstract class UnitStateBase_Exploration : UnitStateBase
         if (clipSet == null || SM.AnimancerCont == null)
             return;
 
-        SM.AnimancerCont.PlayAnimation(clipSet, AnimationFadeDuration);
+        SM.AnimancerCont.PlayAnimation(clipSet, AnimationFadeDuration, fadeMode: Animancer.FadeMode.FromStart);
     }
 
     protected void EvaluateLocomotionTransitions()
     {
         if (Brain == null)
             return;
+
+        if (Brain.Attack && SM.CurrentState != SM.Attack)
+        {
+            SM.ChangeState(SM.Attack);
+            return;
+        }
 
         if (!HasMoveInput)
         {

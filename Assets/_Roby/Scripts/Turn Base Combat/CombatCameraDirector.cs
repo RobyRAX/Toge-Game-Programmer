@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -8,7 +9,13 @@ public class CombatCameraDirector : MonoBehaviour
     public CinemachineCamera combatCamera;
 
     [TitleGroup("References")]
-    public CinemachineTargetGroup targetGroup;
+    public CinemachineTargetGroup allCombatantTargetGroup;
+
+    [TitleGroup("References")]
+    public CinemachineCamera playerTeamCamera;
+
+    [TitleGroup("References")]
+    public CinemachineTargetGroup playerTeamTargetGroup;
 
     [TitleGroup("Target Group")]
     [MinValue(0)]
@@ -27,12 +34,16 @@ public class CombatCameraDirector : MonoBehaviour
 
     Transform[] cachedHeroSlots;
     Transform[] cachedEnemySlots;
+    List<CombatantBase> cachedPlayerCombatants;
     Transform cachedAnchor;
 
-    public void Setup(Transform[] heroSlots, Transform[] enemySlots)
+    public void Setup(Transform[] heroSlots, Transform[] enemySlots, IReadOnlyList<CombatantBase> playerCombatants)
     {
         cachedHeroSlots = heroSlots;
         cachedEnemySlots = enemySlots;
+        cachedPlayerCombatants = playerCombatants != null
+            ? new List<CombatantBase>(playerCombatants)
+            : null;
 
         RebuildTargetGroup(heroSlots, enemySlots);
         FocusOnDefault();
@@ -40,16 +51,16 @@ public class CombatCameraDirector : MonoBehaviour
 
     public void RebuildTargetGroup(Transform[] heroSlots, Transform[] enemySlots)
     {
-        if (targetGroup == null)
+        if (allCombatantTargetGroup == null)
         {
-            Debug.LogWarning($"{nameof(CombatCameraDirector)}: {nameof(targetGroup)} is null.");
+            Debug.LogWarning($"{nameof(CombatCameraDirector)}: {nameof(allCombatantTargetGroup)} is null.");
             return;
         }
 
-        targetGroup.Targets.Clear();
+        allCombatantTargetGroup.Targets.Clear();
         AddSlotsToTargetGroup(heroSlots);
         AddSlotsToTargetGroup(enemySlots);
-        targetGroup.DoUpdate();
+        allCombatantTargetGroup.DoUpdate();
     }
 
     public void FocusOnDefault()
@@ -80,6 +91,32 @@ public class CombatCameraDirector : MonoBehaviour
 
         cachedAnchor = slot;
         RepositionCamera();
+    }
+
+    [Button]
+    public void FocusOnPlayerTeam()
+    {
+        if (playerTeamTargetGroup == null)
+        {
+            Debug.LogWarning($"{nameof(CombatCameraDirector)}: {nameof(playerTeamTargetGroup)} is null.");
+            return;
+        }
+
+        if (playerTeamCamera == null)
+        {
+            Debug.LogWarning($"{nameof(CombatCameraDirector)}: {nameof(playerTeamCamera)} is null.");
+            return;
+        }
+
+        playerTeamTargetGroup.Targets.Clear();
+        AddPlayerCombatantsToTargetGroup();
+        playerTeamTargetGroup.DoUpdate();
+        playerTeamCamera.Prioritize();
+    }
+
+    public void RestoreCombatCamera()
+    {
+        combatCamera?.Prioritize();
     }
 
     [Button]
@@ -148,7 +185,22 @@ public class CombatCameraDirector : MonoBehaviour
             if (slot == null)
                 continue;
 
-            targetGroup.AddMember(slot, memberWeight, memberRadius);
+            allCombatantTargetGroup.AddMember(slot, memberWeight, memberRadius);
+        }
+    }
+
+    void AddPlayerCombatantsToTargetGroup()
+    {
+        if (cachedPlayerCombatants == null)
+            return;
+
+        for (int i = 0; i < cachedPlayerCombatants.Count; i++)
+        {
+            var combatant = cachedPlayerCombatants[i];
+            if (combatant == null || !combatant.HasFormationSlot)
+                continue;
+
+            playerTeamTargetGroup.AddMember(combatant.FormationSlot, memberWeight, memberRadius);
         }
     }
 

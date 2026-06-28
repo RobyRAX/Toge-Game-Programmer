@@ -70,9 +70,23 @@ public class EnemyGroup : MonoBehaviour, ISepObject
         }
     }
 
-    private void OnAttackedHandler()
+    void OnDestroy()
     {
-        var heroes = GameplayPartyManager.Instance.SpawnedHeroObjDict.Values;
+        UnsubscribeCombatEnded();
+
+        foreach (var enemy in enemies)
+        {
+            if (enemy != null)
+                enemy.OnAttacked -= OnAttackedHandler;
+        }
+    }
+
+    void OnAttackedHandler()
+    {
+        if (isCleared)
+            return;
+
+        var heroes = GameplayManager.Instance.SpawnedHeroDict.Values;
         var heroCombatants = new List<CombatantBase>();
         foreach (var hero in heroes)
         {
@@ -86,6 +100,54 @@ public class EnemyGroup : MonoBehaviour, ISepObject
         }
 
         var initialTurn = heroCombatants.Count > 0 ? heroCombatants[0] : null;
-        TurnBaseCombatManager.Instance.StartCombat(heroCombatants, enemyCombatants, initialTurn);
+
+        var combatManager = TurnBaseCombatManager.Instance;
+        UnsubscribeCombatEnded();
+        combatManager.OnCombatEnded += OnCombatEndedHandler;
+        combatManager.StartCombat(heroCombatants, enemyCombatants, initialTurn);
+    }
+
+    void OnCombatEndedHandler(TurnSide winningSide)
+    {
+        UnsubscribeCombatEnded();
+
+        if (winningSide == TurnSide.Player)
+            MarkAsCleared();
+        else if (winningSide == TurnSide.Enemy)
+            RestoreEnemies();
+    }
+
+    void RestoreEnemies()
+    {
+        foreach (var enemy in enemies)
+        {
+            if (enemy == null || enemy.enemyCombatant == null)
+                continue;
+
+            enemy.enemyCombatant.SetAlive();
+            enemy.enemyCombatant.StateMachine?.ChangeState(CombatantState.Idle);
+        }
+    }
+
+    void MarkAsCleared()
+    {
+        isCleared = true;
+
+        foreach (var enemy in enemies)
+        {
+            if (enemy == null)
+                continue;
+
+            enemy.OnAttacked -= OnAttackedHandler;
+            enemy.gameObject.SetActive(false);
+        }
+    }
+
+    void UnsubscribeCombatEnded()
+    {
+        if (TurnBaseCombatManager.Instance == null)
+            return;
+
+        TurnBaseCombatManager.Instance.OnCombatEnded -= OnCombatEndedHandler;
     }
 }

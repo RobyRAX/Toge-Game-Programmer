@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab910dca707ce94d9603ce8b1a200ad, type: 3}
   m_Name: GameplayConfigSO
   m_EditorClassIdentifier: Assembly-CSharp::GameplayConfigSO
-  maxTalentLevel: 5
   statEntries:
   - attribute: 0
     defaultValue: 100
@@ -68,3 +67,19 @@ MonoBehaviour:
     statName: Attack Speed
     statDetail: 
     statIcon: {fileID: 0}
+  heroHitboxSetting:
+    hitboxRadius: 1
+    hitboxForwardOffset: 1
+    hitboxVerticalOffset: 1
+    hitboxTargetMask:
+      serializedVersion: 2
+      m_Bits: 512
+  enemyHitboxSetting:
+    hitboxRadius: 1
+    hitboxForwardOffset: 1
+    hitboxVerticalOffset: 1
+    hitboxTargetMask:
+      serializedVersion: 2
+      m_Bits: 1024
+  initialSpawnPoint: spawnPoint_A
+  maxTalentLevel: 5

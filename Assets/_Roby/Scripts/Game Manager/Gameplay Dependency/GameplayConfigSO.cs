@@ -10,13 +10,23 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "GameplayConfigSO", menuName = "RAXY/Gameplay Config SO")]
 public class GameplayConfigSO : ScriptableObject, IStatEntryProvider
 {
-    public int maxTalentLevel;
-
     [TitleGroup("Stat")]
     [SerializeField]
     [ListDrawerSettings(ListElementLabelName = "statName")]
     List<StatEntry> statEntries;
     public List<StatEntry> StatEntries => statEntries;
+
+    [TitleGroup("Hitbox")]
+    public HitboxSetting heroHitboxSetting;
+
+    [TitleGroup("Hitbox")]
+    public HitboxSetting enemyHitboxSetting;
+
+    [TitleGroup("Misc")]
+    public string initialSpawnPoint;
+
+    [TitleGroup("Misc")]
+    public int maxTalentLevel;
 
 #if UNITY_EDITOR
     [TitleGroup("Stat")]

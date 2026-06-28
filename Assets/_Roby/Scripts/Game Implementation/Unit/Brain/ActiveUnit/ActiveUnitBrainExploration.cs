@@ -1,3 +1,4 @@
+using System;
 using RAXY.InputSystem;
 using RAXY.Utility;
 using Sirenix.OdinInspector;
@@ -13,6 +14,31 @@ public class ActiveUnitBrainExploration : BrainExplorationBase
         _camTransform = camTransform;
 
         SubscribeToInputAction();
+
+        TurnBaseCombatManager.Instance.OnCombatStarted -= CombatStartedHandler;
+        TurnBaseCombatManager.Instance.OnCombatStarted += CombatStartedHandler;
+
+        TurnBaseCombatManager.Instance.OnCombatEnded -= CombatEndedHandler;
+        TurnBaseCombatManager.Instance.OnCombatEnded += CombatEndedHandler;
+
+        GameplayManager.Instance.OnRespawn -= RespawnHandler;
+        GameplayManager.Instance.OnRespawn += RespawnHandler;
+    }
+
+    void RespawnHandler()
+    {
+        SubscribeToInputAction();
+    }
+
+    private void CombatEndedHandler(TurnSide winningSide)
+    {
+        if (winningSide == TurnSide.Player)
+            SubscribeToInputAction();
+    }
+
+    private void CombatStartedHandler()
+    {
+        UnsubFromInputAction();
     }
 
     [TitleGroup("Brain Config")]

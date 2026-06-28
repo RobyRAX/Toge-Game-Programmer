@@ -146,7 +146,7 @@ MonoBehaviour:
     showAeTool: 0
   die:
     useAddressable: 0
-    animationClip: {fileID: 0}
+    animationClip: {fileID: 7400000, guid: 9d7187a8f42dcc34abb6b8e613e1cc72, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 

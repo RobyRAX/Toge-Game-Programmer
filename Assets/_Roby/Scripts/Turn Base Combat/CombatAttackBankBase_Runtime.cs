@@ -63,6 +63,7 @@ public class Attack_Runtime
     List<bool> hitFired;
     AttackResult currentAttackResult;
     CombatantBase currentTargetOpponent;
+    int lastHitIndex = -1;
 
     public async UniTask ExecuteAttackActionSequenceAsync(
         CombatantBase targetOpponent,
@@ -151,6 +152,7 @@ public class Attack_Runtime
         currentAttackResult = attackResult;
         currentTargetOpponent = targetOpponent;
         hitFired = null;
+        lastHitIndex = -1;
 
         if (AttackSO?.hitEntries == null || AttackSO.hitEntries.Count == 0)
             return;
@@ -158,6 +160,15 @@ public class Attack_Runtime
         hitFired = new List<bool>(AttackSO.hitEntries.Count);
         for (int i = 0; i < AttackSO.hitEntries.Count; i++)
             hitFired.Add(false);
+
+        for (int i = AttackSO.hitEntries.Count - 1; i >= 0; i--)
+        {
+            if (AttackSO.hitEntries[i] == null)
+                continue;
+
+            lastHitIndex = i;
+            break;
+        }
     }
 
     void EvaluateHits()
@@ -179,7 +190,7 @@ public class Attack_Runtime
 
             if (ElapsedTime >= hit.timeToCall)
             {
-                FireHit(i, hit);
+                FireHit(i, hit, i == lastHitIndex);
                 hitFired[i] = true;
             }
         }
@@ -202,12 +213,12 @@ public class Attack_Runtime
                 continue;
             }
 
-            FireHit(i, hit);
+            FireHit(i, hit, i == lastHitIndex);
             hitFired[i] = true;
         }
     }
 
-    void FireHit(int hitIndex, HitEntry hit)
+    void FireHit(int hitIndex, HitEntry hit, bool isLastHit)
     {
         var defender = currentAttackResult.Defender != null ? currentAttackResult.Defender : currentTargetOpponent;
         if (defender == null)
@@ -217,7 +228,15 @@ public class Attack_Runtime
         float maxHp = defender.StatContainer != null ? defender.StatContainer.GetTotalValue(StatAttribute.MaxHp) : 0f;
         var severity = CombatantStateMachine.ResolveHitSeverity(hitDamage, maxHp);
 
-        defender.StateMachine?.ChangeHitState(severity);
+        bool playDeath = isLastHit
+            && currentAttackResult.IsDefenderDead
+            && !defender.IsAlive;
+
+        if (playDeath)
+            defender.StateMachine?.StartDeath();
+        else
+            defender.StateMachine?.ChangeHitState(severity);
+
         CombatantOwner?.RaiseDoHit(new CombatHitInfo
         {
             Attacker = CombatantOwner,

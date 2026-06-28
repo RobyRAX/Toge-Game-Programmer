@@ -14,9 +14,6 @@ public class UnitAnimationClipsSO : ScriptableObject, ICombatAnimationClipsProvi
     [TitleGroup("Exploration")]
     public AnimationClipSet Sprint;
 
-    [TitleGroup("Exploration")]
-    public AnimationClipSet Attack_Exploration;
-
     [TitleGroup("Combat Default")]
     [SerializeField]
     AnimationClipSet combatIdle;
@@ -32,6 +29,10 @@ public class UnitAnimationClipsSO : ScriptableObject, ICombatAnimationClipsProvi
     [TitleGroup("Combat Default")]
     [SerializeField]
     AnimationClipSet backToFormation;
+
+    [TitleGroup("Combat Default")]
+    [SerializeField]
+    AnimationClipSet win;
 
     [TitleGroup("Damaged")]
     [SerializeField]
@@ -62,4 +63,5 @@ public class UnitAnimationClipsSO : ScriptableObject, ICombatAnimationClipsProvi
     public AnimationClipSet HeavyHit => heavyHit;
     public AnimationClipSet Die => die;
     public AnimationClipSet Stun => stun;
+    public AnimationClipSet Win => win;
 }

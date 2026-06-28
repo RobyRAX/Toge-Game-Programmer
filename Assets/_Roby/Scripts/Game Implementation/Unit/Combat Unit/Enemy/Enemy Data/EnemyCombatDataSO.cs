@@ -4,7 +4,8 @@ using Sirenix.OdinInspector;
 
 [CreateAssetMenu(fileName = "EnemyCombatDataSO", menuName = "RAXY/Unit/Enemy/Combat Data")]
 public class EnemyCombatDataSO : CombatDataBaseSO
-{
+{   
+    [TitleGroup("Attack")]
     [SerializeField]
     [ListDrawerSettings(ShowIndexLabels = true)]
     List<EnemyAttackSO> attacks;

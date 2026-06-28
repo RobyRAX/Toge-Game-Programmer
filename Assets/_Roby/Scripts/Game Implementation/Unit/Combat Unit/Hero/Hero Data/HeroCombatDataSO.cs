@@ -6,8 +6,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HeroCombatDataSO", menuName = "RAXY/Unit/Hero/Combat Data")]
 public class HeroCombatDataSO : CombatDataBaseSO
 {
+    [TitleGroup("Talent")]
     public Talent NormalAttackTalent;
+
+    [TitleGroup("Talent")]
     public Talent SkillTalent;
+
+    [TitleGroup("Talent")]
     public Talent UltimateTalent;
 
     public override List<CombatAttackBaseSO> Attacks

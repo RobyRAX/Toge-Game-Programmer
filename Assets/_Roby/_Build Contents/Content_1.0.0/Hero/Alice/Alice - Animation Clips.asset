@@ -45,17 +45,6 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     speed: 2
     showAeTool: 0
-  Attack_Exploration:
-    useAddressable: 0
-    animationClip: {fileID: 0}
-    animationClipRef:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 0
-    speed: 1
-    showAeTool: 0
   combatIdle:
     useAddressable: 0
     animationClip: {fileID: 7400000, guid: 5f37d95ecfbef2446a24fe8051df72d8, type: 2}
@@ -99,6 +88,17 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_EditorAssetChanged: 0
     speed: 2
+    showAeTool: 0
+  win:
+    useAddressable: 0
+    animationClip: {fileID: 7400000, guid: 7b0f554c54c556f4d83b4555aae93b5f, type: 2}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    speed: 1
     showAeTool: 0
   lightHit:
     useAddressable: 0

@@ -16,6 +16,18 @@ MonoBehaviour:
   unitName: Alice
   unitIcon: {fileID: 21300000, guid: a0db763ba950667428f64cfbbf90c309, type: 3}
   unitPrefab: {fileID: 6181947282332787467, guid: 2988ca7aaad0453458a37c9b6916f1fe, type: 3}
+  Attack_Exploration:
+    useAddressable: 0
+    animationClip: {fileID: 7400000, guid: 7b07d394ae71c074ebddd360b750b45d, type: 2}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    speed: 1
+    showAeTool: 0
+  timeToExecuteHitbox: 0.36666667
   AnimationClipsSO: {fileID: 11400000, guid: ab22ad19b54ab1042a1c16b1be962506, type: 2}
   StatGrowth:
     values:

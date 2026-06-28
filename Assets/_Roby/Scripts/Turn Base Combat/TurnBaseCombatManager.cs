@@ -35,6 +35,8 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     public event Action OnTurnAdvanced;
     public event Action OnTimelinePreviewUpdated;
     public event Action<CombatantBase> OnCombatantStatsChanged;
+    public event Action<CombatHitInfo> OnCombatantDoHit;
+    public event Action OnCombatStarted;
     public event Action<TurnSide> OnCombatEnded;
 
     public bool CanAffordAttack(CombatantBase combatant, Attack_Runtime attack)
@@ -142,6 +144,16 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [SerializeField]
     CombatUI combatUI;
 
+    [TitleGroup("Celebration")]
+    [SerializeField]
+    [MinValue(0)]
+    float winCelebrationDelay = 0.5f;
+
+    [TitleGroup("Celebration")]
+    [SerializeField]
+    [MinValue(0)]
+    float winCelebrationDuration = 2f;
+
     [TitleGroup("Camera")]
     public CombatCameraDirector CameraDirector;
 
@@ -162,6 +174,10 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
     [TitleGroup("Formation")]
     public Transform enemyRoot;
+
+    [TitleGroup("Formation")]
+    [MinValue(0)]
+    public Vector2 formationMoveDurationRange = new Vector2(0.4f, 0.8f);
 
     [HorizontalGroup("Formation/Pos")]
     [ListDrawerSettings(ShowIndexLabels = true, Expanded = true)]
@@ -465,7 +481,13 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         TurnBaseCombatHelper.SendAttack(attackReq, out AttackResult attackRes);
         History?.Record(attackRes, TurnTimeline != null ? TurnTimeline.CurrentStep : 0, CurrentTurnCount);
 
+        if (attackRes.IsDefenderDead)
+            HandleCombatantDeath(attackRes.Defender);
+
         await CurrentCombatant.ExecuteAttack(SelectedAttack, TargetOpponent, TargetTeam, attackRes);
+
+        if (attackRes.IsDefenderDead && attackRes.Defender?.StateMachine != null)
+            await attackRes.Defender.StateMachine.WaitForDeathAsync();
 
         DeductStaminaForCurrentAttack();
         GainUltimateGaugeForCurrentCombatant();
@@ -474,6 +496,93 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             StateMachine.ChangePhase(TurnBaseCombatPhase.EndTurn);
         else
             CompleteCurrentTurn();
+    }
+
+    void HandleCombatantDeath(CombatantBase combatant)
+    {
+        if (combatant == null)
+            return;
+
+        TurnTimeline?.RemoveCombatant(combatant);
+        RaiseTimelinePreviewUpdated();
+
+        if (TurnTimeline?.CurrentTurnCombatant == combatant)
+        {
+            TurnTimeline.CurrentTurnCombatant = null;
+            AdvanceTimelineUntilTurnFound();
+        }
+    }
+
+    public UniTask ResolveEndTurnAsync()
+    {
+        CompleteCurrentTurn();
+        return UniTask.CompletedTask;
+    }
+
+    public async UniTask ResolveEndCombatAsync()
+    {
+        if (WinningSide == TurnSide.Player)
+            CameraDirector?.FocusOnPlayerTeam();
+        else
+            CameraDirector?.FocusOnDefault();
+
+        await PlayWinningSideCelebrationAsync();
+
+        Debug.Log($"{nameof(TurnBaseCombatManager)}: Combat ended. Winner: {WinningSide}.");
+        RaiseCombatEnded();
+        EndCombatCleanup();
+    }
+
+    async UniTask PlayWinningSideCelebrationAsync()
+    {
+        var winners = WinningSide switch
+        {
+            TurnSide.Player => PlayerCombatants,
+            TurnSide.Enemy => EnemyCombatants,
+            _ => null
+        };
+
+        if (winners == null)
+            return;
+
+        if (winCelebrationDelay > 0f)
+            await UniTask.WaitForSeconds(winCelebrationDelay);
+
+        bool anyCelebrating = false;
+        foreach (var combatant in winners)
+        {
+            if (combatant == null || !combatant.IsAlive || combatant.StateMachine == null)
+                continue;
+
+            combatant.StateMachine.PlayWin();
+            anyCelebrating = true;
+        }
+
+        if (anyCelebrating && winCelebrationDuration > 0f)
+            await UniTask.WaitForSeconds(winCelebrationDuration);
+    }
+
+    void EndCombatCleanup()
+    {
+        UnsubscribeCombatantStatsEvents();
+
+        if (PlayerCombatants != null)
+        {
+            foreach (var combatant in PlayerCombatants)
+                combatant?.SetExplorationMovementEnabled(true);
+        }
+
+        combatUI?.Shutdown();
+
+        if (TurnTimeline != null)
+            TurnTimeline.CurrentTurnCombatant = null;
+
+        PlayerCombatants = null;
+        EnemyCombatants = null;
+        AllCombatants = null;
+        SelectedAttack = null;
+        TargetOpponent = null;
+        TargetTeam = null;
     }
 
     void DeductStaminaForCurrentAttack()
@@ -501,6 +610,8 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     internal void RaiseTimelinePreviewUpdated() => OnTimelinePreviewUpdated?.Invoke();
 
     internal void RaiseCombatantStatsChanged(CombatantBase combatant) => OnCombatantStatsChanged?.Invoke(combatant);
+
+    internal void RaiseCombatantDoHit(CombatHitInfo hitInfo) => OnCombatantDoHit?.Invoke(hitInfo);
 
     internal void RaiseCombatEnded() => OnCombatEnded?.Invoke(WinningSide);
 
@@ -599,7 +710,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         PlaceCombatantsOnSlots(PlayerCombatants, HeroPositions, heroFacing);
         PlaceCombatantsOnSlots(EnemyCombatants, EnemyPositions, enemyFacing);
 
-        CameraDirector?.Setup(HeroPositions, EnemyPositions);
+        CameraDirector?.Setup(HeroPositions, EnemyPositions, PlayerCombatants);
 
         AllCombatants = new List<CombatantBase>(PlayerCombatants.Count + EnemyCombatants.Count);
         AllCombatants.AddRange(PlayerCombatants);
@@ -626,9 +737,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         StateMachine ??= new TurnBaseCombatStateMachine(this);
         TurnTimeline.Initialize(AllCombatants, initialTurn);
         combatUI?.Setup(this);
-        StateMachine.ChangePhase(TurnBaseCombatPhase.StartCombat);
-
-        Debug.Log("Combat Started");
+        PlayFormationEntranceThenStartAsync(heroFacing, enemyFacing).Forget();
     }
 
     void SubscribeCombatantStatsEvents()
@@ -650,9 +759,25 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         }
     }
 
+    void UnsubscribeCombatantStatsEvents()
+    {
+        if (AllCombatants == null)
+            return;
+
+        foreach (var combatant in AllCombatants)
+        {
+            if (combatant == null)
+                continue;
+
+            combatant.OnStatsChanged -= HandleCombatantStatsChanged;
+            combatant.OnDoHit -= HandleCombatantDoHit;
+        }
+    }
+
     void HandleCombatantDoHit(CombatHitInfo hitInfo)
     {
         hitInfo.Defender?.ApplyVisualHit(hitInfo.HitDamage);
+        RaiseCombatantDoHit(hitInfo);
     }
 
     void SyncAllDisplayedHp()
@@ -759,9 +884,55 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             if (facing.HasValue)
                 slot.rotation = facing.Value;
 
-            TurnBaseCombatHelper.TeleportTo(combatant.transform, slot.position, facing);
             combatant.SetFormationSlot(slot);
         }
+    }
+
+    async UniTaskVoid PlayFormationEntranceThenStartAsync(Quaternion? heroFacing, Quaternion? enemyFacing)
+    {
+        var moves = new List<UniTask>();
+        AddFormationMoves(moves, PlayerCombatants, HeroPositions, heroFacing);
+        AddFormationMoves(moves, EnemyCombatants, EnemyPositions, enemyFacing);
+        await UniTask.WhenAll(moves);
+
+        StateMachine.ChangePhase(TurnBaseCombatPhase.StartCombat);
+        OnCombatStarted?.Invoke();
+        Debug.Log("Combat Started");
+    }
+
+    void AddFormationMoves(List<UniTask> moves, List<CombatantBase> combatants, Transform[] slots, Quaternion? facing)
+    {
+        if (combatants == null || slots == null)
+            return;
+
+        int count = Mathf.Min(combatants.Count, slots.Length);
+        for (int i = 0; i < count; i++)
+        {
+            var combatant = combatants[i];
+            var slot = slots[i];
+            if (combatant == null || slot == null)
+                continue;
+
+            float duration = Random.Range(formationMoveDurationRange.x, formationMoveDurationRange.y);
+            moves.Add(MoveCombatantToSlotAsync(combatant, slot.position, facing, duration));
+        }
+    }
+
+    async UniTask MoveCombatantToSlotAsync(CombatantBase combatant, Vector3 destination, Quaternion? facing, float duration)
+    {
+        var tr = combatant.transform;
+
+        if (TurnBaseCombatHelper.TryGetFlatFacingRotation(tr.position, destination, out Quaternion moveFacing))
+            TurnBaseCombatHelper.TeleportTo(tr, tr.position, moveFacing);
+
+        var animancer = combatant.GetComponent<CombatUnitController>()?.AnimancerCont;
+        var moveClip = combatant.AnimationClips?.MoveToTarget;
+        if (animancer != null && moveClip != null)
+            animancer.PlayAnimation(moveClip, AttackActionHelper.DefaultFadeDuration);
+
+        await AttackActionHelper.MoveTransformAsync(tr, destination, duration, false, 0f, facing);
+
+        combatant.StateMachine?.ChangeState(CombatantState.Idle);
     }
 
     bool TryAssignCurrentTurnCombatant()
@@ -809,6 +980,9 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [Button]
     public void CompleteCurrentTurn()
     {
+        if (IsCombatOver)
+            return;
+
         if (TurnTimeline == null || !TurnTimeline.IsInitialized)
         {
             Debug.Log($"{nameof(TurnBaseCombatManager)}: Turn timeline is not initialized.");

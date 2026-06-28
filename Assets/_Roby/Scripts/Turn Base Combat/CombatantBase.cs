@@ -162,7 +162,8 @@ public enum CombatantState
     Attack,
     Hit,
     Stun,
-    Dead
+    Dead,
+    Win
 }
 
 public class CombatantInfo

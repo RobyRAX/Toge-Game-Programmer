@@ -242,6 +242,7 @@ public class Attack_Runtime
             Attacker = CombatantOwner,
             Defender = defender,
             HitIndex = hitIndex,
+            IsLastHit = isLastHit,
             DamageProportion = hit.damageProportion,
             HitDamage = hitDamage,
             Severity = severity,
@@ -254,6 +255,7 @@ public struct CombatHitInfo
     public CombatantBase Attacker;
     public CombatantBase Defender;
     public int HitIndex;
+    public bool IsLastHit;
     public float DamageProportion;
     public float HitDamage;
     public HitSeverity Severity;

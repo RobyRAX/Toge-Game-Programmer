@@ -27,8 +27,20 @@ public class CombatantStateMachine
         animancerCont = owner?.GetComponent<CombatUnitController>()?.AnimancerCont;
     }
 
+    public void ResetForCombat()
+    {
+        CancelHitReturn();
+        deathStarted = false;
+        deathStartedAt = 0f;
+        deathDuration = 0f;
+        CurrentState = CombatantState.Idle;
+    }
+
     public void ChangeState(CombatantState state)
     {
+        if (CurrentState == CombatantState.Dead)
+            return;
+
         if (state != CombatantState.Idle)
             CancelHitReturn();
 
@@ -93,11 +105,21 @@ public class CombatantStateMachine
 
         deathStarted = true;
         deathStartedAt = Time.time;
+        CancelHitReturn();
 
         var clipSet = GetClip(CombatantState.Dead);
         deathDuration = GetClipDuration(clipSet);
+        CurrentState = CombatantState.Dead;
 
-        ChangeState(CombatantState.Dead);
+        if (clipSet == null || animancerCont == null)
+        {
+            Debug.LogWarning(
+                $"{nameof(CombatantStateMachine)}: Death clip is missing on '{owner?.name}'. Assign `Die` in Animation Clips SO.");
+            return;
+        }
+
+        animancerCont.StopAnimation(clipSet);
+        animancerCont.PlayAnimation(clipSet, DefaultFadeDuration);
     }
 
     public async UniTask WaitForDeathAsync()

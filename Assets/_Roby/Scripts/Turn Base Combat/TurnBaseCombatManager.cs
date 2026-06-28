@@ -569,7 +569,10 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (PlayerCombatants != null)
         {
             foreach (var combatant in PlayerCombatants)
-                combatant?.SetExplorationMovementEnabled(true);
+            {
+                if (combatant != null && combatant.IsAlive)
+                    combatant.SetExplorationEnabled(true);
+            }
         }
 
         combatUI?.Shutdown();
@@ -717,7 +720,10 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         AllCombatants.AddRange(EnemyCombatants);
 
         foreach (var combatant in AllCombatants)
-            combatant?.SetExplorationMovementEnabled(false);
+        {
+            combatant?.StateMachine?.ResetForCombat();
+            combatant?.SetExplorationEnabled(false);
+        }
 
         EnsureClickTargets();
         SubscribeCombatantStatsEvents();
@@ -777,6 +783,10 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     void HandleCombatantDoHit(CombatHitInfo hitInfo)
     {
         hitInfo.Defender?.ApplyVisualHit(hitInfo.HitDamage);
+
+        if (hitInfo.IsLastHit && hitInfo.Defender != null && !hitInfo.Defender.IsAlive)
+            hitInfo.Defender.StateMachine?.StartDeath();
+
         RaiseCombatantDoHit(hitInfo);
     }
 
@@ -890,6 +900,10 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
     async UniTaskVoid PlayFormationEntranceThenStartAsync(Quaternion? heroFacing, Quaternion? enemyFacing)
     {
+        CameraDirector?.RestoreCombatCamera();
+
+        await UniTask.WaitForSeconds(0.5f);
+
         var moves = new List<UniTask>();
         AddFormationMoves(moves, PlayerCombatants, HeroPositions, heroFacing);
         AddFormationMoves(moves, EnemyCombatants, EnemyPositions, enemyFacing);
@@ -932,7 +946,8 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
         await AttackActionHelper.MoveTransformAsync(tr, destination, duration, false, 0f, facing);
 
-        combatant.StateMachine?.ChangeState(CombatantState.Idle);
+        if (combatant.IsAlive)
+            combatant.StateMachine?.ChangeState(CombatantState.Idle);
     }
 
     bool TryAssignCurrentTurnCombatant()

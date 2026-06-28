@@ -104,5 +104,9 @@ public class HeroCombatant : CombatantBase
         CurrentStamina = StatContainer.GetTotalValue(StatAttribute.MaxStamina);
         CurrentUltimateGauge = 0f;
         IsAlive = true;
+
+        StateMachine?.ResetForCombat();
+        StateMachine?.ChangeState(CombatantState.Idle);
+        SetExplorationEnabled(true);
     }
 }

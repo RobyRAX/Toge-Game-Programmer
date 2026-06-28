@@ -45,6 +45,10 @@ public class EnemyCombatant : CombatantBase
             CurrentHp = hp;
 
         IsAlive = true;
+
+        StateMachine?.ResetForCombat();
+        StateMachine?.ChangeState(CombatantState.Idle);
+        SetExplorationEnabled(true);
     }
 
     public void UpdateStatContainer()

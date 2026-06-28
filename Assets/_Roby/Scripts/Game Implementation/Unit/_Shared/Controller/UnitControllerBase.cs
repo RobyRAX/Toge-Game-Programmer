@@ -37,6 +37,8 @@ public abstract class UnitControllerBase : MonoBehaviour, ISepObject
     public UnitMovement MovementCont { get; set; }
     public AnimancerController AnimancerCont { get; set; }
 
+    bool explorationUpdatesEnabled = true;
+
     public virtual UnitAnimationClipsSO AnimationClips { get; set; }
     public virtual UnitDataSO UnitData => null;
     
@@ -62,8 +64,16 @@ public abstract class UnitControllerBase : MonoBehaviour, ISepObject
         }
     }
 
+    public void SetExplorationUpdatesEnabled(bool isEnabled)
+    {
+        explorationUpdatesEnabled = isEnabled;
+    }
+
     protected virtual void Update()
     {
+        if (!explorationUpdatesEnabled)
+            return;
+
         Brain_Exploration?.Update();
         StateMachine_Exploration?.CurrentState?.Update();
     }

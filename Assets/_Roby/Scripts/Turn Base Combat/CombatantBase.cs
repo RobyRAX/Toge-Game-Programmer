@@ -109,6 +109,14 @@ public abstract class CombatantBase : MonoBehaviour
             controller.enabled = true;
     }
 
+    public void SetExplorationEnabled(bool isEnabled)
+    {
+        SetExplorationMovementEnabled(isEnabled);
+
+        if (TryGetComponent(out UnitControllerBase unitCont))
+            unitCont.SetExplorationUpdatesEnabled(isEnabled);
+    }
+
     public virtual void TakeDamage(ref AttackResult attackRes)
     {
         if (!IsAlive)

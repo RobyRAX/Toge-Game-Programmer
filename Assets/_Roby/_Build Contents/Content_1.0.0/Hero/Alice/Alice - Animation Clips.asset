@@ -113,7 +113,7 @@ MonoBehaviour:
     showAeTool: 0
   mediumHit:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: e7f049e79d4b6dd45b6303e296b2ca4f, type: 2}
+    animationClip: {fileID: 7400000, guid: 8b3e4a4e322ff814fa4e0d4e865d1fa4, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -124,7 +124,7 @@ MonoBehaviour:
     showAeTool: 0
   heavyHit:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: 378d67a22bcac9c47ae080816e5be008, type: 2}
+    animationClip: {fileID: 7400000, guid: e7f049e79d4b6dd45b6303e296b2ca4f, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -146,7 +146,7 @@ MonoBehaviour:
     showAeTool: 0
   die:
     useAddressable: 0
-    animationClip: {fileID: 0}
+    animationClip: {fileID: 7400000, guid: 378d67a22bcac9c47ae080816e5be008, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 

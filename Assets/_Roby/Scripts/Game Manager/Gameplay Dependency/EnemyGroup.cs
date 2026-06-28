@@ -74,6 +74,9 @@ public class EnemyGroup : MonoBehaviour, ISepObject
     {
         UnsubscribeCombatEnded();
 
+        if (GameplayManager.Instance != null)
+            GameplayManager.Instance.OnRespawn -= OnRespawnHandler;
+
         foreach (var enemy in enemies)
         {
             if (enemy != null)
@@ -114,7 +117,27 @@ public class EnemyGroup : MonoBehaviour, ISepObject
         if (winningSide == TurnSide.Player)
             MarkAsCleared();
         else if (winningSide == TurnSide.Enemy)
+            DeferRestoreUntilRespawn();
+    }
+
+    void DeferRestoreUntilRespawn()
+    {
+        if (GameplayManager.Instance == null)
+        {
             RestoreEnemies();
+            return;
+        }
+
+        GameplayManager.Instance.OnRespawn -= OnRespawnHandler;
+        GameplayManager.Instance.OnRespawn += OnRespawnHandler;
+    }
+
+    void OnRespawnHandler()
+    {
+        if (GameplayManager.Instance != null)
+            GameplayManager.Instance.OnRespawn -= OnRespawnHandler;
+
+        RestoreEnemies();
     }
 
     void RestoreEnemies()

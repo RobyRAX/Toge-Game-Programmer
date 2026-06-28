@@ -27,6 +27,13 @@ public class EnemyCombatant : CombatantBase
 
         UpdateStatContainer();
         AttackBank = new EnemyAttackBank_Runtime(this);
+
+        CombatantInfo = new CombatantInfo
+        {
+            unitName = enemyCont.enemyDataSO.UnitName,
+            unitIcon = enemyCont.enemyDataSO.UnitIcon,
+        };
+
         SetAlive();
     }
 

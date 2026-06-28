@@ -15,6 +15,14 @@ public abstract class CombatAttackBaseSO : ScriptableObject
     public bool targetTeam;
     public int staminaCost;
 
+    [TitleGroup("Display")]
+    public string displayName;
+
+    [TitleGroup("Display")]
+    public Sprite displayIcon;
+
+    public string GetDisplayName() => string.IsNullOrEmpty(displayName) ? name : displayName;
+
     [TitleGroup("Attack Action Sequence")]
     [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "Label", Expanded = true)]
     public List<AttackActionEntry> attackActionEntries;

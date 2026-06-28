@@ -18,6 +18,20 @@ public class HeroCombatant : CombatantBase
     }
 
     public ItemInstance_Hero HeroInstance { get; set; }
+
+    float _currentStamina;
+    public override float CurrentStamina
+    {
+        get => _currentStamina;
+        set
+        {
+            _currentStamina = value;
+            NotifyStatsChanged();
+        }
+    }
+
+    public float CurrentUltimateGauge { get; private set; }
+    public const float MaxUltimateGauge = 100f;
     public override float CurrentHp
     {
         get => HeroInstance?.currentHp ?? 0;
@@ -65,7 +79,19 @@ public class HeroCombatant : CombatantBase
 
         AttackBank = new HeroAttackBank_Runtime(this);
 
+        CombatantInfo = new CombatantInfo
+        {
+            unitName = HeroInstance.heroDataSO.ItemName,
+            unitIcon = HeroInstance.heroDataSO.ItemIcon,
+        };
+
         SetAlive();
+    }
+
+    public void AddUltimateGauge(float amount)
+    {
+        CurrentUltimateGauge = Mathf.Min(MaxUltimateGauge, CurrentUltimateGauge + amount);
+        NotifyStatsChanged();
     }
 
     public void SetAlive(bool fullHp = true, float hp = 1)
@@ -74,7 +100,9 @@ public class HeroCombatant : CombatantBase
             CurrentHp = StatContainer.GetTotalValue(StatAttribute.MaxHp);
         else
             CurrentHp = hp;
-        
+
+        CurrentStamina = StatContainer.GetTotalValue(StatAttribute.MaxStamina);
+        CurrentUltimateGauge = 0f;
         IsAlive = true;
     }
 }

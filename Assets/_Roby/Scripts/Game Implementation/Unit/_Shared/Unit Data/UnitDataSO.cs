@@ -13,6 +13,9 @@ public abstract class UnitDataSO : ScriptableObject
     [SerializeField]
     protected Sprite unitIcon;
 
+    public string UnitName => unitName;
+    public Sprite UnitIcon => unitIcon;
+
     public GameObject unitPrefab;
 
     [TitleGroup("Animations")]

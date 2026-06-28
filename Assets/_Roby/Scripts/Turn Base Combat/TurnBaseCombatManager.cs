@@ -15,7 +15,35 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [ReadOnly]
     public TurnBaseCombatPhase CurrentPhase => StateMachine?.CurrentPhase ?? default;
 
+    [TitleGroup("State")]
+    [ShowInInspector]
+    [ReadOnly]
+    public TurnSide CurrentTurnSide { get; private set; }
+
+    public bool IsPlayerTurn => CurrentTurnSide == TurnSide.Player;
+
+    [TitleGroup("State")]
+    [ShowInInspector]
+    [ReadOnly]
+    public TurnSide WinningSide { get; private set; }
+
+    public bool IsCombatOver => CurrentPhase == TurnBaseCombatPhase.EndCombat;
+
     public TurnBaseCombatStateMachine StateMachine { get; private set; }
+
+    public event Action<TurnBaseCombatPhase> OnPhaseChanged;
+    public event Action OnTurnAdvanced;
+    public event Action OnTimelinePreviewUpdated;
+    public event Action<CombatantBase> OnCombatantStatsChanged;
+    public event Action<TurnSide> OnCombatEnded;
+
+    public bool CanAffordAttack(CombatantBase combatant, Attack_Runtime attack)
+    {
+        if (combatant == null || attack == null)
+            return false;
+
+        return combatant.CurrentStamina >= attack.StaminaCost;
+    }
 
     public bool HasValidAttackSelection()
     {
@@ -24,32 +52,35 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
     public void SubmitSelectedAttack(Attack_Runtime attack)
     {
-        if (StateMachine?.CurrentPhase != TurnBaseCombatPhase.PlayerSelectAttack)
+        if (!IsPlayerTurn || StateMachine?.CurrentPhase != TurnBaseCombatPhase.SelectAttack)
             return;
 
         if (attack == null)
             return;
 
+        if (!CanAffordAttack(CurrentCombatant, attack))
+            return;
+
         SelectedAttack = attack;
-        StateMachine.ChangePhase(TurnBaseCombatPhase.PlayerSelectTargetEnemy);
+        StateMachine.ChangePhase(TurnBaseCombatPhase.SelectTargetOpponent);
     }
 
     public void SubmitTargetOpponent(CombatantBase target)
     {
-        if (StateMachine?.CurrentPhase != TurnBaseCombatPhase.PlayerSelectTargetEnemy)
+        if (!IsPlayerTurn || StateMachine?.CurrentPhase != TurnBaseCombatPhase.SelectTargetOpponent)
             return;
 
         TargetOpponent = target;
-        StateMachine.ChangePhase(TurnBaseCombatPhase.PlayerSelectTargetTeam);
+        StateMachine.ChangePhase(TurnBaseCombatPhase.SelectTargetTeam);
     }
 
     public void SubmitTargetTeam(CombatantBase target)
     {
-        if (StateMachine?.CurrentPhase != TurnBaseCombatPhase.PlayerSelectTargetTeam)
+        if (!IsPlayerTurn || StateMachine?.CurrentPhase != TurnBaseCombatPhase.SelectTargetTeam)
             return;
 
         TargetTeam = target;
-        StateMachine.ChangePhase(TurnBaseCombatPhase.PlayerAttack);
+        StateMachine.ChangePhase(TurnBaseCombatPhase.Attack);
     }
 
     internal void PickRandomAttackForCurrentCombatant()
@@ -64,21 +95,14 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         SelectedAttack = attacks[Random.Range(0, attacks.Count)];
     }
 
-    internal void PickRandomTargetsForCurrentCombatant()
+    internal void AutoPickOpponentTarget()
     {
-        if (CurrentCombatant == null)
-            return;
+        TargetOpponent = PickRandomOpponentForCurrentCombatant();
+    }
 
-        if (PlayerCombatants != null && PlayerCombatants.Contains(CurrentCombatant))
-        {
-            TargetOpponent = PickRandomAliveCombatant(EnemyCombatants);
-            TargetTeam = PickRandomAliveCombatant(PlayerCombatants);
-        }
-        else if (EnemyCombatants != null && EnemyCombatants.Contains(CurrentCombatant))
-        {
-            TargetOpponent = PickRandomAliveCombatant(PlayerCombatants);
-            TargetTeam = PickRandomAliveCombatant(EnemyCombatants);
-        }
+    internal void AutoPickTeamTarget()
+    {
+        TargetTeam = PickRandomTeamTargetForCurrentCombatant();
     }
 
     void EnterTurnPhaseForCurrentCombatant()
@@ -89,12 +113,15 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         bool isPlayer = PlayerCombatants != null &&
                         PlayerCombatants.Contains(TurnTimeline.CurrentTurnCombatant);
 
-        StateMachine.ChangePhase(isPlayer
-            ? TurnBaseCombatPhase.PlayerSelectAttack
-            : TurnBaseCombatPhase.EnemySelectAttack);
+        CurrentTurnSide = isPlayer ? TurnSide.Player : TurnSide.Enemy;
+        StateMachine.ChangePhase(TurnBaseCombatPhase.BeginTurn);
     }
 
     #endregion
+
+    [TitleGroup("UI")]
+    [SerializeField]
+    CombatUI combatUI;
 
     [TitleGroup("Camera")]
     public CombatCameraDirector CameraDirector;
@@ -334,17 +361,17 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (CurrentCombatant == null)
             return;
 
-        if (CurrentPhase == TurnBaseCombatPhase.PlayerSelectTargetEnemy)
+        if (CurrentPhase == TurnBaseCombatPhase.SelectTargetOpponent)
         {
             SubmitTargetOpponent(PickRandomOpponentForCurrentCombatant());
 
-            if (CurrentPhase == TurnBaseCombatPhase.PlayerSelectTargetTeam)
+            if (CurrentPhase == TurnBaseCombatPhase.SelectTargetTeam)
                 SubmitTargetTeam(PickRandomTeamTargetForCurrentCombatant());
 
             return;
         }
 
-        if (CurrentPhase == TurnBaseCombatPhase.PlayerSelectTargetTeam)
+        if (CurrentPhase == TurnBaseCombatPhase.SelectTargetTeam)
             SubmitTargetTeam(PickRandomTeamTargetForCurrentCombatant());
     }
 
@@ -402,7 +429,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [Button]
     void DebugExecuteAttack()
     {
-        if (CurrentPhase == TurnBaseCombatPhase.PlayerSelectTargetTeam)
+        if (CurrentPhase == TurnBaseCombatPhase.SelectTargetTeam)
             SubmitTargetTeam(TargetTeam ?? PickRandomTeamTargetForCurrentCombatant());
     }
 
@@ -421,7 +448,68 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
         await CurrentCombatant.ExecuteAttack(SelectedAttack, TargetOpponent, TargetTeam, attackRes);
 
-        CompleteCurrentTurn();
+        DeductStaminaForCurrentAttack();
+        GainUltimateGaugeForCurrentCombatant();
+
+        if (StateMachine?.CurrentPhase == TurnBaseCombatPhase.Attack)
+            StateMachine.ChangePhase(TurnBaseCombatPhase.EndTurn);
+        else
+            CompleteCurrentTurn();
+    }
+
+    void DeductStaminaForCurrentAttack()
+    {
+        if (CurrentCombatant == null || SelectedAttack == null)
+            return;
+
+        CurrentCombatant.CurrentStamina = Mathf.Max(0f, CurrentCombatant.CurrentStamina - SelectedAttack.StaminaCost);
+    }
+
+    void GainUltimateGaugeForCurrentCombatant()
+    {
+        if (CurrentCombatant is HeroCombatant hero)
+            hero.AddUltimateGauge(15f);
+    }
+
+    internal void RaisePhaseChanged(TurnBaseCombatPhase phase) => OnPhaseChanged?.Invoke(phase);
+
+    internal void RaiseTurnAdvanced()
+    {
+        OnTurnAdvanced?.Invoke();
+        RaiseTimelinePreviewUpdated();
+    }
+
+    internal void RaiseTimelinePreviewUpdated() => OnTimelinePreviewUpdated?.Invoke();
+
+    internal void RaiseCombatantStatsChanged(CombatantBase combatant) => OnCombatantStatsChanged?.Invoke(combatant);
+
+    internal void RaiseCombatEnded() => OnCombatEnded?.Invoke(WinningSide);
+
+    static bool IsTeamDefeated(List<CombatantBase> team)
+    {
+        if (team == null || team.Count == 0)
+            return true;
+
+        foreach (var combatant in team)
+        {
+            if (combatant != null && combatant.IsAlive)
+                return false;
+        }
+
+        return true;
+    }
+
+    bool TryEndCombat()
+    {
+        bool playerDefeated = IsTeamDefeated(PlayerCombatants);
+        bool enemyDefeated = IsTeamDefeated(EnemyCombatants);
+
+        if (!playerDefeated && !enemyDefeated)
+            return false;
+
+        WinningSide = playerDefeated ? TurnSide.Enemy : TurnSide.Player;
+        StateMachine.ChangePhase(TurnBaseCombatPhase.EndCombat);
+        return true;
     }
 
     [TitleGroup("Turn Timeline")]
@@ -501,6 +589,9 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         foreach (var combatant in AllCombatants)
             combatant?.SetExplorationMovementEnabled(false);
 
+        EnsureClickTargets();
+        SubscribeCombatantStatsEvents();
+
         if (TurnTimeline == null)
             TurnTimeline = new TurnTimeline();
 
@@ -510,12 +601,49 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             History.Clear();
 
         CurrentTurnCount = 0;
+        CurrentTurnSide = TurnSide.None;
+        WinningSide = TurnSide.None;
 
         StateMachine ??= new TurnBaseCombatStateMachine(this);
         TurnTimeline.Initialize(AllCombatants, initialTurn);
-        StateMachine.ChangePhase(TurnBaseCombatPhase.Start);
+        combatUI?.Setup(this);
+        StateMachine.ChangePhase(TurnBaseCombatPhase.StartCombat);
 
         Debug.Log("Combat Started");
+    }
+
+    void SubscribeCombatantStatsEvents()
+    {
+        if (AllCombatants == null)
+            return;
+
+        foreach (var combatant in AllCombatants)
+        {
+            if (combatant == null)
+                continue;
+
+            combatant.OnStatsChanged -= HandleCombatantStatsChanged;
+            combatant.OnStatsChanged += HandleCombatantStatsChanged;
+        }
+    }
+
+    void HandleCombatantStatsChanged(CombatantBase combatant) => RaiseCombatantStatsChanged(combatant);
+
+    void EnsureClickTargets()
+    {
+        if (AllCombatants == null)
+            return;
+
+        foreach (var combatant in AllCombatants)
+        {
+            if (combatant == null)
+                continue;
+
+            if (!combatant.TryGetComponent(out CombatantClickTarget clickTarget))
+                clickTarget = combatant.gameObject.AddComponent<CombatantClickTarget>();
+
+            clickTarget.Setup(combatant);
+        }
     }
 
     bool EnsureFormationSlots()
@@ -616,6 +744,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
         Debug.Log($"{nameof(TurnBaseCombatManager)}: Current turn -> {TurnTimeline.CurrentTurnCombatant.name} (Step {TurnTimeline.CurrentStep}, Turn {CurrentTurnCount}).");
         EnterTurnPhaseForCurrentCombatant();
+        RaiseTurnAdvanced();
         return true;
     }
 
@@ -641,7 +770,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
 
     [TitleGroup("Debug Functions")]
     [Button]
-    void CompleteCurrentTurn()
+    public void CompleteCurrentTurn()
     {
         if (TurnTimeline == null || !TurnTimeline.IsInitialized)
         {
@@ -661,6 +790,11 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         TurnTimeline.CurrentTurnCombatant = null;
 
         Debug.Log($"{nameof(TurnBaseCombatManager)}: Resolved turn for {actingCombatant.name} at step {TurnTimeline.CurrentStep}.");
+        RaiseTimelinePreviewUpdated();
+
+        if (TryEndCombat())
+            return;
+
         AdvanceTimelineUntilTurnFound();
     }
 }

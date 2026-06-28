@@ -53,6 +53,10 @@ public abstract class CombatantBase : MonoBehaviour
     public CombatantInfo CombatantInfo { get; set; }
     public bool HasFormationSlot => FormationSlot != null;
 
+    public event Action<CombatantBase> OnStatsChanged;
+
+    protected void NotifyStatsChanged() => OnStatsChanged?.Invoke(this);
+
     protected void InitStateMachine()
     {
         StateMachine = new CombatantStateMachine(this);
@@ -97,6 +101,11 @@ public abstract class CombatantBase : MonoBehaviour
 
         attackRes.ReceivedDamage = afterDefense;
         attackRes.IsDefenderDead = CurrentHp <= 0;
+
+        if (attackRes.IsDefenderDead)
+            IsAlive = false;
+
+        NotifyStatsChanged();
     }
 
     public virtual DamageProfileWithAttribute GetDamageProfile(CombatAttackBaseSO attackSO)

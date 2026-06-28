@@ -21,6 +21,7 @@ public class TurnBaseCombatStateMachine
 
         Exit(CurrentPhase);
         CurrentPhase = phase;
+        manager.RaisePhaseChanged(phase);
         Enter(phase);
     }
 
@@ -28,45 +29,66 @@ public class TurnBaseCombatStateMachine
     {
         switch (phase)
         {
-            case TurnBaseCombatPhase.Start:
-                camDir.FocusOnDefault();
+            case TurnBaseCombatPhase.StartCombat:
+                camDir?.FocusOnDefault();
                 Debug.Log($"{nameof(TurnBaseCombatStateMachine)}: Combat started.");
                 manager.AdvanceTimelineUntilTurnFound();
                 break;
 
-            case TurnBaseCombatPhase.PlayerSelectAttack:
-                camDir.FocusOnCombatant(manager.CurrentCombatant);
+            case TurnBaseCombatPhase.BeginTurn:
+                camDir?.FocusOnCombatant(manager.CurrentCombatant);
+                ChangePhase(TurnBaseCombatPhase.SelectAttack);
                 break;
 
-            case TurnBaseCombatPhase.PlayerSelectTargetEnemy:
-            case TurnBaseCombatPhase.PlayerSelectTargetTeam:
+            case TurnBaseCombatPhase.SelectAttack:
+                camDir?.FocusOnCombatant(manager.CurrentCombatant);
+                if (manager.CurrentTurnSide == TurnSide.Enemy)
+                {
+                    manager.PickRandomAttackForCurrentCombatant();
+                    ChangePhase(TurnBaseCombatPhase.SelectTargetOpponent);
+                }
                 break;
 
-            case TurnBaseCombatPhase.PlayerAttack:
+            case TurnBaseCombatPhase.SelectTargetOpponent:
+                camDir?.FocusOnCombatant(manager.CurrentCombatant);
+                if (manager.CurrentTurnSide == TurnSide.Enemy)
+                {
+                    manager.AutoPickOpponentTarget();
+                    ChangePhase(TurnBaseCombatPhase.SelectTargetTeam);
+                }
+                break;
+
+            case TurnBaseCombatPhase.SelectTargetTeam:
+                camDir?.FocusOnCombatant(manager.CurrentCombatant);
+                if (manager.CurrentTurnSide == TurnSide.Enemy)
+                {
+                    manager.AutoPickTeamTarget();
+                    ChangePhase(TurnBaseCombatPhase.Attack);
+                }
+                break;
+
+            case TurnBaseCombatPhase.Attack:
                 if (!manager.HasValidAttackSelection())
                 {
-                    Debug.LogWarning($"{nameof(TurnBaseCombatStateMachine)}: Invalid player attack selection.");
+                    Debug.LogWarning($"{nameof(TurnBaseCombatStateMachine)}: Invalid attack selection.");
+                    if (manager.IsPlayerTurn)
+                        ChangePhase(TurnBaseCombatPhase.SelectAttack);
+                    else
+                        manager.AdvanceTimelineUntilTurnFound();
                     return;
                 }
 
                 manager.ExecuteAttack().Forget();
                 break;
 
-            case TurnBaseCombatPhase.EnemySelectAttack:
-                manager.PickRandomAttackForCurrentCombatant();
-                manager.PickRandomTargetsForCurrentCombatant();
-                ChangePhase(TurnBaseCombatPhase.EnemyAttack);
+            case TurnBaseCombatPhase.EndTurn:
+                manager.CompleteCurrentTurn();
                 break;
 
-            case TurnBaseCombatPhase.EnemyAttack:
-                if (!manager.HasValidAttackSelection())
-                {
-                    Debug.LogWarning($"{nameof(TurnBaseCombatStateMachine)}: Invalid enemy attack selection.");
-                    manager.AdvanceTimelineUntilTurnFound();
-                    return;
-                }
-
-                manager.ExecuteAttack().Forget();
+            case TurnBaseCombatPhase.EndCombat:
+                camDir?.FocusOnDefault();
+                Debug.Log($"{nameof(TurnBaseCombatStateMachine)}: Combat ended. Winner: {manager.WinningSide}.");
+                manager.RaiseCombatEnded();
                 break;
         }
     }
@@ -79,11 +101,19 @@ public class TurnBaseCombatStateMachine
 public enum TurnBaseCombatPhase
 {
     None,
-    Start,
-    PlayerSelectAttack,
-    PlayerSelectTargetEnemy,
-    PlayerSelectTargetTeam,
-    PlayerAttack,
-    EnemySelectAttack,
-    EnemyAttack
+    StartCombat,
+    BeginTurn,
+    SelectAttack,
+    SelectTargetOpponent,
+    SelectTargetTeam,
+    Attack,
+    EndTurn,
+    EndCombat
+}
+
+public enum TurnSide
+{
+    None,
+    Player,
+    Enemy
 }

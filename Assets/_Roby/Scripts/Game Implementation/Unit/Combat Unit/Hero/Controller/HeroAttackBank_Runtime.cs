@@ -17,6 +17,15 @@ public class HeroAttackBank_Runtime : CombatAttackBankBase_Runtime
     [HideReferenceObjectPicker]
     public Talent_Runtime UltimateTalent;
 
+    public Attack_Runtime PrimaryUltimateAttack
+    {
+        get
+        {
+            var attacks = UltimateTalent?.attacks;
+            return attacks != null && attacks.Count > 0 ? attacks[0] : null;
+        }
+    }
+
     List<Attack_Runtime> _attacks;
     public override List<Attack_Runtime> Attacks => _attacks;
 

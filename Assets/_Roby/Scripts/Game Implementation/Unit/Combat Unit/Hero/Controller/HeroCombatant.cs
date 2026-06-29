@@ -32,6 +32,7 @@ public class HeroCombatant : CombatantBase
 
     public float CurrentUltimateGauge { get; private set; }
     public const float MaxUltimateGauge = 100f;
+    public bool HasFullUltimateGauge => CurrentUltimateGauge >= MaxUltimateGauge;
     public override float CurrentHp
     {
         get => HeroInstance?.currentHp ?? 0;
@@ -91,6 +92,15 @@ public class HeroCombatant : CombatantBase
     public void AddUltimateGauge(float amount)
     {
         CurrentUltimateGauge = Mathf.Min(MaxUltimateGauge, CurrentUltimateGauge + amount);
+        NotifyStatsChanged();
+    }
+
+    public void SpendUltimateGauge()
+    {
+        if (!HasFullUltimateGauge)
+            return;
+
+        CurrentUltimateGauge = 0f;
         NotifyStatsChanged();
     }
 

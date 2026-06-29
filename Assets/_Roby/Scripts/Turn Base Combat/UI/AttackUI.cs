@@ -17,10 +17,22 @@ public class AttackUI : MonoBehaviour
     TextMeshProUGUI staminaCostTmp;
 
     [SerializeField]
+    GameObject lockedOverlay;
+
+    [SerializeField]
+    Image gaugeFillImg;
+
+    [SerializeField]
     Color affordableStaminaCostColor = Color.white;
 
     [SerializeField]
     Color unaffordableStaminaCostColor = new Color(1f, 0.35f, 0.35f, 1f);
+
+    [SerializeField]
+    Color affordableUltimateCostColor = new Color(1f, 0.85f, 0.35f, 1f);
+
+    [SerializeField]
+    Color unaffordableUltimateCostColor = new Color(0.55f, 0.55f, 0.55f, 1f);
 
     Attack_Runtime attack;
     TurnBaseCombatManager manager;
@@ -48,7 +60,7 @@ public class AttackUI : MonoBehaviour
             button.onClick.AddListener(OnClick);
         }
 
-        RefreshStaminaCostDisplay();
+        RefreshCostDisplay();
         RefreshInteractable();
     }
 
@@ -57,28 +69,55 @@ public class AttackUI : MonoBehaviour
         if (button == null || manager == null || attack == null)
             return;
 
-        button.interactable = manager.CanAffordAttack(manager.CurrentCombatant, attack);
-        RefreshStaminaCostDisplay();
+        bool canAfford = manager.CanAffordAttack(manager.CurrentCombatant, attack);
+        button.interactable = canAfford;
+
+        if (lockedOverlay != null)
+            lockedOverlay.SetActive(attack.IsUltimateAttack && !canAfford);
+
+        RefreshGaugeFill();
+        RefreshCostDisplay();
     }
 
-    void RefreshStaminaCostDisplay()
+    void RefreshGaugeFill()
+    {
+        if (gaugeFillImg == null)
+            return;
+
+        bool showGauge = attack != null && attack.IsUltimateAttack;
+        gaugeFillImg.gameObject.SetActive(showGauge);
+
+        if (!showGauge || manager?.CurrentCombatant is not HeroCombatant hero)
+            return;
+
+        gaugeFillImg.fillAmount = hero.CurrentUltimateGauge / HeroCombatant.MaxUltimateGauge;
+    }
+
+    void RefreshCostDisplay()
     {
         if (staminaCostTmp == null || attack == null)
             return;
 
-        int cost = attack.StaminaCost;
-        bool showCost = cost > 0;
+        bool canAfford = manager != null &&
+                         manager.CanAffordAttack(manager.CurrentCombatant, attack);
 
-        if (!showCost)
+        if (attack.IsUltimateAttack)
+        {
+            staminaCostTmp.text = "ULT";
+            staminaCostTmp.color = canAfford
+                ? affordableUltimateCostColor
+                : unaffordableUltimateCostColor;
+            return;
+        }
+
+        int cost = attack.StaminaCost;
+        if (cost <= 0)
         {
             staminaCostTmp.text = "";
             return;
         }
 
         staminaCostTmp.text = $"{cost} STA";
-
-        bool canAfford = manager != null &&
-                         manager.CanAffordAttack(manager.CurrentCombatant, attack);
         staminaCostTmp.color = canAfford
             ? affordableStaminaCostColor
             : unaffordableStaminaCostColor;

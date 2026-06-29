@@ -27,6 +27,15 @@ public class HeroCombatDataSO : CombatDataBaseSO
             return attacksTemp;
         }
     }
+
+    public override CombatAttackBaseSO UltimateAttack
+    {
+        get
+        {
+            var ultimateAttacks = UltimateTalent?.attacks;
+            return ultimateAttacks != null && ultimateAttacks.Count > 0 ? ultimateAttacks[0] : null;
+        }
+    }
 }
 
 [Serializable]

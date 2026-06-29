@@ -6,4 +6,6 @@ using UnityEngine;
 public abstract class CombatDataBaseSO : ScriptableObject
 {
     public abstract List<CombatAttackBaseSO> Attacks { get; }
+
+    public abstract CombatAttackBaseSO UltimateAttack { get; }
 }

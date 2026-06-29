@@ -22,4 +22,6 @@ public class EnemyCombatDataSO : CombatDataBaseSO
             return temp;
         }
     }
+
+    public override CombatAttackBaseSO UltimateAttack => null;
 }

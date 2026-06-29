@@ -45,7 +45,13 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (combatant == null || attack == null)
             return false;
 
-        return combatant.CurrentStamina >= attack.StaminaCost;
+        if (combatant.CurrentStamina < attack.StaminaCost)
+            return false;
+
+        if (attack.IsUltimateAttack && combatant is HeroCombatant hero && !hero.HasFullUltimateGauge)
+            return false;
+
+        return true;
     }
 
     public bool HasValidAttackSelection()
@@ -114,7 +120,17 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (attacks == null || attacks.Count == 0)
             return;
 
-        SelectedAttack = attacks[Random.Range(0, attacks.Count)];
+        var affordable = new List<Attack_Runtime>();
+        foreach (var attack in attacks)
+        {
+            if (attack != null && CanAffordAttack(CurrentCombatant, attack))
+                affordable.Add(attack);
+        }
+
+        if (affordable.Count == 0)
+            return;
+
+        SelectedAttack = affordable[Random.Range(0, affordable.Count)];
     }
 
     internal void AutoPickOpponentTarget()
@@ -380,14 +396,10 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [Button]
     public void TakeRandomAttack()
     {
-        if (CurrentCombatant == null)
-            return;
+        PickRandomAttackForCurrentCombatant();
 
-        var attacks = CurrentCombatant.AttackBank?.Attacks;
-        if (attacks == null || attacks.Count == 0)
-            return;
-
-        SubmitSelectedAttack(attacks[Random.Range(0, attacks.Count)]);
+        if (SelectedAttack != null)
+            SubmitSelectedAttack(SelectedAttack);
     }
 
     [HorizontalGroup("Current Combatant Attack Queue/Op")]
@@ -491,6 +503,7 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
             await attackRes.Defender.StateMachine.WaitForDeathAsync();
 
         DeductStaminaForCurrentAttack();
+        SpendUltimateGaugeForCurrentAttack();
         GainUltimateGaugeForCurrentCombatant();
 
         if (StateMachine?.CurrentPhase == TurnBaseCombatPhase.Attack)
@@ -611,8 +624,17 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         combatant.CurrentStamina = Mathf.Min(maxStamina, combatant.CurrentStamina + regen);
     }
 
+    void SpendUltimateGaugeForCurrentAttack()
+    {
+        if (CurrentCombatant is HeroCombatant hero && SelectedAttack?.IsUltimateAttack == true)
+            hero.SpendUltimateGauge();
+    }
+
     void GainUltimateGaugeForCurrentCombatant()
     {
+        if (SelectedAttack?.IsUltimateAttack == true)
+            return;
+
         if (CurrentCombatant is HeroCombatant hero && SelectedAttack != null)
             hero.AddUltimateGauge(SelectedAttack.UltimateRegen);
     }

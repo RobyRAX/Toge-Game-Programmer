@@ -16,6 +16,14 @@ public class CombatUI : MonoBehaviour
     [SerializeField]
     AttackUI attackUiPrefab;
 
+    [TitleGroup("Attack Ref")]
+    [SerializeField]
+    Transform ultimateAttackContainer;
+
+    [TitleGroup("Attack Ref")]
+    [SerializeField]
+    AttackUI ultimateAttackUi;
+
     [TitleGroup("Target Selection")]
     [SerializeField]
     CombatTargetSelector targetSelector;
@@ -67,6 +75,9 @@ public class CombatUI : MonoBehaviour
         if (attackContainer != null)
             attackContainer.gameObject.SetActive(false);
 
+        if (ultimateAttackContainer != null)
+            ultimateAttackContainer.gameObject.SetActive(false);
+
         if (playerTurnIndicator != null)
             playerTurnIndicator.SetActive(false);
 
@@ -105,6 +116,9 @@ public class CombatUI : MonoBehaviour
 
         if (attackContainer != null)
             attackContainer.gameObject.SetActive(isPlayerInputPhase);
+
+        if (ultimateAttackContainer != null)
+            ultimateAttackContainer.gameObject.SetActive(isPlayerInputPhase);
 
         if (isPlayerInputPhase)
             RefreshAttackButtons();
@@ -148,14 +162,21 @@ public class CombatUI : MonoBehaviour
     {
         ClearAttackButtons();
 
-        if (manager?.CurrentCombatant?.AttackBank?.Attacks == null ||
-            attackUiPrefab == null ||
-            attackContainer == null)
+        if (manager?.CurrentCombatant?.AttackBank?.Attacks == null)
+            return;
+
+        RefreshRegularAttackButtons();
+        RefreshUltimateAttackButton();
+    }
+
+    void RefreshRegularAttackButtons()
+    {
+        if (attackUiPrefab == null || attackContainer == null)
             return;
 
         foreach (var attack in manager.CurrentCombatant.AttackBank.Attacks)
         {
-            if (attack == null)
+            if (attack == null || attack.IsUltimateAttack)
                 continue;
 
             var attackUi = Instantiate(attackUiPrefab, attackContainer);
@@ -164,10 +185,31 @@ public class CombatUI : MonoBehaviour
         }
     }
 
+    void RefreshUltimateAttackButton()
+    {
+        if (ultimateAttackUi == null)
+            return;
+
+        Attack_Runtime ultimateAttack = null;
+        if (manager?.CurrentCombatant?.AttackBank is HeroAttackBank_Runtime heroBank)
+            ultimateAttack = heroBank.PrimaryUltimateAttack;
+
+        if (ultimateAttack == null)
+        {
+            ultimateAttackUi.gameObject.SetActive(false);
+            return;
+        }
+
+        ultimateAttackUi.gameObject.SetActive(true);
+        ultimateAttackUi.Setup(manager, ultimateAttack);
+    }
+
     void RefreshAttackInteractable()
     {
         foreach (var attackUi in spawnedAttackUis)
             attackUi?.RefreshInteractable();
+
+        ultimateAttackUi?.RefreshInteractable();
     }
 
     void ClearAttackButtons()
@@ -178,12 +220,16 @@ public class CombatUI : MonoBehaviour
                 Destroy(attackUi.gameObject);
         }
 
-        foreach (Transform child in attackContainer)
+        if (attackContainer != null)
         {
-            Destroy(child.gameObject);
+            foreach (Transform child in attackContainer)
+                Destroy(child.gameObject);
         }
 
         spawnedAttackUis.Clear();
+
+        if (ultimateAttackUi != null)
+            ultimateAttackUi.gameObject.SetActive(false);
     }
 
     void OnDestroy()

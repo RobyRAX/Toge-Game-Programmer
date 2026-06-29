@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f68f1acfed4782f4c9afeba9852e195d, type: 3}
-  m_Name: hr_alice
+  m_Name: hr_rissa
   m_EditorClassIdentifier: Assembly-CSharp::HeroDataSO
-  unitId: hr_alice
-  unitName: Alice
+  unitId: hr_rissa
+  unitName: Rissa
   unitIcon: {fileID: 21300000, guid: a0db763ba950667428f64cfbbf90c309, type: 3}
-  unitPrefab: {fileID: 6181947282332787467, guid: 2988ca7aaad0453458a37c9b6916f1fe, type: 3}
+  unitPrefab: {fileID: 3113921721856726141, guid: 196146bdda14c204bb9b499b478061cc, type: 3}
   Attack_Exploration:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: 7b07d394ae71c074ebddd360b750b45d, type: 2}
+    animationClip: {fileID: 7400000, guid: 7cc7d503c208b0545931cd604d8f511d, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -27,83 +27,83 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     speed: 1
     showAeTool: 0
-  timeToExecuteHitbox: 0.36666667
-  AnimationClipsSO: {fileID: 11400000, guid: ab22ad19b54ab1042a1c16b1be962506, type: 2}
+  timeToExecuteHitbox: 0.2
+  AnimationClipsSO: {fileID: 11400000, guid: 5ac637f3b8cbac741976a7a2123a49eb, type: 2}
   StatGrowth:
     values:
     - maxHp: 100
-      attack: 40
+      attack: 25
       defense: 5
       maxStamina: 50
       staminaRegen: 5
-      attackSpeed: 1
+      attackSpeed: 1.2
     - maxHp: 122
-      attack: 47
+      attack: 29
       defense: 8
       maxStamina: 56
       staminaRegen: 5.5555553
-      attackSpeed: 1.1111112
+      attackSpeed: 1.3333334
     - maxHp: 144
-      attack: 53
+      attack: 33
       defense: 11
       maxStamina: 61
       staminaRegen: 6.111111
-      attackSpeed: 1.2222222
+      attackSpeed: 1.4666667
     - maxHp: 167
-      attack: 60
+      attack: 37
       defense: 13
       maxStamina: 67
       staminaRegen: 6.6666665
-      attackSpeed: 1.3333334
+      attackSpeed: 1.6
     - maxHp: 189
-      attack: 67
+      attack: 41
       defense: 16
       maxStamina: 72
       staminaRegen: 7.2222223
-      attackSpeed: 1.4444444
+      attackSpeed: 1.7333333
     - maxHp: 211
-      attack: 73
+      attack: 44
       defense: 19
       maxStamina: 78
       staminaRegen: 7.7777777
-      attackSpeed: 1.5555556
+      attackSpeed: 1.8666668
     - maxHp: 233
-      attack: 80
+      attack: 48
       defense: 22
       maxStamina: 83
       staminaRegen: 8.333333
-      attackSpeed: 1.6666667
+      attackSpeed: 2
     - maxHp: 256
-      attack: 87
+      attack: 52
       defense: 24
       maxStamina: 89
       staminaRegen: 8.888889
-      attackSpeed: 1.7777778
+      attackSpeed: 2.1333334
     - maxHp: 278
-      attack: 93
+      attack: 56
       defense: 27
       maxStamina: 94
       staminaRegen: 9.444445
-      attackSpeed: 1.8888888
+      attackSpeed: 2.2666667
     - maxHp: 300
-      attack: 100
+      attack: 60
       defense: 30
       maxStamina: 100
       staminaRegen: 10
-      attackSpeed: 2
+      attackSpeed: 2.4
     maxLevel: 10
     initial:
       maxHp: 100
-      attack: 40
+      attack: 25
       defense: 5
       maxStamina: 50
       staminaRegen: 5
-      attackSpeed: 1
+      attackSpeed: 1.2
     max:
       maxHp: 300
-      attack: 100
+      attack: 60
       defense: 30
       maxStamina: 100
       staminaRegen: 10
-      attackSpeed: 2
-  heroCombatDataSO: {fileID: 11400000, guid: 1682229ce2e71c244b323ea43a777827, type: 2}
+      attackSpeed: 2.4
+  heroCombatDataSO: {fileID: 11400000, guid: af5cca436260b3c4fbe1f97136e60e82, type: 2}

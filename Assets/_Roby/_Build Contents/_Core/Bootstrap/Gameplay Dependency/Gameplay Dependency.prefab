@@ -1055,7 +1055,7 @@ MonoBehaviour:
   combatCamera: {fileID: 1427428672073054204}
   defaultActiveUnitBrainExplorationConfigSO: {fileID: 11400000, guid: ea6a786a6b99a764390856d6e23abacb, type: 2}
   partyIds:
-  - hr_alice
+  - hr_rissa
 --- !u!1 &7405973138018268771
 GameObject:
   m_ObjectHideFlags: 0

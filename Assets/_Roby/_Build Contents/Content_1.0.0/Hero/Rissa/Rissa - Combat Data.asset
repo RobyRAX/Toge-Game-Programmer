@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b90f8e6d3ef2343a13cdc35cf80d4b, type: 3}
+  m_Name: Rissa - Combat Data
+  m_EditorClassIdentifier: Assembly-CSharp::HeroCombatDataSO
+  NormalAttackTalent:
+    talentIcon: {fileID: 0}
+    attacks:
+    - {fileID: 11400000, guid: 4fb93d61bf663b645b490c6059f08768, type: 2}
+    - {fileID: 11400000, guid: 27b06e6eaa4fdb44292bab6d5b0df902, type: 2}
+    useAttributeSO: 0
+    attackAttributeSO: {fileID: 0}
+    attackAttribute:
+      attributes:
+      - attributeId: normalAttack_A
+        attributeName: Attack A DMG
+        damageProfiles:
+        - flatDamage: 10
+          multiplierDamage: 35
+        - flatDamage: 10
+          multiplierDamage: 46
+        - flatDamage: 10
+          multiplierDamage: 58
+        - flatDamage: 10
+          multiplierDamage: 69
+        - flatDamage: 10
+          multiplierDamage: 80
+        maxLevel: 5
+        initial:
+          flatDamage: 10
+          multiplierDamage: 35
+        max:
+          flatDamage: 10
+          multiplierDamage: 80
+      - attributeId: normalAttack_B
+        attributeName: Attack B DMG
+        damageProfiles:
+        - flatDamage: 10
+          multiplierDamage: 30
+        - flatDamage: 10
+          multiplierDamage: 40
+        - flatDamage: 10
+          multiplierDamage: 50
+        - flatDamage: 10
+          multiplierDamage: 60
+        - flatDamage: 10
+          multiplierDamage: 70
+        maxLevel: 5
+        initial:
+          flatDamage: 10
+          multiplierDamage: 30
+        max:
+          flatDamage: 10
+          multiplierDamage: 70
+  SkillTalent:
+    talentIcon: {fileID: 0}
+    attacks:
+    - {fileID: 11400000, guid: d4bedf0490e89ac45991c4272d03f7ea, type: 2}
+    - {fileID: 11400000, guid: 623a608485489ae448ec2274d58f53b7, type: 2}
+    useAttributeSO: 0
+    attackAttributeSO: {fileID: 0}
+    attackAttribute:
+      attributes:
+      - attributeId: skill_A
+        attributeName: Skill A DMG
+        damageProfiles:
+        - flatDamage: 0
+          multiplierDamage: 45
+        - flatDamage: 0
+          multiplierDamage: 55
+        - flatDamage: 0
+          multiplierDamage: 65
+        - flatDamage: 0
+          multiplierDamage: 75
+        - flatDamage: 0
+          multiplierDamage: 85
+        maxLevel: 5
+        initial:
+          flatDamage: 0
+          multiplierDamage: 45
+        max:
+          flatDamage: 0
+          multiplierDamage: 85
+      - attributeId: skill_B
+        attributeName: Skill B DMG
+        damageProfiles:
+        - flatDamage: 0
+          multiplierDamage: 50
+        - flatDamage: 0
+          multiplierDamage: 60
+        - flatDamage: 0
+          multiplierDamage: 70
+        - flatDamage: 0
+          multiplierDamage: 80
+        - flatDamage: 0
+          multiplierDamage: 90
+        maxLevel: 5
+        initial:
+          flatDamage: 0
+          multiplierDamage: 50
+        max:
+          flatDamage: 0
+          multiplierDamage: 90
+  UltimateTalent:
+    talentIcon: {fileID: 0}
+    attacks:
+    - {fileID: 11400000, guid: 7cd7c8f5a4273f54d997fcd5661e60f3, type: 2}
+    useAttributeSO: 0
+    attackAttributeSO: {fileID: 0}
+    attackAttribute:
+      attributes:
+      - attributeId: ultimate
+        attributeName: Ultimate DMG
+        damageProfiles:
+        - flatDamage: 0
+          multiplierDamage: 200
+        - flatDamage: 0
+          multiplierDamage: 275
+        - flatDamage: 0
+          multiplierDamage: 350
+        - flatDamage: 0
+          multiplierDamage: 425
+        - flatDamage: 0
+          multiplierDamage: 500
+        maxLevel: 5
+        initial:
+          flatDamage: 0
+          multiplierDamage: 200
+        max:
+          flatDamage: 0
+          multiplierDamage: 500

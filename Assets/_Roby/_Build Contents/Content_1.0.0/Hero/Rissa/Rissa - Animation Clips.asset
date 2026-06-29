@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3de32c7e201a764ebe6b35f96975c1d, type: 3}
-  m_Name: Alice - Animation Clips
+  m_Name: Rissa - Animation Clips
   m_EditorClassIdentifier: Assembly-CSharp::UnitAnimationClipsSO
   Idle_Exploration:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: ed8c032c0641c1e46bc394b0e0ab7e74, type: 2}
+    animationClip: {fileID: 7400000, guid: 5f37d95ecfbef2446a24fe8051df72d8, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -25,7 +25,7 @@ MonoBehaviour:
     showAeTool: 0
   Run:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: 1d1ba4b59f8e1a84094a72a8224edeea, type: 2}
+    animationClip: {fileID: 7400000, guid: dc8afe4c224a7e441adfe863235ac79f, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -36,18 +36,18 @@ MonoBehaviour:
     showAeTool: 0
   Sprint:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: 1d1ba4b59f8e1a84094a72a8224edeea, type: 2}
+    animationClip: {fileID: 7400000, guid: 9425b4a9c9396e743af5802ee0e2223f, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 0
-    speed: 2
+    speed: 1.3
     showAeTool: 0
   combatIdle:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: ed8c032c0641c1e46bc394b0e0ab7e74, type: 2}
+    animationClip: {fileID: 7400000, guid: 5f37d95ecfbef2446a24fe8051df72d8, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -58,7 +58,7 @@ MonoBehaviour:
     showAeTool: 0
   combatReady:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: ed8c032c0641c1e46bc394b0e0ab7e74, type: 2}
+    animationClip: {fileID: 7400000, guid: 5f37d95ecfbef2446a24fe8051df72d8, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -69,29 +69,29 @@ MonoBehaviour:
     showAeTool: 0
   moveToTarget:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: 1d1ba4b59f8e1a84094a72a8224edeea, type: 2}
+    animationClip: {fileID: 7400000, guid: 404d5187545934f46aaae4474781ac8c, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 0
-    speed: 2
+    speed: 1
     showAeTool: 0
   backToFormation:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: 1d1ba4b59f8e1a84094a72a8224edeea, type: 2}
+    animationClip: {fileID: 7400000, guid: c9ba22b46c233494390039c0daba007f, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 0
-    speed: 2
+    speed: 1
     showAeTool: 0
   win:
     useAddressable: 0
-    animationClip: {fileID: 7400000, guid: 7b0f554c54c556f4d83b4555aae93b5f, type: 2}
+    animationClip: {fileID: 7400000, guid: 97b002d88d993364f87167c367bdc9b9, type: 2}
     animationClipRef:
       m_AssetGUID: 
       m_SubObjectName: 

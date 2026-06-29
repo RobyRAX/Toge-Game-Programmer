@@ -1,10 +1,48 @@
 using System;
 using System.Collections.Generic;
 using ToGaProTest.Shared;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public static class TurnBaseCombatHelper
 {
+    public static void ChangeAttackCameraBlending(CinemachineCamera attackCamera, CinemachineBlendDefinition blend)
+    {
+        int brainCount = CinemachineBrain.ActiveBrainCount;
+        for (int i = 0; i < brainCount; i++)
+        {
+            var brain = CinemachineBrain.GetActiveBrain(i);
+            if (brain != null)
+                ChangeAttackCameraBlending(brain.CustomBlends, attackCamera, blend);
+        }
+    }
+
+    public static void ChangeAttackCameraBlending(CinemachineBlenderSettings setting,
+                                                  CinemachineCamera attackCamera,
+                                                  CinemachineBlendDefinition blend)
+    {
+        if (setting == null || attackCamera == null || setting.CustomBlends == null)
+            return;
+
+        // CustomBlend.To dicocokkan terhadap Name kamera (lihat CinemachineBlenderSettings.GetBlendForVirtualCameras).
+        string toName = attackCamera.Name;
+        var blends = setting.CustomBlends;
+        bool found = false;
+
+        for (int i = 0; i < blends.Length; i++)
+        {
+            if (blends[i].To != toName)
+                continue;
+
+            // CustomBlend adalah struct (value type), jadi harus di-assign balik ke array.
+            blends[i].Blend = blend;
+            found = true;
+        }
+
+        if (!found)
+            Debug.LogWarning($"{nameof(TurnBaseCombatHelper)}: No blend entry with To = '{toName}' found in {setting.name}.");
+    }
+
     public static bool TryGetAveragePosition(IReadOnlyList<CombatantBase> combatants, out Vector3 average)
     {
         average = Vector3.zero;

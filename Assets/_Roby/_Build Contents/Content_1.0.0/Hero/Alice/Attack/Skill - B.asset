@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeroAttackSO
   targetOpponent: 1
   targetTeam: 0
-  staminaCost: 0
+  staminaCost: 10
   displayName: 
   displayIcon: {fileID: 0}
   attackActionEntries:
@@ -32,6 +32,21 @@ MonoBehaviour:
     timeToCall: 1.78
   - damageProportion: 70
     timeToCall: 2.45
+  useAttackCamera: 1
+  attackCameraParam:
+    startCamera: 0
+    detachCamera: 2
+    endCamera: 3
+    blend:
+      Style: 1
+      Time: 0.5
+      CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  ultimateRegen: 25
   damageProfileProvider:
     talent: 1
     damageProfileEntry:

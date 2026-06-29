@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using ToGaProTest.Shared;
+using Unity.Cinemachine;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -11,8 +12,13 @@ using UnityEditor;
 
 public abstract class CombatAttackBaseSO : ScriptableObject
 {
+    [TitleGroup("Setting")]
     public bool targetOpponent = true;
+
+    [TitleGroup("Setting")]
     public bool targetTeam;
+
+    [TitleGroup("Setting")]
     public int staminaCost;
 
     [TitleGroup("Display")]
@@ -32,9 +38,35 @@ public abstract class CombatAttackBaseSO : ScriptableObject
     [InfoBox("Damage Proportion isn't 100% in total", InfoMessageType.Warning, "ValidateHitEntries")]
     public List<HitEntry> hitEntries;
 
+    [TitleGroup("Attack Camera")]
+    public bool useAttackCamera;
+
+    [TitleGroup("Attack Camera")]
+    [ShowIf("@useAttackCamera")]
+    public AttackCameraParameter attackCameraParam;
+
     public abstract DamageProfileWithAttribute DamageProfile { get; }
 
 #if UNITY_EDITOR
+    [TitleGroup("Attack Camera")]
+    [ShowIf("@useAttackCamera")]
+    [Button]
+    void SyncToAttackActionMaxTime()
+    {
+        float totalTime = 0f;
+
+        if (attackActionEntries != null)
+        {
+            foreach (var attackAction in attackActionEntries)
+                totalTime += attackAction?.AttackActionParameter?.MaxTime ?? 0f;
+        }
+
+        attackCameraParam ??= new AttackCameraParameter();
+        attackCameraParam.startCamera = Mathf.Clamp(attackCameraParam.startCamera, 0f, totalTime);
+        attackCameraParam.detachCamera = totalTime;
+        attackCameraParam.endCamera = totalTime;
+    }
+
     void DrawRefreshButton_HitEntries()
     {
         if (SirenixEditorGUI.ToolbarButton(EditorIcons.Refresh))
@@ -66,6 +98,22 @@ public abstract class CombatAttackBaseSO : ScriptableObject
         }
     }
 #endif
+}
+
+[Serializable]
+public class AttackCameraParameter
+{
+    [SuffixLabel("seconds")]
+    public float startCamera;
+
+    [SuffixLabel("seconds")]
+    public float detachCamera;
+
+    [SuffixLabel("seconds")]
+    public float endCamera;
+
+    [Tooltip("Blend yang dipakai saat transisi MENUJU attack camera. Di-inject ke CustomBlends brain saat attack camera dinyalakan.")]
+    public CinemachineBlendDefinition blend = new(CinemachineBlendDefinition.Styles.EaseInOut, 0.5f);
 }
 
 [Serializable]

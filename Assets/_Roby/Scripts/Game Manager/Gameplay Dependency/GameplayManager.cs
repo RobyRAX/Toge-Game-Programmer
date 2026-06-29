@@ -145,6 +145,8 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
             defeatScreen.OnRespawnClicked += RespawnClickedHandler;
             defeatScreen.Hide();
         }
+
+        ChangeState(GameplayState.Explore);
     }
 
     public async UniTask MoveHeroToSpawnPoint(HeroController hero)

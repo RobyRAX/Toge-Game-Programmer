@@ -37,6 +37,12 @@ MonoBehaviour:
     statName: Defense
     statDetail: 
     statIcon: {fileID: 0}
+  - attribute: 4
+    defaultValue: 5
+    isRound: 0
+    statName: Stamina Regen
+    statDetail: 
+    statIcon: {fileID: 0}
   - attribute: 6
     defaultValue: 0
     isRound: 0
@@ -59,6 +65,12 @@ MonoBehaviour:
     defaultValue: 0
     isRound: 0
     statName: Defense (%)
+    statDetail: 
+    statIcon: {fileID: 0}
+  - attribute: 10
+    defaultValue: 0
+    isRound: 0
+    statName: StaminaRegenPercent
     statDetail: 
     statIcon: {fileID: 0}
   - attribute: 11

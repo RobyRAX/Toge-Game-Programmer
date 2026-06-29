@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using RAXY.Utility;
 using Sirenix.OdinInspector;
+using ToGaProTest.Shared;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -596,10 +597,24 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         CurrentCombatant.CurrentStamina = Mathf.Max(0f, CurrentCombatant.CurrentStamina - SelectedAttack.StaminaCost);
     }
 
+    internal void RegenStaminaForCurrentCombatant()
+    {
+        var combatant = CurrentCombatant;
+        if (combatant == null || combatant.StatContainer == null)
+            return;
+
+        float regen = combatant.StatContainer.GetTotalValue(StatAttribute.StaminaRegen);
+        if (regen <= 0f)
+            return;
+
+        float maxStamina = combatant.StatContainer.GetTotalValue(StatAttribute.MaxStamina);
+        combatant.CurrentStamina = Mathf.Min(maxStamina, combatant.CurrentStamina + regen);
+    }
+
     void GainUltimateGaugeForCurrentCombatant()
     {
-        if (CurrentCombatant is HeroCombatant hero)
-            hero.AddUltimateGauge(15f);
+        if (CurrentCombatant is HeroCombatant hero && SelectedAttack != null)
+            hero.AddUltimateGauge(SelectedAttack.UltimateRegen);
     }
 
     internal void RaisePhaseChanged(TurnBaseCombatPhase phase) => OnPhaseChanged?.Invoke(phase);

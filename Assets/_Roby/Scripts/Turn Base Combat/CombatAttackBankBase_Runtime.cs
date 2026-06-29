@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using ToGaProTest.Shared;
+using UnityEngine;
 
 public abstract class CombatAttackBankBase_Runtime
 {
@@ -48,6 +49,7 @@ public class Attack_Runtime
     [ShowInInspector]
     public CombatAttackBaseSO AttackSO { get; set; }
     public int StaminaCost => AttackSO.staminaCost;
+    public float UltimateRegen => AttackSO is HeroAttackSO heroAttackSO ? heroAttackSO.ultimateRegen : 0f;
 
     [HideReferenceObjectPicker]
     public DamageProfileWithAttribute damageProfile;
@@ -64,6 +66,8 @@ public class Attack_Runtime
     AttackResult currentAttackResult;
     CombatantBase currentTargetOpponent;
     int lastHitIndex = -1;
+    AttackCameraPhase attackCameraPhase;
+    bool attackCameraDetached;
 
     public async UniTask ExecuteAttackActionSequenceAsync(
         CombatantBase targetOpponent,
@@ -75,6 +79,8 @@ public class Attack_Runtime
 
         IsActionRunning = true;
         ElapsedTime = 0f;
+        attackCameraPhase = AttackCameraPhase.Idle;
+        attackCameraDetached = false;
         PrepareHits(targetOpponent, attackResult);
         OnActionStarted?.Invoke();
         CombatantOwner.StateMachine.ChangeState(CombatantState.Attack);
@@ -94,6 +100,7 @@ public class Attack_Runtime
 
     public void EndAttackActionSequence()
     {
+        RestoreCombatCamera();
         CombatantOwner.StateMachine.ChangeState(CombatantState.Idle);
         IsActionRunning = false;
     }
@@ -105,6 +112,7 @@ public class Attack_Runtime
 
         ElapsedTime += deltaTime;
         EvaluateHits();
+        EvaluateAttackCamera();
     }
 
     public Attack_Runtime() { }
@@ -169,6 +177,60 @@ public class Attack_Runtime
             lastHitIndex = i;
             break;
         }
+    }
+
+    void EvaluateAttackCamera()
+    {
+        var owner = CombatantOwner;
+        if (AttackSO == null || !AttackSO.useAttackCamera || owner?.attackCamera == null)
+            return;
+
+        var param = AttackSO.attackCameraParam;
+        if (param == null)
+            return;
+
+        // Start hanya boleh sekali per attack (Idle -> Active). Tanpa guard ini,
+        // setelah endCamera men-set fase non-active, blok ini akan re-trigger tiap
+        // frame (ElapsedTime tetap >= startCamera) sehingga attack camera "balik lagi".
+        if (attackCameraPhase == AttackCameraPhase.Idle && ElapsedTime >= param.startCamera)
+        {
+            // Inject blend "to attack camera" sebelum Prioritize, supaya transisi pakai blend dari attack SO.
+            TurnBaseCombatHelper.ChangeAttackCameraBlending(owner.attackCamera, param.blend);
+
+            owner.attackCamera.transform.SetParent(owner.attackCameraParent);
+            owner.attackCamera.transform.localPosition = Vector3.zero;
+            owner.attackCamera.transform.localEulerAngles = Vector3.zero;
+
+            owner.attackCamera.Prioritize();
+            attackCameraPhase = AttackCameraPhase.Active;
+        }
+
+        if (attackCameraPhase == AttackCameraPhase.Active && !attackCameraDetached && ElapsedTime >= param.detachCamera)
+            DetachAttackCamera();
+
+        if (attackCameraPhase == AttackCameraPhase.Active && ElapsedTime >= param.endCamera)
+            RestoreCombatCamera();
+    }
+
+    void DetachAttackCamera()
+    {
+        if (attackCameraDetached)
+            return;
+
+        CombatantOwner?.attackCamera?.transform.SetParent(null);
+        attackCameraDetached = true;
+    }
+
+    void RestoreCombatCamera()
+    {
+        if (attackCameraPhase != AttackCameraPhase.Active)
+            return;
+
+        // Sengaja TIDAK menyentuh parent attack camera di sini.
+        // Attack camera dibiarkan di posisi/parent terakhirnya dan baru di-home ulang
+        // (SetParent + reset local transform) saat attack berikutnya yang pakai camera mulai.
+        attackCameraPhase = AttackCameraPhase.Ended;
+        TurnBaseCombatManager.Instance?.CameraDirector?.RestoreCombatCamera();
     }
 
     void EvaluateHits()
@@ -248,6 +310,13 @@ public class Attack_Runtime
             Severity = severity,
         });
     }
+}
+
+public enum AttackCameraPhase
+{
+    Idle,
+    Active,
+    Ended
 }
 
 public struct CombatHitInfo

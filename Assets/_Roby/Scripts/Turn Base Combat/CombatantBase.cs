@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using RAXY.Movement;
 using Sirenix.OdinInspector;
 using ToGaProTest.Shared;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public abstract class CombatantBase : MonoBehaviour
@@ -32,6 +33,12 @@ public abstract class CombatantBase : MonoBehaviour
     [HideReferenceObjectPicker]
     [HideLabel]
     public virtual StatContainer_Runtime StatContainer { get; set; }
+
+    [TitleGroup("Attack Camera")]
+    public Transform attackCameraParent;
+
+    [TitleGroup("Attack Camera")]
+    public CinemachineCamera attackCamera;
 
     [TitleGroup("Attack Bank")]
     [ShowInInspector]

@@ -46,6 +46,8 @@ namespace ToGaProTest.Shared
                 return valueSet.maxStamina;
             else if (attr == StatAttribute.Defense)
                 return valueSet.defense;
+            else if (attr == StatAttribute.StaminaRegen)
+                return valueSet.staminaRegen;
             else if (attr == StatAttribute.AttackSpeed)
                 return valueSet.attackSpeed;
             else
@@ -61,6 +63,7 @@ namespace ToGaProTest.Shared
             container.GetStat(StatAttribute.Attack).BaseValue = GetValueAtLevel(StatAttribute.Attack, level);
             container.GetStat(StatAttribute.MaxStamina).BaseValue = GetValueAtLevel(StatAttribute.MaxStamina, level);
             container.GetStat(StatAttribute.Defense).BaseValue = GetValueAtLevel(StatAttribute.Defense, level);
+            container.GetStat(StatAttribute.StaminaRegen).BaseValue = GetValueAtLevel(StatAttribute.StaminaRegen, level);
             container.GetStat(StatAttribute.AttackSpeed).BaseValue = GetValueAtLevel(StatAttribute.AttackSpeed, level);
         }
 
@@ -100,6 +103,7 @@ namespace ToGaProTest.Shared
                     attack = Mathf.Round(Mathf.Lerp(initial.attack, max.attack, t)),
                     maxStamina = Mathf.Round(Mathf.Lerp(initial.maxStamina, max.maxStamina, t)),
                     defense = Mathf.Round(Mathf.Lerp(initial.defense, max.defense, t)),
+                    staminaRegen = Mathf.Lerp(initial.staminaRegen, max.staminaRegen, t),
                     attackSpeed = Mathf.Lerp(initial.attackSpeed, max.attackSpeed, t),
                 });
             }
@@ -111,8 +115,9 @@ namespace ToGaProTest.Shared
             {
                 maxHp = source.maxHp,
                 attack = source.attack,
-                maxStamina = source.maxStamina,
                 defense = source.defense,
+                maxStamina = source.maxStamina,
+                staminaRegen = source.staminaRegen,
                 attackSpeed = source.attackSpeed,
             };
         }
@@ -123,8 +128,9 @@ namespace ToGaProTest.Shared
     {
         public float maxHp;
         public float attack;
-        public float maxStamina;
         public float defense;
+        public float maxStamina;
+        public float staminaRegen;
         public float attackSpeed;
     }
 
@@ -139,7 +145,7 @@ namespace ToGaProTest.Shared
 
         public static bool ShouldRoundStat_Static(StatAttribute attribute)
         {
-            if (attribute == StatAttribute.AttackSpeed)
+            if (attribute == StatAttribute.AttackSpeed || attribute == StatAttribute.StaminaRegen)
                 return false;
 
             return GetStatValueType(attribute) == StatValueType.Flat;
@@ -149,8 +155,9 @@ namespace ToGaProTest.Shared
         {
             StatAttribute.MaxHp,
             StatAttribute.Attack,
-            StatAttribute.MaxStamina,
             StatAttribute.Defense,
+            StatAttribute.MaxStamina,
+            StatAttribute.StaminaRegen,
             StatAttribute.AttackSpeed,
         };
 
@@ -160,6 +167,7 @@ namespace ToGaProTest.Shared
             StatAttribute.AttackPercent,
             StatAttribute.MaxStaminaPercent,
             StatAttribute.DefensePercent,
+            StatAttribute.StaminaRegenPercent,
         };
 
         public static Dictionary<StatAttribute, StatAttribute> MainToPercentStatMap => new Dictionary<StatAttribute, StatAttribute>()
@@ -167,7 +175,8 @@ namespace ToGaProTest.Shared
             { StatAttribute.MaxHp, StatAttribute.MaxHpPercent },
             { StatAttribute.Attack, StatAttribute.AttackPercent },
             { StatAttribute.MaxStamina, StatAttribute.MaxStaminaPercent },
-            { StatAttribute.Defense, StatAttribute.DefensePercent }
+            { StatAttribute.Defense, StatAttribute.DefensePercent },
+            { StatAttribute.StaminaRegen, StatAttribute.StaminaRegenPercent }
         };
     }
 
@@ -189,13 +198,15 @@ namespace ToGaProTest.Shared
 
         MaxHp = 0,
         Attack = 1,
-        MaxStamina = 2,
         Defense = 3,
+        MaxStamina = 2,
+        StaminaRegen = 4,
 
         MaxHpPercent = 6,
         AttackPercent = 7,
-        MaxStaminaPercent = 8,
         DefensePercent = 9,
+        MaxStaminaPercent = 8,
+        StaminaRegenPercent = 10,
 
         AttackSpeed = 11,
     }

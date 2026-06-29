@@ -37,6 +37,7 @@ public class TurnBaseCombatStateMachine
 
             case TurnBaseCombatPhase.BeginTurn:
                 FocusCameraOnHeroSide();
+                manager.RegenStaminaForCurrentCombatant();
                 ChangePhase(TurnBaseCombatPhase.SelectAttack);
                 break;
 

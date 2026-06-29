@@ -10,33 +10,40 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9178e220231e2fc4eaacc30691c7442d, type: 3}
-  m_Name: Skill - A
+  m_Name: Ultimate
   m_EditorClassIdentifier: Assembly-CSharp::HeroAttackSO
   targetOpponent: 1
   targetTeam: 0
-  staminaCost: 10
+  staminaCost: 0
   displayName: 
   displayIcon: {fileID: 0}
   attackActionEntries:
   - AttackActionSO: {fileID: 11400000, guid: fe5265a7fc27a7b42af4231822666922, type: 2}
     AttackActionParameter:
-      rid: 899525312807436435
+      rid: 899525312807436436
   - AttackActionSO: {fileID: 11400000, guid: ff5d089f767c8cd4a9949ccec3e00154, type: 2}
     AttackActionParameter:
-      rid: 899525312807436457
+      rid: 899525416289828985
+  - AttackActionSO: {fileID: 11400000, guid: ff5d089f767c8cd4a9949ccec3e00154, type: 2}
+    AttackActionParameter:
+      rid: 899525312807436449
   - AttackActionSO: {fileID: 11400000, guid: 409afd75def133749b2bfa3c30961964, type: 2}
     AttackActionParameter:
-      rid: 899525312807436445
+      rid: 899525312807436446
   hitEntries:
-  - damageProportion: 100
-    timeToCall: 0.81
+  - damageProportion: 10
+    timeToCall: 0.7
+  - damageProportion: 20
+    timeToCall: 1.78
+  - damageProportion: 70
+    timeToCall: 2.45
   useAttackCamera: 1
   attackCameraParam:
     startCamera: 0
-    detachCamera: 1
-    endCamera: 2
+    detachCamera: 2
+    endCamera: 3
     blend:
-      Style: 1
+      Style: 0
       Time: 0.5
       CustomCurve:
         serializedVersion: 2
@@ -44,28 +51,28 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-  ultimateRegen: 25
+  ultimateRegen: 0
   damageProfileProvider:
-    talent: 1
+    talent: 2
     damageProfileEntry:
-      attributeId: skill_A
+      attributeId: ultimate
       attribute: 1
       damageProfile_Preview:
         flatDamage: 0
-        multiplierDamage: 0
-    configSO: {fileID: 0}
-    talentLevel: 0
+        multiplierDamage: 200
+    configSO: {fileID: 11400000, guid: 17769c2ccd795ab43a0a9e84db8aff64, type: 2}
+    talentLevel: 1
   heroCombatDataSO_editorData: {fileID: 11400000, guid: 1682229ce2e71c244b323ea43a777827, type: 2}
   references:
     version: 2
     RefIds:
-    - rid: 899525312807436435
+    - rid: 899525312807436436
       type: {class: MoveToTargetAttackActionParameter, ns: , asm: Assembly-CSharp}
       data:
         playAnimation: 1
         animation:
           useAddressable: 0
-          animationClip: {fileID: 7400000, guid: 8fc6410eecb57cd4999251c081803919, type: 2}
+          animationClip: {fileID: 7400000, guid: 965759f7deec9fc4991f1b517b97be19, type: 2}
           animationClipRef:
             m_AssetGUID: 
             m_SubObjectName: 
@@ -81,8 +88,8 @@ MonoBehaviour:
         jumpHeight: 3
         timeToTurnTowardMovement: 0.25
         timeToFaceTarget: 0.25
-        timeToReachTargetPosition: {x: 0.1, y: 0.4}
-    - rid: 899525312807436445
+        timeToReachTargetPosition: {x: 0.1, y: 0.5}
+    - rid: 899525312807436446
       type: {class: ReturnToFormationAttackActionParameter, ns: , asm: Assembly-CSharp}
       data:
         playAnimation: 1
@@ -104,7 +111,23 @@ MonoBehaviour:
         useParabolicJump: 0
         jumpHeight: 3
         timeToReachFormationPosition: {x: 0, y: 1}
-    - rid: 899525312807436457
+    - rid: 899525312807436449
+      type: {class: StayAnimationAttackActionParameter, ns: , asm: Assembly-CSharp}
+      data:
+        playAnimation: 1
+        animation:
+          useAddressable: 0
+          animationClip: {fileID: 7400000, guid: 7b0f554c54c556f4d83b4555aae93b5f, type: 2}
+          animationClipRef:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_SubObjectGUID: 
+            m_EditorAssetChanged: 0
+          speed: 1
+          showAeTool: 0
+        stayDuration: 2.1666667
+    - rid: 899525416289828985
       type: {class: StayAnimationAttackActionParameter, ns: , asm: Assembly-CSharp}
       data:
         playAnimation: 0
@@ -119,4 +142,4 @@ MonoBehaviour:
             m_EditorAssetChanged: 0
           speed: 1
           showAeTool: 0
-        stayDuration: 1
+        stayDuration: 0.5

@@ -13,6 +13,15 @@ public class AttackUI : MonoBehaviour
     [SerializeField]
     Image attackIconImg;
 
+    [SerializeField]
+    TextMeshProUGUI staminaCostTmp;
+
+    [SerializeField]
+    Color affordableStaminaCostColor = Color.white;
+
+    [SerializeField]
+    Color unaffordableStaminaCostColor = new Color(1f, 0.35f, 0.35f, 1f);
+
     Attack_Runtime attack;
     TurnBaseCombatManager manager;
 
@@ -39,6 +48,7 @@ public class AttackUI : MonoBehaviour
             button.onClick.AddListener(OnClick);
         }
 
+        RefreshStaminaCostDisplay();
         RefreshInteractable();
     }
 
@@ -48,6 +58,30 @@ public class AttackUI : MonoBehaviour
             return;
 
         button.interactable = manager.CanAffordAttack(manager.CurrentCombatant, attack);
+        RefreshStaminaCostDisplay();
+    }
+
+    void RefreshStaminaCostDisplay()
+    {
+        if (staminaCostTmp == null || attack == null)
+            return;
+
+        int cost = attack.StaminaCost;
+        bool showCost = cost > 0;
+
+        if (!showCost)
+        {
+            staminaCostTmp.text = "";
+            return;
+        }
+
+        staminaCostTmp.text = $"{cost} STA";
+
+        bool canAfford = manager != null &&
+                         manager.CanAffordAttack(manager.CurrentCombatant, attack);
+        staminaCostTmp.color = canAfford
+            ? affordableStaminaCostColor
+            : unaffordableStaminaCostColor;
     }
 
     void OnClick()

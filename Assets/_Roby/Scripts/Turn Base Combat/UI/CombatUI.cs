@@ -35,7 +35,7 @@ public class CombatUI : MonoBehaviour
     GameObject enemyTurnIndicator;
 
     TurnBaseCombatManager manager;
-    readonly List<AttackUI> spawnedAttackUis = new();
+    List<AttackUI> spawnedAttackUis = new();
 
     public void Setup(TurnBaseCombatManager manager)
     {
@@ -176,6 +176,11 @@ public class CombatUI : MonoBehaviour
         {
             if (attackUi != null)
                 Destroy(attackUi.gameObject);
+        }
+
+        foreach (Transform child in attackContainer)
+        {
+            Destroy(child.gameObject);
         }
 
         spawnedAttackUis.Clear();

@@ -101,7 +101,7 @@ public class HeroCombatant : CombatantBase
         else
             CurrentHp = hp;
 
-        CurrentStamina = StatContainer.GetTotalValue(StatAttribute.MaxStamina);
+        CurrentStamina = StatContainer.GetTotalValue(StatAttribute.MaxStamina) / 2;
         CurrentUltimateGauge = 0f;
         IsAlive = true;
 

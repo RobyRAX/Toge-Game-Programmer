@@ -7,6 +7,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HeroAttackSO", menuName = "RAXY/Unit/Hero/Attack SO")]
 public class HeroAttackSO : CombatAttackBaseSO
 {
+    [TitleGroup("Setting")]
+    public float ultimateRegen;
+
     [TitleGroup("Damage Profile")]
     [HideLabel]
     public HeroDamageProfileProvider damageProfileProvider;

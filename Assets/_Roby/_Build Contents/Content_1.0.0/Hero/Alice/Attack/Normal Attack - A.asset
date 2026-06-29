@@ -30,13 +30,28 @@ MonoBehaviour:
   hitEntries:
   - damageProportion: 100
     timeToCall: 0.7
+  useAttackCamera: 0
+  attackCameraParam:
+    startCamera: 0
+    detachCamera: 0
+    endCamera: 0
+    blend:
+      Style: 1
+      Time: 0.5
+      CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  ultimateRegen: 10
   damageProfileProvider:
     talent: 0
     damageProfileEntry:
       attributeId: normalAttack_B
       attribute: 1
       damageProfile_Preview:
-        flatDamage: 0
+        flatDamage: 10
         multiplierDamage: 30
     configSO: {fileID: 11400000, guid: 17769c2ccd795ab43a0a9e84db8aff64, type: 2}
     talentLevel: 1

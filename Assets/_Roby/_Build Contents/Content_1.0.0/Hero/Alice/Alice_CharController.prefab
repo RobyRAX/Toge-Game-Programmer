@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3612372217299758875}
   - component: {fileID: 4317528374489314531}
   - component: {fileID: 4931784027100836713}
+  - component: {fileID: 4260030036246235534}
   m_Layer: 10
   m_Name: Alice_CharController
   m_TagString: Untagged
@@ -199,6 +200,22 @@ MonoBehaviour:
   attackCameraParent: {fileID: 946166831145700365}
   attackCamera: {fileID: 1494531080881307011}
   heroCombatDataSO: {fileID: 0}
+--- !u!114 &4260030036246235534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181947282332787467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 275b701c0ce27474a8d807ae4bdadd18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrackBinder
+  trackBinds:
+  - trackName: Alice
+    trackBindType: 0
+  animator: {fileID: 2615422252504452183}
 --- !u!1001 &6291356638778516779
 PrefabInstance:
   m_ObjectHideFlags: 0

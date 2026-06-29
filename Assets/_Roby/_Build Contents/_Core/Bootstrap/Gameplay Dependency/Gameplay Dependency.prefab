@@ -517,6 +517,7 @@ GameObject:
   - component: {fileID: 7486203345639989605}
   - component: {fileID: 1891312773629304322}
   - component: {fileID: 3082269473335741109}
+  - component: {fileID: 135879323412294972}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -532,8 +533,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3289486376111836422}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7, y: 2.4999988, z: -5.499999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -674,6 +675,23 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &135879323412294972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3289486376111836422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 275b701c0ce27474a8d807ae4bdadd18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrackBinder
+  trackBinds:
+  - trackName: Cinemachine Track
+    trackBindType: 1
+  animator: {fileID: 0}
+  cinemachineBrain: {fileID: 1891312773629304322}
 --- !u!1 &4456237288979957919
 GameObject:
   m_ObjectHideFlags: 0

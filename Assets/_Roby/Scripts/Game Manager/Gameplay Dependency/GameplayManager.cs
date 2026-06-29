@@ -50,6 +50,9 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
     #endregion
 
     [TitleGroup("UI")]
+    public ExploreUI exploreUI;
+
+    [TitleGroup("UI")]
     public DefeatScreenUI defeatScreen;
 
     [TitleGroup("Camera")]
@@ -145,6 +148,8 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
             defeatScreen.OnRespawnClicked += RespawnClickedHandler;
             defeatScreen.Hide();
         }
+
+        exploreUI?.Setup(this);
 
         ChangeState(GameplayState.Explore);
     }
@@ -242,10 +247,12 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         if (CurrentState == GameplayState.Explore)
         {
             topDownCamera.Prioritize();
+            exploreUI?.Show();
         }
         else if (CurrentState == GameplayState.Combat)
         {
             combatCamera.Prioritize();
+            exploreUI?.Hide();
         }
     }
 }

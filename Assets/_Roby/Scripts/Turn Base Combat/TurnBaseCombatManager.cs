@@ -392,6 +392,13 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [ShowInInspector]
     public CombatantBase TargetTeam { get; set; }
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        combatUI?.Shutdown();
+    }
+
     [HorizontalGroup("Current Combatant Attack Queue/Op")]
     [Button]
     public void TakeRandomAttack()

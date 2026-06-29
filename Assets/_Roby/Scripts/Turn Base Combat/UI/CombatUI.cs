@@ -53,6 +53,8 @@ public class CombatUI : MonoBehaviour
         if (manager == null)
             return;
 
+        gameObject.SetActive(true);
+
         manager.OnPhaseChanged += HandlePhaseChanged;
         manager.OnTurnAdvanced += HandleTurnAdvanced;
         manager.OnTimelinePreviewUpdated += HandleTimelinePreviewUpdated;
@@ -83,6 +85,8 @@ public class CombatUI : MonoBehaviour
 
         if (enemyTurnIndicator != null)
             enemyTurnIndicator.SetActive(false);
+
+        gameObject.SetActive(false);
 
         Teardown();
     }

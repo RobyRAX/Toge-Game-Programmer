@@ -261,8 +261,9 @@ GameObject:
   - component: {fileID: 9004530141154251315}
   - component: {fileID: 7890372910850061670}
   - component: {fileID: 5190631822578752156}
+  - component: {fileID: 8234058135735070186}
   m_Layer: 9
-  m_Name: World Status UI
+  m_Name: World Status Bar UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,6 +369,21 @@ MonoBehaviour:
   hpBarSlider: {fileID: 7710339415724418395}
   unitNameTmp: {fileID: 8100039768960911075}
   levelTmp: {fileID: 7741181404351883735}
+--- !u!114 &8234058135735070186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2964244709579570547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085675b129ab5d145ad70724058ff40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RAXY.Utility.Gameplay::RAXY.Utility.Gameplay.BillboardController
+  useDelay: 1
+  updateDelay: 0.2
+  rotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &3077310009437558312
 GameObject:
   m_ObjectHideFlags: 0

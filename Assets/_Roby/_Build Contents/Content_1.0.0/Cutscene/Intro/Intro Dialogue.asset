@@ -346,8 +346,8 @@ MonoBehaviour:
     - customSpeaker: 0
       speakerId: receptionist
       customSpeakerName: 
-      dialogue: Untuk menjalankan misi ini, aku menyarankanmu untuk berlatih dulu
-        di lantai-lantai atas
+      dialogue: Untuk menjalankan misi ini, aku menyarankanmu untuk berlatih di lantai-lantai
+        atas terlebih dahulu
       blockNextDuration: 0.33
       autoNextDuration: 2
       portraitsOnStart: []
@@ -356,7 +356,7 @@ MonoBehaviour:
     - customSpeaker: 0
       speakerId: receptionist
       customSpeakerName: 
-      dialogue: Jangan memaksakan dirimu dan segera Jump ke Teleport Point yang disediakan
+      dialogue: Jangan memaksakan diri dan segera Jump ke Teleport Point yang disediakan
         Guild bila terjadi sesuatu yang tidak diinginkan
       blockNextDuration: 0.33
       autoNextDuration: 2

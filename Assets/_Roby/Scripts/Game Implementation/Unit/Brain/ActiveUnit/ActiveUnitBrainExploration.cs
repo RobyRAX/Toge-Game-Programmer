@@ -13,7 +13,7 @@ public class ActiveUnitBrainExploration : BrainExplorationBase
         BrainConfig = config;
         _camTransform = camTransform;
 
-        SubscribeToInputAction();
+        Subscribe();
 
         TurnBaseCombatManager.Instance.OnCombatStarted -= CombatStartedHandler;
         TurnBaseCombatManager.Instance.OnCombatStarted += CombatStartedHandler;
@@ -27,18 +27,18 @@ public class ActiveUnitBrainExploration : BrainExplorationBase
 
     void RespawnHandler()
     {
-        SubscribeToInputAction();
+        Subscribe();
     }
 
     private void CombatEndedHandler(TurnSide winningSide)
     {
         if (winningSide == TurnSide.Player)
-            SubscribeToInputAction();
+            Subscribe();
     }
 
     private void CombatStartedHandler()
     {
-        UnsubFromInputAction();
+        Unsubscribe();
     }
 
     [TitleGroup("Brain Config")]
@@ -75,22 +75,26 @@ public class ActiveUnitBrainExploration : BrainExplorationBase
         set => _rawMove = value;
     }
 
-    public void SubscribeToInputAction()
+    public override void Subscribe()
     {
         if (BrainConfig == null)
             return;
+        
+        base.Subscribe();
 
-        UnsubFromInputAction();
+        Unsubscribe();
 
         BrainConfig.MoveInputActionSO.Subscribe(MoveInputActionChangeHandler);
         BrainConfig.SprintInputActionSO.Subscribe(SprintInputActionChangeHandler);
         BrainConfig.AttackInputActionSO.Subscribe(AttackInputActionChangeHandler);
     }
 
-    public void UnsubFromInputAction()
+    public override void Unsubscribe()
     {
         if (BrainConfig == null)
             return;
+
+        base.Unsubscribe();
 
         BrainConfig.MoveInputActionSO.Unsubscribe(MoveInputActionChangeHandler);
         BrainConfig.SprintInputActionSO.Unsubscribe(SprintInputActionChangeHandler);
@@ -114,6 +118,6 @@ public class ActiveUnitBrainExploration : BrainExplorationBase
 
     public override void OnDestroy()
     {
-        UnsubFromInputAction();
+        Unsubscribe();
     }
 }

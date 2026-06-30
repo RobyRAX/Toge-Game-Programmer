@@ -338,6 +338,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a8f9c02c8fd9a41bf6ef152bc26c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CutsceneManager
+  PlayTimelineSectionEventSO: {fileID: 11400000, guid: 39b03b802222dc0429cab9d43d3c1bff, type: 2}
+  EndCutsceneEventSO: {fileID: 11400000, guid: 33a23352636d6e647aadc6c33ddfffd4, type: 2}
 --- !u!1001 &6642124472873357852
 PrefabInstance:
   m_ObjectHideFlags: 0

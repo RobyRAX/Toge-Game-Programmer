@@ -73,4 +73,7 @@ public abstract class BrainExplorationBase
         Sprint = false;
         Attack = false;
     }
+
+    public virtual void Subscribe() { }
+    public virtual void Unsubscribe() { }
 }

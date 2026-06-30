@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 592204087e05d214f926e15fe76f4918, type: 3}
+  m_Script: {fileID: 11500000, guid: 7eb4cd96b046bf541807eb5c9a2f43b3, type: 3}
   m_Name: Play Cutscene Timeline Event
-  m_EditorClassIdentifier: RAXY.Event::RAXY.Event.Vector2EventSO
+  m_EditorClassIdentifier: RAXY.Event::RAXY.Event.String2EventSO

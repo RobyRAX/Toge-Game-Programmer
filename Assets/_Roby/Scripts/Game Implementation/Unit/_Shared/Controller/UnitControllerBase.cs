@@ -82,4 +82,6 @@ public abstract class UnitControllerBase : MonoBehaviour, ISepObject
     {
         Brain_Exploration?.OnDestroy();
     }
+
+    public virtual void SetSuspend(bool suspend) { }
 }

@@ -50,8 +50,8 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
-  m_InitialState: 1
-  m_WrapMode: 2
+  m_InitialState: 0
+  m_WrapMode: 0
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
@@ -107,6 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Cutscene
   dialogueSO: {fileID: 11400000, guid: d9300af21f5c77944a0c58279958507b, type: 2}
   playDialogueOnStart: 0
+  firstMarkerStop: 0
   markers:
   - id: start
     marker: {fileID: 0}
@@ -115,6 +116,31 @@ MonoBehaviour:
     getTimeType: 0
   - id: 0
     marker: {fileID: 4291536569828884426, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
+    time: 0
+    timeline: {fileID: 0}
+    getTimeType: 1
+  - id: 1
+    marker: {fileID: 1587300190550130429, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
+    time: 0
+    timeline: {fileID: 0}
+    getTimeType: 1
+  - id: 2
+    marker: {fileID: -101715116060731843, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
+    time: 0
+    timeline: {fileID: 0}
+    getTimeType: 1
+  - id: 10
+    marker: {fileID: 8294788570829222576, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
+    time: 0
+    timeline: {fileID: 0}
+    getTimeType: 1
+  - id: 3
+    marker: {fileID: 6044028129031519354, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
+    time: 0
+    timeline: {fileID: 0}
+    getTimeType: 1
+  - id: 4
+    marker: {fileID: -5841870581053817053, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
     time: 0
     timeline: {fileID: 0}
     getTimeType: 1

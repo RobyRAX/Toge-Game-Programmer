@@ -25,7 +25,7 @@ MonoBehaviour:
   - actorIndex: 0
     setOpacity: 1
     setRootOpacity: 1
-    useTween_Opacity: 0
+    useTween_Opacity: 1
     opacity: 0
     setSwappable: 0
     swappableId: 
@@ -44,18 +44,10 @@ MonoBehaviour:
       portraitsOnStart: []
       actionsOnStart: []
       actionsOnComplete: []
-    markerToStart: 
-    markerToStop: 
-    portraitsOnComplete: []
-    actionsOnComplete: []
-    currentDialogueIndex: 0
-  - setId: info
-    dialogueDatas:
     - customSpeaker: 0
       speakerId: receptionist
       customSpeakerName: 
-      dialogue: Untuk hari ini, misi yang tersedia adalah membersihkan Dungeon lantai
-        1 sampai lantai 4
+      dialogue: Apa Kabar?
       blockNextDuration: 0.33
       autoNextDuration: 2
       portraitsOnStart: []
@@ -64,7 +56,413 @@ MonoBehaviour:
     markerToStart: 
     markerToStop: 
     portraitsOnComplete: []
-    actionsOnComplete: []
+    actionsOnComplete:
+    - actionType: 3
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events:
+        - primitiveType: 6
+          noParamEventSO: {fileID: 0}
+          integerEventSO: {fileID: 0}
+          integerParam: 0
+          floatEventSO: {fileID: 0}
+          floatParam: 0
+          boolEventSO: {fileID: 0}
+          boolParam: 0
+          stringEventSO: {fileID: 0}
+          stringParam: 
+          vector2EventSO: {fileID: 0}
+          vector2Param: {x: 0, y: 0}
+          string2EventSO: {fileID: 11400000, guid: 39b03b802222dc0429cab9d43d3c1bff, type: 2}
+          string2Param:
+            x: 0
+            y: 1
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    - actionType: 1
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events: []
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    currentDialogueIndex: 1
+  - setId: Yosh
+    dialogueDatas:
+    - customSpeaker: 0
+      speakerId: alice
+      customSpeakerName: 
+      dialogue: Yosh...
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    markerToStart: 
+    markerToStop: 
+    portraitsOnComplete: []
+    actionsOnComplete:
+    - actionType: 3
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events:
+        - primitiveType: 6
+          noParamEventSO: {fileID: 11400000, guid: 33a23352636d6e647aadc6c33ddfffd4, type: 2}
+          integerEventSO: {fileID: 0}
+          integerParam: 0
+          floatEventSO: {fileID: 0}
+          floatParam: 0
+          boolEventSO: {fileID: 0}
+          boolParam: 0
+          stringEventSO: {fileID: 0}
+          stringParam: 
+          vector2EventSO: {fileID: 0}
+          vector2Param: {x: 0, y: 0}
+          string2EventSO: {fileID: 11400000, guid: 39b03b802222dc0429cab9d43d3c1bff, type: 2}
+          string2Param:
+            x: 1
+            y: 2
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    - actionType: 1
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events: []
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    currentDialogueIndex: 0
+  - setId: info
+    dialogueDatas:
+    - customSpeaker: 0
+      speakerId: receptionist
+      customSpeakerName: 
+      dialogue: Untuk hari ini, misi yang tersedia adalah membersihkan Dungeon lantai
+        1 sampai lantai 4...
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    markerToStart: 
+    markerToStop: 
+    portraitsOnComplete: []
+    actionsOnComplete:
+    - actionType: 3
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events:
+        - primitiveType: 6
+          noParamEventSO: {fileID: 0}
+          integerEventSO: {fileID: 0}
+          integerParam: 0
+          floatEventSO: {fileID: 0}
+          floatParam: 0
+          boolEventSO: {fileID: 0}
+          boolParam: 0
+          stringEventSO: {fileID: 0}
+          stringParam: 
+          vector2EventSO: {fileID: 0}
+          vector2Param: {x: 0, y: 0}
+          string2EventSO: {fileID: 11400000, guid: 39b03b802222dc0429cab9d43d3c1bff, type: 2}
+          string2Param:
+            x: 2
+            y: 10
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    - actionType: 1
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events: []
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    currentDialogueIndex: 0
+  - setId: hadeehh
+    dialogueDatas:
+    - customSpeaker: 0
+      speakerId: receptionist
+      customSpeakerName: 
+      dialogue: Haahhh... orang aneh ini lagi...
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    - customSpeaker: 0
+      speakerId: receptionist
+      customSpeakerName: 
+      dialogue: Kenapa harus muncul tiap kali aku dapet Shift
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    markerToStart: 
+    markerToStop: 
+    portraitsOnComplete: []
+    actionsOnComplete:
+    - actionType: 3
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events:
+        - primitiveType: 6
+          noParamEventSO: {fileID: 0}
+          integerEventSO: {fileID: 0}
+          integerParam: 0
+          floatEventSO: {fileID: 0}
+          floatParam: 0
+          boolEventSO: {fileID: 0}
+          boolParam: 0
+          stringEventSO: {fileID: 0}
+          stringParam: 
+          vector2EventSO: {fileID: 0}
+          vector2Param: {x: 0, y: 0}
+          string2EventSO: {fileID: 11400000, guid: 39b03b802222dc0429cab9d43d3c1bff, type: 2}
+          string2Param:
+            x: 3
+            y: 4
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    - actionType: 1
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events: []
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    currentDialogueIndex: 1
+  - setId: Antek
+    dialogueDatas:
+    - customSpeaker: 0
+      speakerId: antek
+      customSpeakerName: 
+      dialogue: Heeeyyy Antek-antek As.....
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    markerToStart: 
+    markerToStop: 
+    portraitsOnComplete: []
+    actionsOnComplete:
+    - actionType: 3
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events:
+        - primitiveType: 6
+          noParamEventSO: {fileID: 0}
+          integerEventSO: {fileID: 0}
+          integerParam: 0
+          floatEventSO: {fileID: 0}
+          floatParam: 0
+          boolEventSO: {fileID: 0}
+          boolParam: 0
+          stringEventSO: {fileID: 0}
+          stringParam: 
+          vector2EventSO: {fileID: 0}
+          vector2Param: {x: 0, y: 0}
+          string2EventSO: {fileID: 11400000, guid: 39b03b802222dc0429cab9d43d3c1bff, type: 2}
+          string2Param:
+            x: 4
+            y: end
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    - actionType: 1
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events: []
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    currentDialogueIndex: 0
+  - setId: info_2
+    dialogueDatas:
+    - customSpeaker: 0
+      speakerId: receptionist
+      customSpeakerName: 
+      dialogue: Kembali ke topik sebelumnya....
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    - customSpeaker: 0
+      speakerId: receptionist
+      customSpeakerName: 
+      dialogue: Untuk menjalankan misi ini, aku menyarankanmu untuk berlatih dulu
+        di lantai-lantai atas
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    - customSpeaker: 0
+      speakerId: receptionist
+      customSpeakerName: 
+      dialogue: Jangan memaksakan dirimu dan segera Jump ke Teleport Point yang disediakan
+        Guild bila terjadi sesuatu yang tidak diinginkan
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    markerToStart: 
+    markerToStop: 
+    portraitsOnComplete: []
+    actionsOnComplete:
+    - actionType: 4
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events: []
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    - actionType: 3
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events:
+        - primitiveType: 0
+          noParamEventSO: {fileID: 11400000, guid: 33a23352636d6e647aadc6c33ddfffd4, type: 2}
+          integerEventSO: {fileID: 0}
+          integerParam: 0
+          floatEventSO: {fileID: 0}
+          floatParam: 0
+          boolEventSO: {fileID: 0}
+          boolParam: 0
+          stringEventSO: {fileID: 0}
+          stringParam: 
+          vector2EventSO: {fileID: 0}
+          vector2Param: {x: 0, y: 0}
+          string2EventSO: {fileID: 0}
+          string2Param:
+            x: 
+            y: 
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    currentDialogueIndex: 2
+  - setId: delay
+    dialogueDatas:
+    - customSpeaker: 0
+      speakerId: antek
+      customSpeakerName: 
+      dialogue: ...
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    markerToStart: 
+    markerToStop: 
+    portraitsOnComplete: []
+    actionsOnComplete:
+    - actionType: 3
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events:
+        - primitiveType: 6
+          noParamEventSO: {fileID: 0}
+          integerEventSO: {fileID: 0}
+          integerParam: 0
+          floatEventSO: {fileID: 0}
+          floatParam: 0
+          boolEventSO: {fileID: 0}
+          boolParam: 0
+          stringEventSO: {fileID: 0}
+          stringParam: 
+          vector2EventSO: {fileID: 0}
+          vector2Param: {x: 0, y: 0}
+          string2EventSO: {fileID: 11400000, guid: 39b03b802222dc0429cab9d43d3c1bff, type: 2}
+          string2Param:
+            x: 10
+            y: 3
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    - actionType: 1
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events: []
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
     currentDialogueIndex: 0
   optionDataSets: []
   portraitDatas_Editor:

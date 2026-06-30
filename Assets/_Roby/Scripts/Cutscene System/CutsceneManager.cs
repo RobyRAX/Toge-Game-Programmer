@@ -1,17 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using RAXY.Dialogue;
 using RAXY.Event;
+using RAXY.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using Object = UnityEngine.Object;
 
-public class CutsceneManager : MonoBehaviour, INotificationReceiver
+public class CutsceneManager : Singleton<CutsceneManager>, INotificationReceiver
 {
     [TitleGroup("Event")]
-    public Vector2EventSO PlayTimelineSectionEventSO;
+    public String2EventSO PlayTimelineSectionEventSO;
+
+    [TitleGroup("Event")]
+    public EventSO EndCutsceneEventSO;
+
+    Coroutine _segmentCo;
+
+    [TitleGroup("Runtime")]
+    [ShowInInspector, ReadOnly]
+    Cutscene _currentCutscenePrefab;
 
     [TitleGroup("Runtime")]
     [ShowInInspector]
@@ -22,6 +34,9 @@ public class CutsceneManager : MonoBehaviour, INotificationReceiver
     [TitleGroup("Runtime")]
     [ShowInInspector]
     public List<TrackBinder> TrackBinders { get; set; }
+
+    public event Action OnCutsceneStarted;
+    public event Action OnCutsceneEnded;
 
     [TitleGroup("Debug Functions")]
     [Button]
@@ -41,6 +56,8 @@ public class CutsceneManager : MonoBehaviour, INotificationReceiver
             }
         }
         
+        _currentCutscenePrefab = cutscenePrefab;
+
         var clone = Instantiate(cutscenePrefab);
         clone.gameObject.name = cutscenePrefab.gameObject.name;
         clone.transform.position = Vector3.zero;
@@ -50,6 +67,10 @@ public class CutsceneManager : MonoBehaviour, INotificationReceiver
 
         FindAllBinders();
         BindToTimeline();
+
+        CurrentPlayableDirector.playOnAwake = false;
+        CurrentPlayableDirector.extrapolationMode = DirectorWrapMode.Hold;
+        CurrentPlayableDirector.Stop();
 
         var dialogueSO = CurrentPlayingCutscene.dialogueSO;
         if (dialogueSO != null)
@@ -65,16 +86,39 @@ public class CutsceneManager : MonoBehaviour, INotificationReceiver
 
         PlayTimelineSectionEventSO.Unsubscribe(PlayTimelineSectionHandler);
         PlayTimelineSectionEventSO.Subscribe(PlayTimelineSectionHandler);
+        EndCutsceneEventSO.Unsubscribe(EndCutsceneHandler);
+        EndCutsceneEventSO.Subscribe(EndCutsceneHandler);
+
+        double firstStop = CurrentPlayingCutscene.GetMarkerTime(CurrentPlayingCutscene.firstMarkerStop);
+        PlayTimelineSegment(0, firstStop);
+
+        OnCutsceneStarted?.Invoke();
     }   
 
-    void PlayTimelineSectionHandler(Vector2 section)
+    void PlayTimelineSectionHandler(String2 section)
     {
+        if (CurrentPlayingCutscene == null)
+            return;
         
+        string startId = section.x;
+        string endId = section.y;
+
+        double startTime = CurrentPlayingCutscene.GetMarkerTime(startId);
+        double endTime = CurrentPlayingCutscene.GetMarkerTime(endId);
+        PlayTimelineSegment(startTime, endTime);
+    }
+
+    void EndCutsceneHandler()
+    {
+        EndCutscene();
     }
 
     public void PlayTimelineSegment(double startTime, double endTime)
     {
-        StartCoroutine(PlayTimelineSegmentCo(startTime, endTime));
+        if (_segmentCo != null)
+            StopCoroutine(_segmentCo);
+
+        _segmentCo = StartCoroutine(PlayTimelineSegmentCo(startTime, endTime));
     }
     IEnumerator PlayTimelineSegmentCo(double startTime, double endTime)
     {
@@ -90,10 +134,34 @@ public class CutsceneManager : MonoBehaviour, INotificationReceiver
 
     [TitleGroup("Debug Functions")]
     [Button]
+    public void RestartCutscene()
+    {
+        if (_currentCutscenePrefab == null)
+        {
+            Debug.LogWarning("RestartCutscene: no cutscene prefab cached.");
+            return;
+        }
+
+        var prefab = _currentCutscenePrefab;
+        EndCutscene();
+        PlayCutscene(prefab);
+    }
+
+    [TitleGroup("Debug Functions")]
+    [Button]
     public void EndCutscene()
     {
         if (CurrentPlayingCutscene == null)
             return;
+
+        PlayTimelineSectionEventSO.Unsubscribe(PlayTimelineSectionHandler);
+        EndCutsceneEventSO.Unsubscribe(EndCutsceneHandler);
+
+        if (_segmentCo != null)
+        {
+            StopCoroutine(_segmentCo);
+            _segmentCo = null;
+        }
 
         Destroy(CurrentPlayingCutscene.gameObject);
         CurrentPlayingCutscene = null;

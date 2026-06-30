@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac1f6ee7c87ea8745bb2b01aa0383e08, type: 3}
-  m_Name: Continue Cutscene Event
+  m_Name: End Cutscene Event
   m_EditorClassIdentifier: RAXY.Event::RAXY.Event.EventSO

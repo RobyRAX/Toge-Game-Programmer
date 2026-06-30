@@ -29,10 +29,23 @@ public class Cutscene : MonoBehaviour
     }
 
     [TitleGroup("Marker")]
+    [ValueDropdown("MarkerIds")]
+    public string firstMarkerStop;
+
+    [TitleGroup("Marker")]
     [ReadOnly]
     public List<MarkerTimeId> markers;
 
     public List<string> MarkerIds { get; set; }
+
+    public double GetMarkerTime(string markerId)
+    {
+        if (markers == null)
+            return 0;
+
+        var m = markers.Find(x => x.id == markerId);
+        return m != null ? m.Time : 0;
+    }
 
     void OnValidate()
     {
@@ -43,11 +56,14 @@ public class Cutscene : MonoBehaviour
     void Awake()
     {
         PlayableDirector = GetComponent<PlayableDirector>();
+        PlayableDirector.playOnAwake = false;
+
+        GetMarkers();
     }
 
     [TitleGroup("Marker")]
     [Button]
-    void GetMarkers()
+    public void GetMarkers()
     {
         markers.Clear();
 

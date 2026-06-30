@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using RAXY.Core;
+using RAXY.Movement;
 using RAXY.Utility;
 using Sirenix.OdinInspector;
 using ToGaProTest.Shared;
@@ -20,8 +21,8 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
 
     public async UniTask Init()
     {
-        GameplayDependencyManager.Instance.OnInitDone -= OnGameplayDependencyInitDoneHandler;
-        GameplayDependencyManager.Instance.OnInitDone += OnGameplayDependencyInitDoneHandler;
+        GameplayDependencyManager.Instance.OnInitDone -= GameplayDependencyInitDoneHandler;
+        GameplayDependencyManager.Instance.OnInitDone += GameplayDependencyInitDoneHandler;
 
         SpawnPointDict = new();
         CurrentSpawnPointId = GameplayConfig.Instance.ConfigSO.initialSpawnPoint;
@@ -121,7 +122,7 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         SpawnedHeroDict.Add(heroId, heroCont);
     }
 
-    void OnGameplayDependencyInitDoneHandler(bool firstInit)
+    void GameplayDependencyInitDoneHandler(bool firstInit)
     {
         foreach (var hero in SpawnedHeroDict.Values)
         {
@@ -137,10 +138,13 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
             }
         }
 
-        GameplayDependencyManager.Instance.OnInitDone -= OnGameplayDependencyInitDoneHandler;
+        GameplayDependencyManager.Instance.OnInitDone -= GameplayDependencyInitDoneHandler;
 
         TurnBaseCombatManager.Instance.OnCombatStarted += CombatStartedHandler;
         TurnBaseCombatManager.Instance.OnCombatEnded += CombatEndedHandler;
+
+        CutsceneManager.Instance.OnCutsceneStarted += CutsceneStartedHandler;
+        CutsceneManager.Instance.OnCutsceneEnded += CutsceneEndedHandler;
 
         if (defeatScreen != null)
         {
@@ -152,6 +156,26 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         exploreUI?.Setup(this);
 
         ChangeState(GameplayState.Explore);
+    }
+
+    void CutsceneStartedHandler()
+    {
+        foreach (var hero in SpawnedHeroDict.Values)
+        {
+            hero.SetSuspend(true);
+        }
+
+        exploreUI.Hide();
+    }
+
+    void CutsceneEndedHandler()
+    {
+        foreach (var hero in SpawnedHeroDict.Values)
+        {
+            hero.SetSuspend(false);
+        }
+
+        exploreUI.Show();
     }
 
     public async UniTask MoveHeroToSpawnPoint(HeroController hero)

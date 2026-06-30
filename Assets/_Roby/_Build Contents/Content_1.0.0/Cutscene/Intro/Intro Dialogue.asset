@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46df1ac21fd6dac4a9c76f8dec446b89, type: 3}
+  m_Name: Intro Dialogue
+  m_EditorClassIdentifier: RAXY.Dialogue::RAXY.Dialogue.DialogueSO
+  dialogueType: 1
+  timeline: {fileID: 0}
+  markers: []
+  actors:
+  - {fileID: 11400000, guid: c097eae48d05e2e40b90590baca0e937, type: 2}
+  - {fileID: 11400000, guid: fecfb24b109bc7a4f86c7c61631ffa75, type: 2}
+  - {fileID: 11400000, guid: 36d774812d04e424b9e7adc9a50b1276, type: 2}
+  firstStopMarker: 
+  firstDialogueDataSet: 0
+  portraitsOnStart:
+  - actorIndex: 0
+    setOpacity: 1
+    setRootOpacity: 1
+    useTween_Opacity: 0
+    opacity: 0
+    setSwappable: 0
+    swappableId: 
+    setPosition: 0
+    useTween_Position: 0
+    portraitPosition: 0
+  dialogueDataSets:
+  - setId: welcome
+    dialogueDatas:
+    - customSpeaker: 0
+      speakerId: receptionist
+      customSpeakerName: 
+      dialogue: Selamat Datang Alice
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    markerToStart: 
+    markerToStop: 
+    portraitsOnComplete: []
+    actionsOnComplete: []
+    currentDialogueIndex: 0
+  - setId: info
+    dialogueDatas:
+    - customSpeaker: 0
+      speakerId: receptionist
+      customSpeakerName: 
+      dialogue: Untuk hari ini, misi yang tersedia adalah membersihkan Dungeon lantai
+        1 sampai lantai 4
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    markerToStart: 
+    markerToStop: 
+    portraitsOnComplete: []
+    actionsOnComplete: []
+    currentDialogueIndex: 0
+  optionDataSets: []
+  portraitDatas_Editor:
+  - portraitId: alice
+    swappableIds:
+    - Neutral
+    - Think
+    - Donno
+  - portraitId: receptionist
+    swappableIds: []
+  - portraitId: antek
+    swappableIds: []

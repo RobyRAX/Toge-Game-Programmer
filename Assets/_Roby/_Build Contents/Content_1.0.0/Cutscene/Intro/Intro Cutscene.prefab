@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5814888346583669116}
   - component: {fileID: 4938986424015582878}
+  - component: {fileID: 405307510380090046}
   m_Layer: 0
   m_Name: Intro Cutscene
   m_TagString: Untagged
@@ -76,6 +77,10 @@ PlayableDirector:
     value: {fileID: 246798735173178888}
   - key: {fileID: -3070062119223541571, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
     value: {fileID: 308434962526790405}
+  - key: {fileID: 6987905648663822339, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 5436385812965482395, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - e6662a3b7f1507f44ad6b20c2597660a: {fileID: 6668375317054410897}
@@ -88,6 +93,36 @@ PlayableDirector:
     - 4220cca8471c53745b6a7d554f8fa43d: {fileID: 8761593502475949428}
     - e514721a333c22341b82565d5b538281: {fileID: 7788617009782392238}
     - 7ee57ff2c3edd8a409131d6846d3089b: {fileID: 7788617009782392238}
+--- !u!114 &405307510380090046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714223774284173563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b4030a1e2ecc4498557a87dcea7df5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Cutscene
+  dialogueSO: {fileID: 11400000, guid: d9300af21f5c77944a0c58279958507b, type: 2}
+  playDialogueOnStart: 0
+  markers:
+  - id: start
+    marker: {fileID: 0}
+    time: 0
+    timeline: {fileID: 0}
+    getTimeType: 0
+  - id: 0
+    marker: {fileID: 4291536569828884426, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
+    time: 0
+    timeline: {fileID: 0}
+    getTimeType: 1
+  - id: end
+    marker: {fileID: 0}
+    time: 0
+    timeline: {fileID: 11400000, guid: 82a8aead6cc698d4591477afd8585ef8, type: 2}
+    getTimeType: 2
 --- !u!1 &6558628576145021777
 GameObject:
   m_ObjectHideFlags: 0

@@ -142,19 +142,6 @@ MonoBehaviour:
   m_Loop: 0
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!114 &-7387634372111918442
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8bef0fd6326ba04b90c45b9ed1ff331, type: 3}
-  m_Name: Empty Marker
-  m_EditorClassIdentifier: RAXY.Dialogue::EmptyMarker
-  m_Time: 3.8333333333333335
 --- !u!114 &-7125000160196418650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -776,19 +763,6 @@ MonoBehaviour:
   m_Loop: 0
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!114 &-3556967884920138143
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8bef0fd6326ba04b90c45b9ed1ff331, type: 3}
-  m_Name: Empty Marker
-  m_EditorClassIdentifier: RAXY.Dialogue::EmptyMarker
-  m_Time: 8
 --- !u!114 &-3415967845604571721
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1293,8 +1267,6 @@ MonoBehaviour:
   m_Clips: []
   m_Markers:
     m_Objects:
-    - {fileID: -7387634372111918442}
-    - {fileID: -3556967884920138143}
     - {fileID: 4069730576015845771}
     - {fileID: 2462017388697194153}
     - {fileID: 1211740262339732543}
@@ -1693,6 +1665,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.TimelineAsset
   m_Version: 0
   m_Tracks:
+  - {fileID: 6987905648663822339}
+  - {fileID: 5436385812965482395}
   - {fileID: 7977435681863201749}
   - {fileID: -5088974953070421946}
   - {fileID: -6431157444094269342}
@@ -1917,6 +1891,20 @@ MonoBehaviour:
   m_Name: Empty Marker
   m_EditorClassIdentifier: RAXY.Dialogue::EmptyMarker
   m_Time: 10.666666666666668
+--- !u!114 &4291536569828884426
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c26b2733e34293409198ee8ec469c20, type: 3}
+  m_Name: Id Marker
+  m_EditorClassIdentifier: RAXY.Dialogue::IdMarker
+  m_Time: 7.1
+  id: 0
 --- !u!114 &4681889716031533148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1961,6 +1949,30 @@ MonoBehaviour:
   m_Loop: 0
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+--- !u!114 &5436385812965482395
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f014ee8cd718ade4fb6614851d030d80, type: 3}
+  m_Name: Timeline Section
+  m_EditorClassIdentifier: RAXY.Dialogue::RAXY.Dialogue.DialogueMarkerTrack
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips: []
+  m_Markers:
+    m_Objects:
+    - {fileID: 4291536569828884426}
 --- !u!74 &5562175216174951156
 AnimationClip:
   m_ObjectHideFlags: 0
@@ -3028,6 +3040,46 @@ MonoBehaviour:
   m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_ApplyOffsets: 0
+--- !u!114 &6987905648663822339
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f014ee8cd718ade4fb6614851d030d80, type: 3}
+  m_Name: Start Dialogue
+  m_EditorClassIdentifier: RAXY.Dialogue::RAXY.Dialogue.DialogueMarkerTrack
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips: []
+  m_Markers:
+    m_Objects:
+    - {fileID: 7507561288608878874}
+--- !u!114 &7507561288608878874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95be9a6ca55f55479c4c5b2686907ac, type: 3}
+  m_Name: Start Dialogue Marker
+  m_EditorClassIdentifier: RAXY.Dialogue::RAXY.Dialogue.StartDialogueMarker
+  m_Time: 3.5
+  inputMethod: 0
+  dialogueSetId: 
+  dialogueSetIndex: 0
 --- !u!114 &7877207650209188552
 MonoBehaviour:
   m_ObjectHideFlags: 1

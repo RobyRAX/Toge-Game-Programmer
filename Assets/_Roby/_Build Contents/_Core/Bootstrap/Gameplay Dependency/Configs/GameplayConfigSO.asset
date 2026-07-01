@@ -27,22 +27,28 @@ MonoBehaviour:
     statName: Attack
     statDetail: 
     statIcon: {fileID: 0}
-  - attribute: 2
-    defaultValue: 50
-    isRound: 1
-    statName: Max Stamina
-    statDetail: 
-    statIcon: {fileID: 0}
   - attribute: 3
     defaultValue: 5
     isRound: 1
     statName: Defense
     statDetail: 
     statIcon: {fileID: 0}
+  - attribute: 2
+    defaultValue: 50
+    isRound: 1
+    statName: Max Stamina
+    statDetail: 
+    statIcon: {fileID: 0}
   - attribute: 4
     defaultValue: 5
     isRound: 0
     statName: Stamina Regen
+    statDetail: 
+    statIcon: {fileID: 0}
+  - attribute: 11
+    defaultValue: 1
+    isRound: 0
+    statName: Attack Speed
     statDetail: 
     statIcon: {fileID: 0}
   - attribute: 6
@@ -57,28 +63,22 @@ MonoBehaviour:
     statName: Attack (%)
     statDetail: 
     statIcon: {fileID: 0}
-  - attribute: 8
-    defaultValue: 0
-    isRound: 0
-    statName: Max Stamina (%)
-    statDetail: 
-    statIcon: {fileID: 0}
   - attribute: 9
     defaultValue: 0
     isRound: 0
     statName: Defense (%)
     statDetail: 
     statIcon: {fileID: 0}
+  - attribute: 8
+    defaultValue: 0
+    isRound: 0
+    statName: Max Stamina (%)
+    statDetail: 
+    statIcon: {fileID: 0}
   - attribute: 10
     defaultValue: 0
     isRound: 0
-    statName: StaminaRegenPercent
-    statDetail: 
-    statIcon: {fileID: 0}
-  - attribute: 11
-    defaultValue: 1
-    isRound: 0
-    statName: Attack Speed
+    statName: Stamina Regen (%)
     statDetail: 
     statIcon: {fileID: 0}
   InteractEventSO: {fileID: 11400000, guid: be1292db396088e45a579d5259b116b2, type: 2}

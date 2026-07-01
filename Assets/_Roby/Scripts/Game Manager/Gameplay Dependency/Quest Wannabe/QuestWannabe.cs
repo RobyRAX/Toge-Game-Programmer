@@ -30,6 +30,7 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
 //         InitDone = true;
 //     }
 // #endif
+    public string initialScene = "Guild";
 
     public QuestMarker questMarker;
 
@@ -106,6 +107,12 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
     {
         if (questStepEntries == null || questStepEntries.Count == 0)
             return;
+        
+        if (index == 0)
+        {
+            if (SceneManager.GetActiveScene().name != initialScene)
+                return;
+        }
 
         CurrentStepIndex = Mathf.Clamp(index, 0, questStepEntries.Count - 1);
         IsQuestActive = true;

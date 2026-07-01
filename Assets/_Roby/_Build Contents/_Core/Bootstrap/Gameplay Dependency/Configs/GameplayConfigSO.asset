@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GameplayConfigSO
   m_EditorClassIdentifier: Assembly-CSharp::GameplayConfigSO
   defaultActiveUnitBrainExplorationConfigSO: {fileID: 11400000, guid: ea6a786a6b99a764390856d6e23abacb, type: 2}
+  defaultEnemyBrainExplorationConfigSO: {fileID: 11400000, guid: 51893fd32a5659f48b45d550828b0996, type: 2}
   statEntries:
   - attribute: 0
     defaultValue: 100

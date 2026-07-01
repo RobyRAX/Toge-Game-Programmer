@@ -16,120 +16,154 @@ MonoBehaviour:
   unitName: Smallin
   unitIcon: {fileID: 21300000, guid: 0887d0456eba1c24b80e5384b2f33027, type: 3}
   unitPrefab: {fileID: 7319211622741205364, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
+  Attack_Exploration:
+    useAddressable: 0
+    animationClip: {fileID: 7400000, guid: cab91b82961f5e54a9aa3ba5b4687bb3, type: 2}
+    animationClipRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    speed: 1
+    showAeTool: 0
+  timeToExecuteHitbox: 0.5
   AnimationClipsSO: {fileID: 11400000, guid: 50a463f19421c284ebb2005aee99eefd, type: 2}
   StatGrowth:
     values:
     - maxHp: 50
       attack: 5
-      maxStamina: 25
       defense: 5
+      maxStamina: 25
+      staminaRegen: 0
       attackSpeed: 1
     - maxHp: 74
       attack: 7
-      maxStamina: 29
       defense: 7
+      maxStamina: 29
+      staminaRegen: 0
       attackSpeed: 1.0526316
     - maxHp: 97
       attack: 10
-      maxStamina: 33
       defense: 10
+      maxStamina: 33
+      staminaRegen: 0
       attackSpeed: 1.1052631
     - maxHp: 121
       attack: 12
-      maxStamina: 37
       defense: 12
+      maxStamina: 37
+      staminaRegen: 0
       attackSpeed: 1.1578947
     - maxHp: 145
       attack: 14
-      maxStamina: 41
       defense: 14
+      maxStamina: 41
+      staminaRegen: 0
       attackSpeed: 1.2105263
     - maxHp: 168
       attack: 17
-      maxStamina: 45
       defense: 17
+      maxStamina: 45
+      staminaRegen: 0
       attackSpeed: 1.2631578
     - maxHp: 192
       attack: 19
-      maxStamina: 49
       defense: 19
+      maxStamina: 49
+      staminaRegen: 0
       attackSpeed: 1.3157895
     - maxHp: 216
       attack: 22
-      maxStamina: 53
       defense: 22
+      maxStamina: 53
+      staminaRegen: 0
       attackSpeed: 1.3684211
     - maxHp: 239
       attack: 24
-      maxStamina: 57
       defense: 24
+      maxStamina: 57
+      staminaRegen: 0
       attackSpeed: 1.4210527
     - maxHp: 263
       attack: 26
-      maxStamina: 61
       defense: 26
+      maxStamina: 61
+      staminaRegen: 0
       attackSpeed: 1.4736842
     - maxHp: 287
       attack: 29
-      maxStamina: 64
       defense: 29
+      maxStamina: 64
+      staminaRegen: 0
       attackSpeed: 1.5263158
     - maxHp: 311
       attack: 31
-      maxStamina: 68
       defense: 31
+      maxStamina: 68
+      staminaRegen: 0
       attackSpeed: 1.5789473
     - maxHp: 334
       attack: 33
-      maxStamina: 72
       defense: 33
+      maxStamina: 72
+      staminaRegen: 0
       attackSpeed: 1.6315789
     - maxHp: 358
       attack: 36
-      maxStamina: 76
       defense: 36
+      maxStamina: 76
+      staminaRegen: 0
       attackSpeed: 1.6842105
     - maxHp: 382
       attack: 38
-      maxStamina: 80
       defense: 38
+      maxStamina: 80
+      staminaRegen: 0
       attackSpeed: 1.7368422
     - maxHp: 405
       attack: 41
-      maxStamina: 84
       defense: 41
+      maxStamina: 84
+      staminaRegen: 0
       attackSpeed: 1.7894738
     - maxHp: 429
       attack: 43
-      maxStamina: 88
       defense: 43
+      maxStamina: 88
+      staminaRegen: 0
       attackSpeed: 1.8421053
     - maxHp: 453
       attack: 45
-      maxStamina: 92
       defense: 45
+      maxStamina: 92
+      staminaRegen: 0
       attackSpeed: 1.8947368
     - maxHp: 476
       attack: 48
-      maxStamina: 96
       defense: 48
+      maxStamina: 96
+      staminaRegen: 0
       attackSpeed: 1.9473684
     - maxHp: 500
       attack: 50
-      maxStamina: 100
       defense: 50
+      maxStamina: 100
+      staminaRegen: 0
       attackSpeed: 2
     maxLevel: 20
     initial:
       maxHp: 50
       attack: 5
-      maxStamina: 25
       defense: 5
+      maxStamina: 25
+      staminaRegen: 0
       attackSpeed: 1
     max:
       maxHp: 500
       attack: 50
-      maxStamina: 100
       defense: 50
+      maxStamina: 100
+      staminaRegen: 0
       attackSpeed: 2
   enemyCombatDataSO: {fileID: 11400000, guid: 9d09e6a3de958314db6bcfbc583e86f4, type: 2}

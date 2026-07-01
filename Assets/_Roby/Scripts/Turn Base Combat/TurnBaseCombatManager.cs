@@ -711,6 +711,14 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
                             List<CombatantBase> enemyCombatants,
                             CombatantBase initialTurn)
     {
+        StartCombat(playerCombatants, enemyCombatants, initialTurn, null);
+    }
+
+    public void StartCombat(List<CombatantBase> playerCombatants,
+                            List<CombatantBase> enemyCombatants,
+                            CombatantBase initialTurn,
+                            Transform formationAnchor)
+    {
         if (formationRoot == null)
         {
             Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: {nameof(formationRoot)} is null.");
@@ -735,24 +743,45 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
         if (!EnsureFormationSlots())
             return;
 
-        if (!TurnBaseCombatHelper.TryGetAveragePosition(PlayerCombatants, out Vector3 heroAvg) ||
-            !TurnBaseCombatHelper.TryGetAveragePosition(EnemyCombatants, out Vector3 enemyAvg))
-        {
-            Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: Failed to compute team average positions.");
-            return;
-        }
-
-        AlignFormationRoot(heroAvg, enemyAvg);
-        SnapSlotsToGround(HeroPositions);
-        SnapSlotsToGround(EnemyPositions);
-
         Quaternion? heroFacing = null;
         Quaternion? enemyFacing = null;
-        if (TurnBaseCombatHelper.TryGetCombatFacingRotations(heroAvg, enemyAvg, out Quaternion heroRot, out Quaternion enemyRot))
+
+        if (formationAnchor != null)
         {
-            heroFacing = heroRot;
-            enemyFacing = enemyRot;
+            formationRoot.SetPositionAndRotation(formationAnchor.position, formationAnchor.rotation);
+
+            // Keep facing consistent with "heroes face enemies" like the old average-position logic.
+            // In formation space, enemies are placed on +X (enemyRoot localPosition = right),
+            // so heroes should face formationRoot.right, enemies face -formationRoot.right.
+            Vector3 flatDir = formationRoot.right;
+            flatDir.y = 0f;
+            if (flatDir.sqrMagnitude >= 0.0001f)
+            {
+                flatDir.Normalize();
+                heroFacing = Quaternion.LookRotation(flatDir, Vector3.up);
+                enemyFacing = Quaternion.LookRotation(-flatDir, Vector3.up);
+            }
         }
+        else
+        {
+            if (!TurnBaseCombatHelper.TryGetAveragePosition(PlayerCombatants, out Vector3 heroAvg) ||
+                !TurnBaseCombatHelper.TryGetAveragePosition(EnemyCombatants, out Vector3 enemyAvg))
+            {
+                Debug.LogWarning($"{nameof(TurnBaseCombatManager)}: Failed to compute team average positions.");
+                return;
+            }
+
+            AlignFormationRoot(heroAvg, enemyAvg);
+
+            if (TurnBaseCombatHelper.TryGetCombatFacingRotations(heroAvg, enemyAvg, out Quaternion heroRot, out Quaternion enemyRot))
+            {
+                heroFacing = heroRot;
+                enemyFacing = enemyRot;
+            }
+        }
+
+        SnapSlotsToGround(HeroPositions);
+        SnapSlotsToGround(EnemyPositions);
 
         PlaceCombatantsOnSlots(PlayerCombatants, HeroPositions, heroFacing);
         PlaceCombatantsOnSlots(EnemyCombatants, EnemyPositions, enemyFacing);

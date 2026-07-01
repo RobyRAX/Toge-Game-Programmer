@@ -8,6 +8,10 @@ public class EnemyController : CombatUnitController
     public EnemyDataSO enemyDataSO;
     public EnemyCombatant enemyCombatant;
 
+    [TitleGroup("Brain")]
+    [SerializeField]
+    EnemyBrainExplorationConfigSO brainConfig;
+
     public override CombatantBase CombatantCont { get => enemyCombatant; }
     public override UnitDataSO UnitData => enemyDataSO;
 
@@ -23,13 +27,38 @@ public class EnemyController : CombatUnitController
 
         enemyCombatant = GetComponent<EnemyCombatant>();
         enemyCombatant.Init(this);
-        
+
+        var config = brainConfig ?? GameplayConfig.Instance.ConfigSO.defaultEnemyBrainExplorationConfigSO;
+        if (config != null && EnemyGroup != null && !EnemyGroup.isCleared)
+            Setup_EnemyBrainExploration(config);
+
         InitDone = true;
     }
 
-    //[Button]
-    //void TestAttacked()
-    //{
-    //    Invoke_OnAttacked();
-    //}
+    public void Setup_EnemyBrainExploration(EnemyBrainExplorationConfigSO config)
+    {
+        Brain_Exploration = new EnemyBrainExploration(this, config, EnemyGroup);
+
+        if (StateMachine_Exploration != null)
+            StateMachine_Exploration.Brain = Brain_Exploration;
+    }
+
+    protected override void OnHitboxHit(CombatUnitController target)
+    {
+        if (target is HeroController)
+        {
+            EnemyGroup?.StartCombatFromEnemyAttack(this);
+            return;
+        }
+
+        base.OnHitboxHit(target);
+    }
+
+#if UNITY_EDITOR
+    void OnDrawGizmosSelected()
+    {
+        if (Brain_Exploration is EnemyBrainExploration enemyBrain)
+            enemyBrain.DrawGizmos();
+    }
+#endif
 }

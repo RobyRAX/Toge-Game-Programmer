@@ -18,6 +18,11 @@ public class EnemyGroup : MonoBehaviour, ISepObject
     int level = 1;
     public int Level => level;
 
+    [TitleGroup("Patrol")]
+    [SerializeField]
+    float patrolRadius = 5f;
+    public float PatrolRadius => patrolRadius;
+
     public List<EnemyController> enemies;
 
     public event Action OnEnemyMemberAttacked;
@@ -89,6 +94,36 @@ public class EnemyGroup : MonoBehaviour, ISepObject
         if (isCleared)
             return;
 
+        CombatantBase initialTurn = null;
+        if (GameplayManager.Instance != null)
+        {
+            foreach (var hero in GameplayManager.Instance.SpawnedHeroDict.Values)
+            {
+                initialTurn = hero.GetComponent<HeroCombatant>();
+                break;
+            }
+        }
+
+        StartCombatInternal(initialTurn);
+    }
+
+    public void StartCombatFromEnemyAttack(EnemyController attacker)
+    {
+        if (attacker == null || attacker.enemyCombatant == null)
+            return;
+
+        StartCombatInternal(attacker.enemyCombatant);
+    }
+
+    void StartCombatInternal(CombatantBase initialTurn)
+    {
+        if (isCleared)
+            return;
+
+        if (GameplayManager.Instance == null ||
+            GameplayManager.Instance.CurrentState != GameplayState.Explore)
+            return;
+
         var heroes = GameplayManager.Instance.SpawnedHeroDict.Values;
         var heroCombatants = new List<CombatantBase>();
         foreach (var hero in heroes)
@@ -102,12 +137,19 @@ public class EnemyGroup : MonoBehaviour, ISepObject
             enemyCombatants.Add(enemy.GetComponent<EnemyCombatant>());
         }
 
-        var initialTurn = heroCombatants.Count > 0 ? heroCombatants[0] : null;
+        if (heroCombatants.Count == 0 || enemyCombatants.Count == 0)
+            return;
 
         var combatManager = TurnBaseCombatManager.Instance;
         UnsubscribeCombatEnded();
         combatManager.OnCombatEnded += OnCombatEndedHandler;
-        combatManager.StartCombat(heroCombatants, enemyCombatants, initialTurn);
+        combatManager.StartCombat(heroCombatants, enemyCombatants, initialTurn, transform);
+    }
+
+    public Vector3 GetRandomPatrolPoint()
+    {
+        Vector2 offset = UnityEngine.Random.insideUnitCircle * patrolRadius;
+        return transform.position + new Vector3(offset.x, 0f, offset.y);
     }
 
     void OnCombatEndedHandler(TurnSide winningSide)
@@ -173,4 +215,12 @@ public class EnemyGroup : MonoBehaviour, ISepObject
 
         TurnBaseCombatManager.Instance.OnCombatEnded -= OnCombatEndedHandler;
     }
+
+#if UNITY_EDITOR
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(0f, 1f, 0.5f, 0.35f);
+        Gizmos.DrawWireSphere(transform.position, patrolRadius);
+    }
+#endif
 }

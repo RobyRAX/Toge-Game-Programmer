@@ -140,8 +140,8 @@ MonoBehaviour:
   enableRotation: 0
   showVelocityGizmos: 1
   gizmoLineThickness: 3
-  runSpeed: 5
-  sprintSpeed: 8
+  runSpeed: 1
+  sprintSpeed: 3
 --- !u!114 &4368249294034788565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,6 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   enemyDataSO: {fileID: 11400000, guid: 988b671aa80ead34396c9192368fc4f2, type: 2}
   enemyCombatant: {fileID: 0}
+  brainConfig: {fileID: 0}
 --- !u!114 &2223166488862591237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8af72ddae9309419b53a41b9673365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatant
+  attackCameraParent: {fileID: 0}
+  attackCamera: {fileID: 0}
   enemyCombatDataSO: {fileID: 0}
 --- !u!1001 &6299959584667073701
 PrefabInstance:

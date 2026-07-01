@@ -390,7 +390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.2671957
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -398,7 +398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.6288886
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -406,15 +406,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -989,7 +989,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b183bdc9955aed3469f1be77051f4a96, type: 2}
+  - {fileID: 2100000, guid: bb65060182a8f384e9cab401597593b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1410,6 +1410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyGroup
   isCleared: 0
   level: 1
+  patrolRadius: 10
   enemies:
   - {fileID: 1064140944}
   - {fileID: 706589699}
@@ -1506,7 +1507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.75
+      value: -2.7
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1522,15 +1523,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

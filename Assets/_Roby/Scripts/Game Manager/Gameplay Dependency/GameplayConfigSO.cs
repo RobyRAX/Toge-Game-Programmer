@@ -16,6 +16,9 @@ public class GameplayConfigSO : ScriptableObject, IStatEntryProvider, IInteracta
 {
     [TitleGroup("Brain Config")]
     public ActiveUnitBrainExplorationConfigSO defaultActiveUnitBrainExplorationConfigSO;
+
+    [TitleGroup("Brain Config")]
+    public EnemyBrainExplorationConfigSO defaultEnemyBrainExplorationConfigSO;
     
     [TitleGroup("Stat")]
     [SerializeField]

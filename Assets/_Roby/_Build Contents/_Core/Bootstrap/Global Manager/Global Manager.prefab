@@ -208,6 +208,8 @@ MonoBehaviour:
     actionEventSO: {fileID: 11400000, guid: 6589197725582894199b1438f00aedf0, type: 2}
   - unityInputAction: {fileID: -2353700388070053078, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     actionEventSO: {fileID: 11400000, guid: 0d9bd5a6cd2e7a34a9ec7e17b991f8ab, type: 2}
+  - unityInputAction: {fileID: 1502420574622288983, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    actionEventSO: {fileID: 11400000, guid: 03d513541784bda409a69eca987b3581, type: 2}
 --- !u!114 &2566305069671272098
 MonoBehaviour:
   m_ObjectHideFlags: 0

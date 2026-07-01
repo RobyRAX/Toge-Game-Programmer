@@ -60,6 +60,12 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
     [TitleGroup("UI")]
     public DefeatScreenUI defeatScreen;
 
+    [TitleGroup("UI")]
+    public UpgradeMenu upgradeMenu;
+
+    [TitleGroup("Input")]
+    public InputActionEventSO openUpgradeEventSO;
+
     [TitleGroup("Camera")]
     public Camera mainCamera;
 
@@ -161,6 +167,12 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         GameplayConfig.Instance.ConfigSO.InteractEventSO.Unsubscribe(InteractHandler);
         GameplayConfig.Instance.ConfigSO.InteractEventSO.Subscribe(InteractHandler);
 
+        openUpgradeEventSO?.Unsubscribe(UpgradeMenuOpenHandler);
+        openUpgradeEventSO?.Subscribe(UpgradeMenuOpenHandler);
+
+        upgradeMenu?.Setup(this, openUpgradeEventSO);
+        upgradeMenu?.Close();
+
         if (defeatScreen != null)
         {
             defeatScreen.OnRespawnClicked -= RespawnClickedHandler;
@@ -182,6 +194,7 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
     protected override void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoadedForPortal;
+        openUpgradeEventSO?.Unsubscribe(UpgradeMenuOpenHandler);
         base.OnDestroy();
     }
 
@@ -191,6 +204,28 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
             return;
         
         MainHeroInteractor.Interact();
+    }
+
+    void UpgradeMenuOpenHandler(InputContext ctx)
+    {
+        if (!CanUseUpgradeMenu() || upgradeMenu == null || upgradeMenu.IsOpen)
+            return;
+
+        upgradeMenu.Open();
+    }
+
+    bool CanUseUpgradeMenu()
+    {
+        if (CurrentState != GameplayState.Explore)
+            return false;
+
+        if (upgradeMenu == null || upgradeMenu.IsOpen)
+            return false;
+
+        if (MainHero == null || !MainHero.enabled)
+            return false;
+
+        return true;
     }
 
     void StoryStartedHandler()
@@ -417,6 +452,9 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         {
             combatCamera.Prioritize();
             exploreUI?.Hide();
+
+            if (upgradeMenu != null && upgradeMenu.IsOpen)
+                upgradeMenu.Close();
         }
     }
 }

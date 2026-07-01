@@ -137,6 +137,9 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
             var completedStep = CurrentQuest;
             await RunActions(completedStep.onExitActions, completedStep);
 
+            if (completedStep.expReward > 0)
+                HeroProgression.AddExpToSpawnedHeroes(completedStep.expReward);
+
             CurrentStepIndex++;
 
             if (CurrentStepIndex >= questStepEntries.Count)
@@ -247,6 +250,8 @@ public class QuestStepEntry
     public float markerRadius = 2;
 
     public bool autoCompleteOnReachMarker = true;
+
+    public int expReward;
 
     [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "Label")]
     public List<QuestStepActionEntry> onEnterActions = new();

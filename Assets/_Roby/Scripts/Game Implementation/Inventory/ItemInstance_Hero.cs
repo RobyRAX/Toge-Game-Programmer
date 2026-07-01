@@ -14,6 +14,8 @@ public class ItemInstance_Hero : ItemInstance_Base
     public int exp;
     public float currentHp;
 
+    public int availableTalentPoints;
+
     public int NormalAttackTalentLevel = 1;
     public int SkillTalentLevel = 1;
     public int UltimateTalentLevel = 1;

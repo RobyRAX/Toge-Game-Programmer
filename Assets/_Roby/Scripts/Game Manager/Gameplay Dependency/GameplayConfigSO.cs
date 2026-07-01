@@ -46,6 +46,36 @@ public class GameplayConfigSO : ScriptableObject, IStatEntryProvider, IInteracta
     [TitleGroup("Misc")]
     public int maxTalentLevel;
 
+    [TitleGroup("Progression")]
+    public int talentPointsPerLevelUp = 2;
+
+    [TitleGroup("Progression")]
+    [ListDrawerSettings(ShowIndexLabels = true)]
+    [Tooltip("Index level-1 = EXP required to advance from level N to N+1. List count defines max level.")]
+    public List<int> expToNextLevel = new();
+
+    public int GetExpRequiredForNextLevel(int currentLevel)
+    {
+        if (expToNextLevel == null || expToNextLevel.Count == 0)
+            return 0;
+
+        int index = currentLevel - 1;
+        if (index < 0 || index >= expToNextLevel.Count)
+            return 0;
+
+        return Mathf.Max(0, expToNextLevel[index]);
+    }
+
+    public bool IsMaxLevel(int level)
+    {
+        if (expToNextLevel == null || expToNextLevel.Count == 0)
+            return true;
+
+        return level > expToNextLevel.Count;
+    }
+
+    public int MaxHeroLevel => expToNextLevel?.Count ?? 0;
+
 #if UNITY_EDITOR
     [TitleGroup("Stat")]
     [Button]

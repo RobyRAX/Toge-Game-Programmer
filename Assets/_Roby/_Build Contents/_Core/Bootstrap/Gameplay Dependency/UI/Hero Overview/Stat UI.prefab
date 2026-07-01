@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3782123233875007334}
   - component: {fileID: 26236261241015381}
   - component: {fileID: 4218711656409424177}
+  - component: {fileID: 4765769185490618585}
   m_Layer: 0
   m_Name: Stat UI
   m_TagString: Untagged
@@ -77,6 +78,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4765769185490618585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104327269581255398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e5c47661f260944a3b2b09dc725ce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatUI
+  statAttribute: 0
+  statIconImg: {fileID: 9029930352415977895}
+  statNameTmp: {fileID: 6453191680826162447}
+  statValueTmp: {fileID: 8488520884147518935}
+  statDetailTmp: {fileID: 0}
 --- !u!1 &1765033230784688290
 GameObject:
   m_ObjectHideFlags: 0

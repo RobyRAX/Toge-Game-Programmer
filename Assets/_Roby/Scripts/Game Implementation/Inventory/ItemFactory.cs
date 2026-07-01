@@ -37,7 +37,14 @@ public class ItemFactory : MonoBehaviour, IItemFactory
                 ItemEntry = otherItem.ItemEntry,
                 ItemId = heroInstance.ItemId,
                 Amount = otherItem.Amount,
-                ItemInstanceId = otherItem.ItemInstanceId
+                ItemInstanceId = otherItem.ItemInstanceId,
+                level = heroInstance.level,
+                exp = heroInstance.exp,
+                currentHp = heroInstance.currentHp,
+                availableTalentPoints = heroInstance.availableTalentPoints,
+                NormalAttackTalentLevel = heroInstance.NormalAttackTalentLevel,
+                SkillTalentLevel = heroInstance.SkillTalentLevel,
+                UltimateTalentLevel = heroInstance.UltimateTalentLevel
             };
 
             if (clone.ItemEntry == null && itemDb != null)

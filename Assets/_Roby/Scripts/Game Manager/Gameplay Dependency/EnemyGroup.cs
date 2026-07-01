@@ -18,6 +18,11 @@ public class EnemyGroup : MonoBehaviour, ISepObject
     int level = 1;
     public int Level => level;
 
+    [TitleGroup("Combat")]
+    [SerializeField]
+    int expReward;
+    public int ExpReward => expReward;
+
     [TitleGroup("Patrol")]
     [SerializeField]
     float patrolRadius = 5f;
@@ -157,7 +162,12 @@ public class EnemyGroup : MonoBehaviour, ISepObject
         UnsubscribeCombatEnded();
 
         if (winningSide == TurnSide.Player)
+        {
+            if (expReward > 0)
+                HeroProgression.AddExpToSpawnedHeroes(expReward);
+
             MarkAsCleared();
+        }
         else if (winningSide == TurnSide.Enemy)
             DeferRestoreUntilRespawn();
     }

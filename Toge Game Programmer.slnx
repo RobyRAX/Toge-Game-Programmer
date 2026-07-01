@@ -5,8 +5,8 @@
   <Project Path="Unity.PlasticSCM.Editor.csproj" />
   <Project Path="Unity.Localization.csproj" />
   <Project Path="Unity.ShaderGraph.Editor.csproj" />
-  <Project Path="RAXY.Dialogue.csproj" />
   <Project Path="Unity.ProBuilder.csproj" />
+  <Project Path="RAXY.Dialogue.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Runtime.csproj" />
   <Project Path="Unity.ScriptableBuildPipeline.Editor.csproj" />
   <Project Path="Unity.Mathematics.csproj" />
@@ -55,9 +55,9 @@
   <Project Path="Sirenix.OdinInspector.Modules.UnityLocalization.Editor.csproj" />
   <Project Path="Unity.FilmInternalUtilities.csproj" />
   <Project Path="Unity.InternalAPIEngineBridge.013.csproj" />
-  <Project Path="Unity.TextMeshPro.csproj" />
   <Project Path="Unity.Toonshader.csproj" />
   <Project Path="UniTask.Linq.csproj" />
+  <Project Path="Unity.TextMeshPro.csproj" />
   <Project Path="RAXY.Utility.csproj" />
   <Project Path="Unity.TextMeshPro.Editor.csproj" />
   <Project Path="Unity.Burst.Editor.csproj" />
@@ -70,6 +70,7 @@
   <Project Path="RAXY.Event.csproj" />
   <Project Path="RAXY.Core.csproj" />
   <Project Path="Unity.InternalAPIEditorBridge.013.csproj" />
+  <Project Path="RAXY.QuestSystem.csproj" />
   <Project Path="Unity.AI.Navigation.Editor.csproj" />
   <Project Path="RAXY.UI.csproj" />
   <Project Path="RAXY.VfxManager.csproj" />
@@ -78,7 +79,6 @@
   <Project Path="RAXY.Utility.Gizmo.csproj" />
   <Project Path="DOTween.Modules.csproj" />
   <Project Path="Unity.ProBuilder.KdTree.csproj" />
-  <Project Path="RAXY.QuestSystem.csproj" />
   <Project Path="Unity.ProBuilder.AddOns.Editor.csproj" />
   <Project Path="Unity.InputSystem.ForUI.csproj" />
   <Project Path="RAXY.Utility.Editor.csproj" />

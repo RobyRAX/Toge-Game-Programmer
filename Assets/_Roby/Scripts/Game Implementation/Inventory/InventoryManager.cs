@@ -10,13 +10,19 @@ public class InventoryManager : InventoryManagerBase, ISepObject
     #region ISepObject
     public GameObject GetGameObject => gameObject;
 
-    public bool FirstInitDone { get; set; }
+    public bool InitDone { get; set; }
     public int Order { get; set; }
     public string SepGroup { get; set; }
     public bool UsePreInit { get; set; }
 
     public async UniTask Init()
     {
+        SetItemDatabase(GlobalManager.Instance.ItemDatabase);
+        SetItemFactory(itemFactory);
+
+        SendInitialItems();
+
+        InitDone = true;
     }
 
     public async UniTask PreInit()
@@ -24,15 +30,16 @@ public class InventoryManager : InventoryManagerBase, ISepObject
     }
     #endregion
 
-    protected override void Awake()
-    {
-        base.Awake();
+    public static InventoryManager Instance { get; private set; }
 
+    [TitleGroup("Item Factory")]
+    public ItemFactory itemFactory;
+
+    protected void Awake()
+    {
         if (Instance == null)
         {
             Instance = this;
         }
     }
-
-    public static InventoryManager Instance { get; private set; }
 }

@@ -3,18 +3,33 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using ToGaProTest.Shared;
 using UnityEngine;
+using RAXY.InteractionSystem;
+using RAXY.InputSystem;
+
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 [CreateAssetMenu(fileName = "GameplayConfigSO", menuName = "RAXY/Gameplay Config SO")]
-public class GameplayConfigSO : ScriptableObject, IStatEntryProvider
+public class GameplayConfigSO : ScriptableObject, IStatEntryProvider, IInteractableTagProvider
 {
+    [TitleGroup("Brain Config")]
+    public ActiveUnitBrainExplorationConfigSO defaultActiveUnitBrainExplorationConfigSO;
+    
     [TitleGroup("Stat")]
     [SerializeField]
     [ListDrawerSettings(ListElementLabelName = "statName")]
     List<StatEntry> statEntries;
     public List<StatEntry> StatEntries => statEntries;
+
+    [TitleGroup("Interaction")]
+    public InputActionEventSO InteractEventSO;
+
+    [TitleGroup("Interaction")]
+    [SerializeField]
+    List<string> interactionTag;
+    public List<string> Tags => interactionTag;
 
     [TitleGroup("Hitbox")]
     public HitboxSetting heroHitboxSetting;

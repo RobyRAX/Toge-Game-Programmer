@@ -129,7 +129,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d09618445cf14141affdb455f924826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GlobalManager
-  PreDefinedSepGroups: []
+  PreDefinedSepGroups:
+  - GroupName: Initial
+    ExecutionType: 0
+    SepObjects:
+    - Order: -5
+      UsePreInit: 0
+      SepObject: {fileID: 4893108785795416191}
+    - Order: 0
+      UsePreInit: 0
+      SepObject: {fileID: 0}
   _initAllSepGroupOnStart: 0
   ItemDatabase: {fileID: 11400000, guid: fa7c246e1ec57634d914dba06475bbc1, type: 2}
   HeroDatabase: {fileID: 11400000, guid: ffc83a6da8b0b8e4f934a66df3da9de6, type: 2}
@@ -276,12 +285,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31b4806e6ecd234a82e87ef3b0a4a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
-  setItemDbInitially: 1
-  ItemDatabaseSO: {fileID: 11400000, guid: fa7c246e1ec57634d914dba06475bbc1, type: 2}
-  ItemFactoryObj: {fileID: 4893108785795416191}
   InitialItems:
   - itemId: hr_alice
     amount: 1
+  itemFactory: {fileID: 8980397876012619685}
 --- !u!114 &8980397876012619685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +359,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dialogue Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 5532823749293472825, guid: 2a0ef97bb1b596b449eaa2f01f8657b1, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
     - target: {fileID: 5725561799111856092, guid: 2a0ef97bb1b596b449eaa2f01f8657b1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -391,6 +402,10 @@ PrefabInstance:
     - target: {fileID: 5725561799111856092, guid: 2a0ef97bb1b596b449eaa2f01f8657b1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7374249542836017858, guid: 2a0ef97bb1b596b449eaa2f01f8657b1, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

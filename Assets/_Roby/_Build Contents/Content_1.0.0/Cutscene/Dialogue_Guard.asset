@@ -1,0 +1,199 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46df1ac21fd6dac4a9c76f8dec446b89, type: 3}
+  m_Name: Dialogue_Guard
+  m_EditorClassIdentifier: RAXY.Dialogue::RAXY.Dialogue.DialogueSO
+  dialogueType: 1
+  timeline: {fileID: 0}
+  markers: []
+  actors:
+  - {fileID: 11400000, guid: c097eae48d05e2e40b90590baca0e937, type: 2}
+  - {fileID: 11400000, guid: 4dd21836cff38ee468ea03d4b703cb1a, type: 2}
+  firstStopMarker: 
+  firstDialogueDataSet: 0
+  portraitsOnStart:
+  - actorIndex: 0
+    setOpacity: 1
+    setRootOpacity: 0
+    useTween_Opacity: 0
+    opacity: 0.05
+    setSwappable: 1
+    swappableId: Neutral
+    setPosition: 1
+    useTween_Position: 0
+    portraitPosition: 0
+  - actorIndex: 1
+    setOpacity: 1
+    setRootOpacity: 1
+    useTween_Opacity: 0
+    opacity: 1
+    setSwappable: 1
+    swappableId: Donno
+    setPosition: 1
+    useTween_Position: 0
+    portraitPosition: 2
+  dialogueDataSets:
+  - setId: apa_kabar
+    dialogueDatas:
+    - customSpeaker: 0
+      speakerId: guard
+      customSpeakerName: 
+      dialogue: Apa kabar Alice?, semangat banget pagi-pagi
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart: []
+      actionsOnStart: []
+      actionsOnComplete: []
+    - customSpeaker: 0
+      speakerId: alice
+      customSpeakerName: 
+      dialogue: Ada misi bang, diminta bersihin lantai 1 sampe 4
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart:
+      - actorIndex: 0
+        setOpacity: 1
+        setRootOpacity: 0
+        useTween_Opacity: 1
+        opacity: 1
+        setSwappable: 1
+        swappableId: Neutral
+        setPosition: 0
+        useTween_Position: 0
+        portraitPosition: 0
+      - actorIndex: 1
+        setOpacity: 1
+        setRootOpacity: 0
+        useTween_Opacity: 1
+        opacity: 0.05
+        setSwappable: 0
+        swappableId: 
+        setPosition: 0
+        useTween_Position: 0
+        portraitPosition: 0
+      actionsOnStart: []
+      actionsOnComplete: []
+    - customSpeaker: 0
+      speakerId: guard
+      customSpeakerName: 
+      dialogue: Wah asik tuh, kalo ada apa-apa bilang aja yaa
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart:
+      - actorIndex: 0
+        setOpacity: 1
+        setRootOpacity: 0
+        useTween_Opacity: 1
+        opacity: 0.05
+        setSwappable: 0
+        swappableId: 
+        setPosition: 0
+        useTween_Position: 0
+        portraitPosition: 0
+      - actorIndex: 1
+        setOpacity: 1
+        setRootOpacity: 0
+        useTween_Opacity: 1
+        opacity: 1
+        setSwappable: 0
+        swappableId: 
+        setPosition: 0
+        useTween_Position: 0
+        portraitPosition: 0
+      actionsOnStart: []
+      actionsOnComplete: []
+    - customSpeaker: 0
+      speakerId: guard
+      customSpeakerName: 
+      dialogue: Aku belum bisa temenin karena masih jam jaga
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart:
+      - actorIndex: 0
+        setOpacity: 1
+        setRootOpacity: 0
+        useTween_Opacity: 1
+        opacity: 0.05
+        setSwappable: 0
+        swappableId: 
+        setPosition: 0
+        useTween_Position: 0
+        portraitPosition: 0
+      - actorIndex: 1
+        setOpacity: 1
+        setRootOpacity: 0
+        useTween_Opacity: 1
+        opacity: 1
+        setSwappable: 1
+        swappableId: Neutral
+        setPosition: 0
+        useTween_Position: 0
+        portraitPosition: 0
+      actionsOnStart: []
+      actionsOnComplete: []
+    - customSpeaker: 0
+      speakerId: alice
+      customSpeakerName: 
+      dialogue: Santai bang, silahkan menunaikan kewajiban
+      blockNextDuration: 0.33
+      autoNextDuration: 2
+      portraitsOnStart:
+      - actorIndex: 0
+        setOpacity: 1
+        setRootOpacity: 0
+        useTween_Opacity: 1
+        opacity: 1
+        setSwappable: 1
+        swappableId: Donno
+        setPosition: 0
+        useTween_Position: 0
+        portraitPosition: 0
+      - actorIndex: 1
+        setOpacity: 1
+        setRootOpacity: 0
+        useTween_Opacity: 1
+        opacity: 0.05
+        setSwappable: 0
+        swappableId: 
+        setPosition: 0
+        useTween_Position: 0
+        portraitPosition: 0
+      actionsOnStart: []
+      actionsOnComplete: []
+    markerToStart: 
+    markerToStop: 
+    portraitsOnComplete: []
+    actionsOnComplete:
+    - actionType: 4
+      hideDialogue_Param:
+        instant: 0
+      playTimeline_Param:
+        startFrameMarker: 
+        endFrameMarker: 
+      raiseEvent_Param:
+        events: []
+      showOptions_Param:
+        optionSetId: 
+      playDialogueSet_Param:
+        dialogueSetId: 
+    currentDialogueIndex: 4
+  optionDataSets: []
+  portraitDatas_Editor:
+  - portraitId: alice
+    swappableIds:
+    - Neutral
+    - Think
+    - Donno
+  - portraitId: guard
+    swappableIds:
+    - Neutral
+    - Donno

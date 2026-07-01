@@ -15,7 +15,7 @@ public class EnemyController : CombatUnitController
     {
         await base.Init();
 
-        FirstInitDone = false;
+        InitDone = false;
 
         AnimationClips = enemyDataSO.AnimationClipsSO;
 
@@ -24,7 +24,7 @@ public class EnemyController : CombatUnitController
         enemyCombatant = GetComponent<EnemyCombatant>();
         enemyCombatant.Init(this);
         
-        FirstInitDone = true;
+        InitDone = true;
     }
 
     //[Button]

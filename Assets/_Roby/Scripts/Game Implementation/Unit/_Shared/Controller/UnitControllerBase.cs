@@ -11,7 +11,7 @@ public abstract class UnitControllerBase : MonoBehaviour, ISepObject
     #region ISepObject
     public GameObject GetGameObject => gameObject;
 
-    public bool FirstInitDone { get; set; }
+    public bool InitDone { get; set; }
     public int Order { get; set; }
     public string SepGroup { get; set; }
     public bool UsePreInit { get; set; }
@@ -23,7 +23,7 @@ public abstract class UnitControllerBase : MonoBehaviour, ISepObject
 
         StateMachine_Exploration = new UnitStateMachine_Exploration(this);
 
-        FirstInitDone = true;
+        InitDone = true;
     }
 
     public async UniTask PreInit()

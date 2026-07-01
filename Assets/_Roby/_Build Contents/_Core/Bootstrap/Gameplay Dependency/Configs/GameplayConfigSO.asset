@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab910dca707ce94d9603ce8b1a200ad, type: 3}
   m_Name: GameplayConfigSO
   m_EditorClassIdentifier: Assembly-CSharp::GameplayConfigSO
+  defaultActiveUnitBrainExplorationConfigSO: {fileID: 11400000, guid: ea6a786a6b99a764390856d6e23abacb, type: 2}
   statEntries:
   - attribute: 0
     defaultValue: 100
@@ -79,6 +80,10 @@ MonoBehaviour:
     statName: Attack Speed
     statDetail: 
     statIcon: {fileID: 0}
+  InteractEventSO: {fileID: 11400000, guid: be1292db396088e45a579d5259b116b2, type: 2}
+  interactionTag:
+  - talk
+  - pickUp
   heroHitboxSetting:
     hitboxRadius: 1
     hitboxForwardOffset: 1

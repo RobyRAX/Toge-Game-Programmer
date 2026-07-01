@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using RAXY.Core;
+using RAXY.InputSystem;
+using RAXY.InteractionSystem;
 using RAXY.Movement;
 using RAXY.Utility;
 using Sirenix.OdinInspector;
@@ -14,7 +16,7 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
     #region  ISepObject
     public GameObject GetGameObject => gameObject;
 
-    public bool FirstInitDone { get; set; }
+    public bool InitDone { get; set; }
     public int Order { get; set; }
     public string SepGroup { get; set; }
     public bool UsePreInit { get; set; }
@@ -42,7 +44,7 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
             index++;
         }
 
-        FirstInitDone = true;
+        InitDone = true;
     }
 
     public async UniTask PreInit()
@@ -65,9 +67,6 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
     [TitleGroup("Camera")]
     public CinemachineCamera combatCamera;
 
-    [TitleGroup("Brain Config")]
-    public ActiveUnitBrainExplorationConfigSO defaultActiveUnitBrainExplorationConfigSO;
-
     [TitleGroup("Party")]
     [ListDrawerSettings(ShowIndexLabels = true)]
     public List<string> partyIds;
@@ -79,6 +78,10 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
     [TitleGroup("Spawned Hero")]
     [ShowInInspector]
     public HeroController MainHero { get; set; }
+
+    [TitleGroup("Spawned Hero")]
+    [ShowInInspector]
+    public Interactor MainHeroInteractor { get; set; }
 
     [TitleGroup("Runtime")]
     [ShowInInspector]
@@ -93,10 +96,6 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
     public Dictionary<string, SpawnPoint> SpawnPointDict { get; set; }
 
     public event Action OnRespawn;
-
-    void Start()
-    {
-    }
 
     public async UniTask SpawnHero(string heroId, bool isMainHero)
     {
@@ -115,7 +114,10 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         heroCont.AnimationClips = heroDataSO.AnimationClipsSO;
 
         if (isMainHero)
+        {
             MainHero = heroCont;
+            MainHeroInteractor = heroCont.GetComponent<Interactor>();
+        }
 
         GameplayDependencyManager.Instance.RegisterSepObject(heroCont, GameplayDependencyManager.HERO_SEP_GROUP);
 
@@ -130,7 +132,8 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
 
             if (hero == MainHero)
             {
-                heroCont.Setup_BrainExploration(BrainExplorationType.ActiveUnit, defaultActiveUnitBrainExplorationConfigSO);
+                var config = GameplayConfig.Instance.ConfigSO.defaultActiveUnitBrainExplorationConfigSO;
+                heroCont.Setup_BrainExploration(BrainExplorationType.ActiveUnit, config);
                 topDownCamera.Follow = hero.transform;
                 topDownCamera.LookAt = hero.transform;
 
@@ -146,6 +149,9 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         CutsceneManager.Instance.OnCutsceneStarted += CutsceneStartedHandler;
         CutsceneManager.Instance.OnCutsceneEnded += CutsceneEndedHandler;
 
+        GameplayConfig.Instance.ConfigSO.InteractEventSO.Unsubscribe(InteractHandler);
+        GameplayConfig.Instance.ConfigSO.InteractEventSO.Subscribe(InteractHandler);
+
         if (defeatScreen != null)
         {
             defeatScreen.OnRespawnClicked -= RespawnClickedHandler;
@@ -156,6 +162,14 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         exploreUI?.Setup(this);
 
         ChangeState(GameplayState.Explore);
+    }
+
+    void InteractHandler(InputContext ctx)
+    {
+        if (MainHeroInteractor == null)
+            return;
+        
+        MainHeroInteractor.Interact();
     }
 
     void CutsceneStartedHandler()

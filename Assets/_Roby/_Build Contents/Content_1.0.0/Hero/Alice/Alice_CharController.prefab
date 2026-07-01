@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 4317528374489314531}
   - component: {fileID: 4931784027100836713}
   - component: {fileID: 4260030036246235534}
+  - component: {fileID: 6020431535600305343}
   m_Layer: 10
   m_Name: Alice_CharController
   m_TagString: Untagged
@@ -77,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Kybernetik.Animancer::Animancer.AnimancerComponent
   _Animator: {fileID: 2615422252504452183}
   _Transitions: {fileID: 0}
-  _ActionOnDisable: 0
+  _ActionOnDisable: 1
 --- !u!114 &597538312932825092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +217,24 @@ MonoBehaviour:
   - trackName: Alice
     trackBindType: 0
   animator: {fileID: 2615422252504452183}
+  cinemachineBrain: {fileID: 0}
+--- !u!114 &6020431535600305343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181947282332787467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55f9844b101051c448dc9918762ffba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RAXY.InteractionSystem::RAXY.InteractionSystem.Interactor
+  scanRange: 10
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  scanDelay: 0.33
 --- !u!1001 &6291356638778516779
 PrefabInstance:
   m_ObjectHideFlags: 0

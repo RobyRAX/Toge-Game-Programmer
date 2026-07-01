@@ -25,7 +25,7 @@ public class EnemyGroup : MonoBehaviour, ISepObject
     #region ISepObject
     public GameObject GetGameObject => gameObject;
 
-    public bool FirstInitDone { get; set; }
+    public bool InitDone { get; set; }
     public int Order { get; set; }
     public string SepGroup { get; set; }
     public bool UsePreInit { get; set; }
@@ -41,7 +41,7 @@ public class EnemyGroup : MonoBehaviour, ISepObject
             enemy.OnAttacked += OnAttackedHandler;
         }
 
-        FirstInitDone = true;
+        InitDone = true;
     }
 
     public async UniTask PreInit()

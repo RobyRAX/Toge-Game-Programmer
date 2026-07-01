@@ -15,14 +15,14 @@ public class HeroController : CombatUnitController
     {
         await base.Init();
 
-        FirstInitDone = false;
+        InitDone = false;
 
         SetHitboxSetting(GameplayConfig.Instance.ConfigSO.heroHitboxSetting);
 
         heroCombatant = GetComponent<HeroCombatant>();
         heroCombatant.Init(InventoryManager.Instance.GetInstanceHero(heroDataSO.ItemId));
 
-        FirstInitDone = true;
+        InitDone = true;
     }
 
     public override void SetSuspend(bool suspend)

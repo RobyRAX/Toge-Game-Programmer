@@ -10,7 +10,7 @@ public class EnemyGroupManager : Singleton<EnemyGroupManager>, ISepObject
     #region ISepObject
     public GameObject GetGameObject => gameObject;
 
-    public bool FirstInitDone { get; set; }
+    public bool InitDone { get; set; }
     public int Order { get; set; }
     public string SepGroup { get; set; }
     public bool UsePreInit { get; set; }
@@ -28,7 +28,7 @@ public class EnemyGroupManager : Singleton<EnemyGroupManager>, ISepObject
             GameplayDependencyManager.ENEMY_GROUP_SEP_GROUP);
         }
 
-        FirstInitDone = true;
+        InitDone = true;
     }
 
     public async UniTask PreInit()

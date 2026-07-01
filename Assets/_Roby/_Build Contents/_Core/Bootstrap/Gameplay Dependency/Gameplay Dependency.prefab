@@ -883,7 +883,6 @@ MonoBehaviour:
   mainCamera: {fileID: 3420786261254660143}
   topDownCamera: {fileID: 3289313367520740391}
   combatCamera: {fileID: 1427428672073054204}
-  defaultActiveUnitBrainExplorationConfigSO: {fileID: 11400000, guid: ea6a786a6b99a764390856d6e23abacb, type: 2}
   partyIds:
   - hr_alice
 --- !u!1 &7405973138018268771

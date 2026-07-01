@@ -165,6 +165,8 @@ public class CutsceneManager : Singleton<CutsceneManager>, INotificationReceiver
 
         Destroy(CurrentPlayingCutscene.gameObject);
         CurrentPlayingCutscene = null;
+
+        OnCutsceneEnded?.Invoke();
     }
 
     [TitleGroup("Debug Functions")]

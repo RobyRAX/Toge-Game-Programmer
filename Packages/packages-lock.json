@@ -16,32 +16,30 @@
       }
     },
     "com.raxy.animation": {
-      "version": "https://github.com/RobyRAX/RAXY-Animation.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Animation",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
         "com.raxy.core": "1.0.0",
         "com.raxy.utility": "1.0.0",
         "com.unity.addressables": "3.1.0"
-      },
-      "hash": "271ac385196e932b60f46e54d18a7f73d2429958"
+      }
     },
     "com.raxy.core": {
-      "version": "https://github.com/RobyRAX/RAXY-Core.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Core",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
         "com.raxy.utility": "1.0.0",
         "com.unity.addressables": "3.1.0"
-      },
-      "hash": "a1919bbdeeacce6b4389c9194c8ddd25e1b49498"
+      }
     },
     "com.raxy.dialogue": {
-      "version": "https://github.com/RobyRAX/RAXY-Dialogue.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Dialogue System",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.raxy.event": "1.0.0",
         "com.raxy.ui": "1.0.0",
@@ -51,76 +49,68 @@
         "com.unity.addressables": "3.1.0",
         "com.unity.timeline": "1.8.12",
         "com.unity.ugui": "2.0.0"
-      },
-      "hash": "172b04458386ec67befb9fd26a3cd85778aa0918"
+      }
     },
     "com.raxy.event": {
-      "version": "https://github.com/RobyRAX/RAXY-Event.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Event System",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "9f854a742dfb1ba2667497cc3e632ab02f901346"
+      "source": "local",
+      "dependencies": {}
     },
     "com.raxy.inputsystem": {
-      "version": "https://github.com/RobyRAX/RAXY-InputSystem.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Input System",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.raxy.event": "1.0.0",
         "com.raxy.utility": "1.0.0",
         "com.unity.inputsystem": "1.19.0"
-      },
-      "hash": "a71fd36a96e4733a054387b1f42c3051a4cc6278"
+      }
     },
     "com.raxy.interaction": {
-      "version": "https://github.com/RobyRAX/RAXY-Interaction.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Interaction System",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "033ae425b6d7c73511e4eec3d65c60f072c4bb6c"
+      "source": "local",
+      "dependencies": {}
     },
     "com.raxy.inventory": {
-      "version": "https://github.com/RobyRAX/RAXY-Inventory.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Inventory System",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.raxy.core": "1.0.0",
         "com.raxy.utility.localization": "1.0.0",
         "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
-      },
-      "hash": "0e5faf03eb533b9027f1348486d09b7bfe69eca5"
+      }
     },
     "com.raxy.loot": {
-      "version": "https://github.com/RobyRAX/RAXY-Loot.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Loot System",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.raxy.core": "1.0.0",
         "com.raxy.inventory": "1.0.0",
         "com.raxy.utility": "1.0.0"
-      },
-      "hash": "d7ebcb1ec61b5215b3c48d7be979655b5757a98e"
+      }
     },
     "com.raxy.movement": {
-      "version": "https://github.com/RobyRAX/RAXY-Movement.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Movement",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.raxy.utility": "1.0.0",
         "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
-      },
-      "hash": "60afd6decac06127a7df43ec62af2cbe5d0a17c4"
+      }
     },
     "com.raxy.notification": {
-      "version": "https://github.com/RobyRAX/RAXY-Notification.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Notification System",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.raxy.core": "1.0.0",
         "com.raxy.utility": "1.0.0",
         "com.unity.ugui": "2.0.0"
-      },
-      "hash": "b2a68149be7a76ad0d0f47cbc29c8602c65a73b1"
+      }
     },
     "com.raxy.package-installer": {
       "version": "https://github.com/RobyRAX/RAXY-Package-Installer.git",
@@ -130,77 +120,70 @@
       "hash": "9a6996a5d00e530702a409acc74f612b0a9379b8"
     },
     "com.raxy.pooling": {
-      "version": "https://github.com/RobyRAX/RAXY-Pooling.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Pooling",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.raxy.core": "1.0.0",
         "com.raxy.utility": "1.0.0",
         "com.unity.addressables": "3.1.0"
-      },
-      "hash": "e7b132d09a0cf0e3cc8b65046deb9126598f68c9"
+      }
     },
     "com.raxy.quest": {
-      "version": "https://github.com/RobyRAX/RAXY-Quest.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Quest System",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.raxy.inventory": "1.0.0",
         "com.raxy.utility": "1.0.0",
         "com.raxy.utility.localization": "1.0.0",
         "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
-      },
-      "hash": "ab0e0c311f65f8a0ce05fbbfe362814460fde614"
+      }
     },
     "com.raxy.statemachine": {
-      "version": "https://github.com/RobyRAX/RAXY-StateMachine.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY State Machine",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
-      },
-      "hash": "40ab4b4678eb12ad47b8e18e38512e938506d473"
+      }
     },
     "com.raxy.ui": {
-      "version": "https://github.com/RobyRAX/RAXY-UI.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY UI",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.unity.ugui": "2.0.0"
-      },
-      "hash": "4a083881bc9abc32fd6d43513fefb4e057056b06"
+      }
     },
     "com.raxy.utility": {
-      "version": "https://github.com/RobyRAX/RAXY-Utility.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Utility",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.unity.nuget.newtonsoft-json": "3.2.2"
-      },
-      "hash": "b9422744cecaebe2a983e1989394487b870fb4ec"
+      }
     },
     "com.raxy.utility.localization": {
-      "version": "https://github.com/RobyRAX/RAXY-Localization.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Localization",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
         "com.unity.addressables": "3.1.0",
         "com.unity.localization": "1.5.12"
-      },
-      "hash": "f12262ba6033e7275852776058776f4721d19939"
+      }
     },
     "com.raxy.vfx": {
-      "version": "https://github.com/RobyRAX/RAXY-Vfx.git",
+      "version": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY VFX Manager",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.raxy.core": "1.0.0",
         "com.raxy.pooling": "1.0.0",
         "com.raxy.utility": "1.0.0",
         "com.unity.addressables": "3.1.0"
-      },
-      "hash": "bbda7a9b57209d80638a5c70acb21999c1f41fee"
+      }
     },
     "com.unity.addressables": {
       "version": "3.1.0",

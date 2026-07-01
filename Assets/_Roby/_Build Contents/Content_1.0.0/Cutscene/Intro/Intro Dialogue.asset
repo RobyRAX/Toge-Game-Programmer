@@ -282,7 +282,7 @@ MonoBehaviour:
       speakerId: antek
       customSpeakerName: 
       dialogue: Heeeyyy Antek-antek As.....
-      blockNextDuration: 0.33
+      blockNextDuration: 3
       autoNextDuration: 2
       portraitsOnStart: []
       actionsOnStart: []

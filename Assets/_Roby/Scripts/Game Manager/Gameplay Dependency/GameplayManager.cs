@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using RAXY.Core;
+using RAXY.Dialogue;
 using RAXY.InputSystem;
 using RAXY.InteractionSystem;
 using RAXY.Movement;
@@ -10,6 +11,7 @@ using Sirenix.OdinInspector;
 using ToGaProTest.Shared;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameplayManager : Singleton<GameplayManager>, ISepObject
 {
@@ -97,6 +99,12 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
 
     public event Action OnRespawn;
 
+    const float PortalTeleportCooldown = 0.5f;
+
+    string pendingPortalTargetId;
+    bool isPortalTransitionInProgress;
+    float lastPortalTeleportTime;
+
     public async UniTask SpawnHero(string heroId, bool isMainHero)
     {
         var heroDataSO = GlobalManager.Instance.HeroDatabase.GetHeroData(heroId);
@@ -141,13 +149,14 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
             }
         }
 
-        GameplayDependencyManager.Instance.OnInitDone -= GameplayDependencyInitDoneHandler;
-
         TurnBaseCombatManager.Instance.OnCombatStarted += CombatStartedHandler;
         TurnBaseCombatManager.Instance.OnCombatEnded += CombatEndedHandler;
 
-        CutsceneManager.Instance.OnCutsceneStarted += CutsceneStartedHandler;
-        CutsceneManager.Instance.OnCutsceneEnded += CutsceneEndedHandler;
+        CutsceneManager.Instance.OnCutsceneStarted += StoryStartedHandler;
+        CutsceneManager.Instance.OnCutsceneEnded += StoryEndedHandler;
+
+        DialogueManager.Instance.OnDialogueStarted += StoryStartedHandler;
+        DialogueManager.Instance.OnDialogueEnded += StoryEndedHandler;
 
         GameplayConfig.Instance.ConfigSO.InteractEventSO.Unsubscribe(InteractHandler);
         GameplayConfig.Instance.ConfigSO.InteractEventSO.Subscribe(InteractHandler);
@@ -160,8 +169,20 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         }
 
         exploreUI?.Setup(this);
-
         ChangeState(GameplayState.Explore);
+
+        QuestWannabe.Instance.StartQuest(0);
+
+        SceneManager.sceneLoaded -= OnSceneLoadedForPortal;
+        SceneManager.sceneLoaded += OnSceneLoadedForPortal;
+
+        GameplayDependencyManager.Instance.OnInitDone -= GameplayDependencyInitDoneHandler;
+    }
+
+    protected override void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoadedForPortal;
+        base.OnDestroy();
     }
 
     void InteractHandler(InputContext ctx)
@@ -172,7 +193,7 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         MainHeroInteractor.Interact();
     }
 
-    void CutsceneStartedHandler()
+    void StoryStartedHandler()
     {
         foreach (var hero in SpawnedHeroDict.Values)
         {
@@ -182,7 +203,7 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         exploreUI.Hide();
     }
 
-    void CutsceneEndedHandler()
+    void StoryEndedHandler()
     {
         foreach (var hero in SpawnedHeroDict.Values)
         {
@@ -198,18 +219,123 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
             !SpawnPointDict.TryGetValue(CurrentSpawnPointId, out var spawnPoint) ||
             spawnPoint == null)
             return;
-        
+
+        await TeleportHeroTo(hero, spawnPoint.spawnPoint);
+    }
+
+    public void RequestTeleportViaPortal(Portal source)
+    {
+        if (source == null || isPortalTransitionInProgress)
+            return;
+
+        if (CurrentState != GameplayState.Explore || MainHero == null)
+            return;
+
+        if (Time.time - lastPortalTeleportTime < PortalTeleportCooldown)
+            return;
+
+        if (string.IsNullOrEmpty(source.portalTargetId))
+            return;
+
+        TeleportViaPortalAsync(source).Forget();
+    }
+
+    async UniTask TeleportViaPortalAsync(Portal source)
+    {
+        isPortalTransitionInProgress = true;
+        MainHero.SetSuspend(true);
+
+        try
+        {
+            bool isSameScene = string.IsNullOrEmpty(source.sceneTargetName) ||
+                               source.sceneTargetName == SceneManager.GetActiveScene().name;
+
+            if (isSameScene)
+            {
+                await TeleportToTargetPortal(source.portalTargetId);
+            }
+            else
+            {
+                pendingPortalTargetId = source.portalTargetId;
+                await SceneManager.LoadSceneAsync(source.sceneTargetName);
+                await CompletePendingPortalArrival();
+                await UniTask.Yield();
+                await GameplayDependencyManager.Instance.InitializeAsync_Teleport();
+            }
+        }
+        finally
+        {
+            MainHero?.SetSuspend(false);
+            isPortalTransitionInProgress = false;
+            lastPortalTeleportTime = Time.time;
+        }
+    }
+
+    void OnSceneLoadedForPortal(Scene scene, LoadSceneMode mode)
+    {
+        if (string.IsNullOrEmpty(pendingPortalTargetId) || !isPortalTransitionInProgress)
+            return;
+
+        CompletePendingPortalArrival().Forget();
+    }
+
+    async UniTask CompletePendingPortalArrival()
+    {
+        if (string.IsNullOrEmpty(pendingPortalTargetId))
+            return;
+
+        var targetId = pendingPortalTargetId;
+        pendingPortalTargetId = null;
+
+        await TeleportToTargetPortal(targetId);
+    }
+
+    async UniTask TeleportToTargetPortal(string portalId)
+    {
+        var target = FindPortalById(portalId);
+        if (target == null)
+        {
+            Debug.LogWarning($"[GameplayManager] Portal target '{portalId}' not found in scene '{SceneManager.GetActiveScene().name}'.");
+            return;
+        }
+
+        await TeleportHeroTo(MainHero, ResolveArrivalPoint(target));
+    }
+
+    public async UniTask TeleportHeroTo(HeroController hero, Transform destination)
+    {
+        if (hero == null || destination == null)
+            return;
+
         hero.GetComponent<CharacterController>().enabled = false;
         hero.GetComponent<UnitMovement>().enabled = false;
-        
-        var spawnPointReal = spawnPoint.spawnPoint.transform;
-        hero.transform.SetPositionAndRotation(spawnPointReal.position,
-                                                spawnPointReal.rotation);
+
+        hero.transform.SetPositionAndRotation(destination.position, destination.rotation);
 
         await UniTask.Yield();
 
         hero.GetComponent<CharacterController>().enabled = true;
         hero.GetComponent<UnitMovement>().enabled = true;
+    }
+
+    Portal FindPortalById(string portalId)
+    {
+        if (string.IsNullOrEmpty(portalId))
+            return null;
+
+        var portals = FindObjectsByType<Portal>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var portal in portals)
+        {
+            if (portal.portalId == portalId)
+                return portal;
+        }
+
+        return null;
+    }
+
+    static Transform ResolveArrivalPoint(Portal target)
+    {
+        return target.spawnPoint != null ? target.spawnPoint : target.transform;
     }
 
     private void CombatEndedHandler(TurnSide side)

@@ -17,6 +17,8 @@ public class EnemyGroupManager : Singleton<EnemyGroupManager>, ISepObject
 
     public async UniTask Init()
     {
+        InitDone = false;
+
         EnemyGroups = GameObject.FindObjectsByType<EnemyGroup>(
                         FindObjectsInactive.Exclude, 
                         FindObjectsSortMode.None).

@@ -25,6 +25,22 @@ public class GameplayDependencyManager : SepManagerBase<GameplayDependencyManage
     }
     #endregion
 
+    [Button]
+    public async UniTask InitializeAsync_Teleport()
+    {
+        IsInitDone = false;
+
+        await EnemyGroupManager.Instance.Init();
+
+        var enemyGroupSepGroup = RuntimeSepGroups.Find(x => x.GroupName == ENEMY_GROUP_SEP_GROUP);
+        await InitSepGroup(enemyGroupSepGroup);
+
+        var enemySepGroup = RuntimeSepGroups.Find(x => x.GroupName == ENEMY_SEP_GROUP);
+        await InitSepGroup(enemySepGroup);
+
+        IsInitDone = true;
+    }
+
     public const string HERO_SEP_GROUP = "Hero";
     public const string ENEMY_GROUP_SEP_GROUP = "Enemy Group";
     public const string ENEMY_SEP_GROUP = "Enemy";

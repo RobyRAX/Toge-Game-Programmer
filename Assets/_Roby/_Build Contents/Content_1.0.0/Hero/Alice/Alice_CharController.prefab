@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f9844b101051c448dc9918762ffba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: RAXY.InteractionSystem::RAXY.InteractionSystem.Interactor
-  scanRange: 10
+  scanRange: 1.5
   interactableLayer:
     serializedVersion: 2
     m_Bits: 2048

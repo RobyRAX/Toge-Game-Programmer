@@ -136,9 +136,6 @@ MonoBehaviour:
     - Order: -5
       UsePreInit: 0
       SepObject: {fileID: 4893108785795416191}
-    - Order: 0
-      UsePreInit: 0
-      SepObject: {fileID: 0}
   _initAllSepGroupOnStart: 0
   ItemDatabase: {fileID: 11400000, guid: fa7c246e1ec57634d914dba06475bbc1, type: 2}
   HeroDatabase: {fileID: 11400000, guid: ffc83a6da8b0b8e4f934a66df3da9de6, type: 2}

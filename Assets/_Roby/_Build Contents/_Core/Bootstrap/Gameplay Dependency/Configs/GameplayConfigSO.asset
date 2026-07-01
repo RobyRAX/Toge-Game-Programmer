@@ -101,3 +101,8 @@ MonoBehaviour:
       m_Bits: 1024
   initialSpawnPoint: spawnPoint_A
   maxTalentLevel: 5
+  talentPointsPerLevelUp: 2
+  expToNextLevel: 64000000bc000000130100006a010000c20100001a02000071020000c802000020030000
+  minExp: 100
+  maxExp: 800
+  maxLevel: 10

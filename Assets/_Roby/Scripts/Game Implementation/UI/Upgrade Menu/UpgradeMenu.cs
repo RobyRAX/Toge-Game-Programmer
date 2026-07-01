@@ -192,8 +192,8 @@ public class UpgradeMenu : MonoBehaviour
         this.manager = manager;
         this.closeInputEventSO = closeInputEventSO;
 
-        HeroProgression.OnHeroChanged -= HandleHeroChanged;
-        HeroProgression.OnHeroChanged += HandleHeroChanged;
+        ItemInstance_Hero.OnHeroChanged -= HandleHeroChanged;
+        ItemInstance_Hero.OnHeroChanged += HandleHeroChanged;
 
         if (overviewBtn != null)
         {
@@ -252,6 +252,9 @@ public class UpgradeMenu : MonoBehaviour
         if (Time.frameCount == openedOnFrame)
             return;
 
+        if (ctx.BoolValue == false)
+            return;
+
         Close();
     }
 
@@ -294,7 +297,7 @@ public class UpgradeMenu : MonoBehaviour
     {
         closeInputEventSO?.Unsubscribe(CloseInputHandler);
 
-        HeroProgression.OnHeroChanged -= HandleHeroChanged;
+        ItemInstance_Hero.OnHeroChanged -= HandleHeroChanged;
 
         if (overviewBtn != null)
             overviewBtn.onClick.RemoveListener(ShowOverviewTab);
@@ -353,26 +356,25 @@ public class UpgradeMenu : MonoBehaviour
     void ClearHeroList()
     {
         foreach (var slot in heroSlots)
-        {
-            if (slot != null)
-            {
-                slot.Teardown();
-                Destroy(slot.gameObject);
-            }
-        }
+            slot?.Teardown();
 
+        ClearContainerChildren(heroItemContainer);
         heroSlots.Clear();
     }
 
     void ClearAttackAttributeList()
     {
-        foreach (var slot in attackAttributeSlots)
-        {
-            if (slot != null)
-                Destroy(slot.gameObject);
-        }
-
+        ClearContainerChildren(talent_attackAttributeContainer);
         attackAttributeSlots.Clear();
+    }
+
+    static void ClearContainerChildren(Transform container)
+    {
+        if (container == null)
+            return;
+
+        for (int i = container.childCount - 1; i >= 0; i--)
+            Destroy(container.GetChild(i).gameObject);
     }
 
     void SelectHero(ItemInstance_Hero hero)
@@ -445,9 +447,12 @@ public class UpgradeMenu : MonoBehaviour
             overview_heroNameTmp.text = hero.heroDataSO?.ItemName ?? string.Empty;
 
         if (overview_levelTmp != null)
-            overview_levelTmp.text = $"Lv. {hero.level}";
+        {
+            int maxLevel = GameplayConfig.Instance?.ConfigSO?.MaxHeroLevel ?? 1;
+            overview_levelTmp.text = $"Lv. {hero.level}/{maxLevel}";
+        }
 
-        var (currentExp, requiredExp) = HeroProgression.GetExpProgress(hero);
+        var (currentExp, requiredExp) = hero.GetExpProgress();
         bool isMaxLevel = GameplayConfig.Instance?.ConfigSO?.IsMaxLevel(hero.level) ?? false;
 
         if (overview_expSlider != null)
@@ -481,12 +486,35 @@ public class UpgradeMenu : MonoBehaviour
 
     void RefreshOverviewStats(StatContainer_Runtime statContainer, IStatEntryProvider provider)
     {
-        overview_maxHpStatUI?.Setup(statContainer, provider);
-        overview_attackStatUI?.Setup(statContainer, provider);
-        overview_defenseStatUI?.Setup(statContainer, provider);
-        overview_maxStaminaStatUI?.Setup(statContainer, provider);
-        overview_staminaRegenStatUI?.Setup(statContainer, provider);
-        overview_attackSpeedStatUI?.Setup(statContainer, provider);
+        overview_maxHpStatUI?.Setup(
+            StatAttribute.MaxHp,
+            statContainer.GetTotalValue(StatAttribute.MaxHp),
+            provider);
+
+        overview_attackStatUI?.Setup(
+            StatAttribute.Attack,
+            statContainer.GetTotalValue(StatAttribute.Attack),
+            provider);
+
+        overview_defenseStatUI?.Setup(
+            StatAttribute.Defense,
+            statContainer.GetTotalValue(StatAttribute.Defense),
+            provider);
+
+        overview_maxStaminaStatUI?.Setup(
+            StatAttribute.MaxStamina,
+            statContainer.GetTotalValue(StatAttribute.MaxStamina),
+            provider);
+
+        overview_staminaRegenStatUI?.Setup(
+            StatAttribute.StaminaRegen,
+            statContainer.GetTotalValue(StatAttribute.StaminaRegen),
+            provider);
+
+        overview_attackSpeedStatUI?.Setup(
+            StatAttribute.AttackSpeed,
+            statContainer.GetTotalValue(StatAttribute.AttackSpeed),
+            provider);
     }
 
     void RefreshTalentTab()
@@ -566,7 +594,7 @@ public class UpgradeMenu : MonoBehaviour
         if (attackAttribute?.attributes == null)
             return;
 
-        int currentLevel = HeroProgression.GetTalentLevel(selectedHero, selectedTalentType);
+        int currentLevel = selectedHero.GetTalentLevel(selectedTalentType);
         int previewLevel = currentLevel + 1;
         int maxTalentLevel = GameplayConfig.Instance?.ConfigSO?.maxTalentLevel ?? 1;
 

@@ -7,12 +7,6 @@ using UnityEngine.UI;
 
 public class StatUI : MonoBehaviour
 {
-    [TitleGroup("Config")]
-    [SerializeField]
-    [LabelText("Stat Attribute")]
-    [ValueDropdown(nameof(GetNonPercentStatAttributes))]
-    StatAttribute statAttribute;
-
     [TitleGroup("UI Ref")]
     [SerializeField]
     Image statIconImg;
@@ -25,56 +19,20 @@ public class StatUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI statValueTmp;
 
-    // [TitleGroup("UI Ref")]
-    // [SerializeField]
-    // TextMeshProUGUI statDetailTmp;
-
-    public StatAttribute StatAttribute => statAttribute;
-
-    public bool IsNonPercentStat =>
-        statAttribute != StatAttribute.None &&
-        !ToGaProTestShared.StatPercentAttributes.Contains(statAttribute);
-
-    public void Setup(StatContainer_Runtime container, IStatEntryProvider provider)
-    {
-        if (container == null || !IsNonPercentStat)
-        {
-            gameObject.SetActive(false);
-            return;
-        }
-
-        gameObject.SetActive(true);
-        ApplyDisplay(container.GetTotalValue(statAttribute), provider);
-    }
-
     public void Setup(StatAttribute attr, float value, IStatEntryProvider provider)
     {
-        if (attr != StatAttribute.None)
-            statAttribute = attr;
-
-        if (!IsNonPercentStat)
+        if (attr == StatAttribute.None || ToGaProTestShared.StatPercentAttributes.Contains(attr))
         {
             gameObject.SetActive(false);
             return;
         }
 
         gameObject.SetActive(true);
-        ApplyDisplay(value, provider);
-    }
 
-    void ApplyDisplay(float value, IStatEntryProvider provider)
-    {
-        var entry = FindStatEntry(provider?.StatEntries, statAttribute);
+        var entry = FindStatEntry(provider?.StatEntries, attr);
 
         if (statNameTmp != null)
-            statNameTmp.text = entry?.statName ?? statAttribute.ToString();
-
-        // if (statDetailTmp != null)
-        // {
-        //     bool hasDetail = !string.IsNullOrEmpty(entry?.statDetail);
-        //     statDetailTmp.gameObject.SetActive(hasDetail);
-        //     statDetailTmp.text = hasDetail ? entry.statDetail : string.Empty;
-        // }
+            statNameTmp.text = entry?.statName ?? attr.ToString();
 
         if (statIconImg != null)
         {
@@ -83,7 +41,7 @@ public class StatUI : MonoBehaviour
         }
 
         if (statValueTmp != null)
-            statValueTmp.text = FormatValue(value, statAttribute, entry);
+            statValueTmp.text = FormatValue(value, attr, entry);
     }
 
     static string FormatValue(float value, StatAttribute attr, StatEntry entry)
@@ -104,10 +62,5 @@ public class StatUI : MonoBehaviour
         }
 
         return null;
-    }
-
-    static IEnumerable<StatAttribute> GetNonPercentStatAttributes()
-    {
-        return ToGaProTestShared.MainStatAttributes;
     }
 }

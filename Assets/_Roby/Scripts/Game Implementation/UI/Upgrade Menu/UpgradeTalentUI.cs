@@ -70,13 +70,16 @@ public class UpgradeTalentUI : MonoBehaviour
 
     public void Refresh(Talent talentData)
     {
-        int level = HeroProgression.GetTalentLevel(hero, talentType);
+        int level = hero.GetTalentLevel(talentType);
 
         if (talentLevelTmp != null)
-            talentLevelTmp.text = $"Lv. {level}";
+        {
+            int maxLevel = GameplayConfig.Instance?.ConfigSO?.maxTalentLevel ?? 1;
+            talentLevelTmp.text = $"Lv. {level}/{maxLevel}";
+        }
 
         if (upgradeButton != null)
-            upgradeButton.interactable = HeroProgression.CanUpgradeTalent(hero, talentType);
+            upgradeButton.interactable = hero.CanUpgradeTalent(talentType);
     }
 
     public void SetSelected(bool selected)
@@ -89,7 +92,7 @@ public class UpgradeTalentUI : MonoBehaviour
 
     void HandleUpgrade()
     {
-        if (!HeroProgression.TryUpgradeTalent(hero, talentType))
+        if (!hero.TryUpgradeTalent(talentType))
             return;
 
         onUpgraded?.Invoke();

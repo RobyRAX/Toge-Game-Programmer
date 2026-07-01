@@ -138,7 +138,7 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
             await RunActions(completedStep.onExitActions, completedStep);
 
             if (completedStep.expReward > 0)
-                HeroProgression.AddExpToSpawnedHeroes(completedStep.expReward);
+                GameplayManager.Instance?.AddExpToSpawnedHeroes(completedStep.expReward);
 
             CurrentStepIndex++;
 

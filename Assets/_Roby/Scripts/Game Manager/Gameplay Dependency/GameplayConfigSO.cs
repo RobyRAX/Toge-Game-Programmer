@@ -54,6 +54,47 @@ public class GameplayConfigSO : ScriptableObject, IStatEntryProvider, IInteracta
     [Tooltip("Index level-1 = EXP required to advance from level N to N+1. List count defines max level.")]
     public List<int> expToNextLevel = new();
 
+#if UNITY_EDITOR
+    [FoldoutGroup("Progression/Setup Helper")]
+    [SerializeField]
+    int minExp;
+
+    [FoldoutGroup("Progression/Setup Helper")]
+    [SerializeField]
+    int maxExp;
+
+    [FoldoutGroup("Progression/Setup Helper")]
+    [SerializeField]
+    int maxLevel = 10;
+
+    [FoldoutGroup("Progression/Setup Helper")]
+    [Button]
+    void SetupExpProgression()
+    {
+        if (maxLevel <= 1)
+            return;
+
+        int entryCount = maxLevel - 1;
+        expToNextLevel = new List<int>(entryCount);
+
+        if (entryCount == 1)
+        {
+            expToNextLevel.Add(Mathf.Max(0, minExp));
+            EditorUtility.SetDirty(this);
+            return;
+        }
+
+        for (int i = 0; i < entryCount; i++)
+        {
+            float t = i / (float)(entryCount - 1);
+            int expRequired = Mathf.RoundToInt(Mathf.Lerp(minExp, maxExp, t));
+            expToNextLevel.Add(Mathf.Max(0, expRequired));
+        }
+
+        EditorUtility.SetDirty(this);
+    }
+#endif
+
     public int GetExpRequiredForNextLevel(int currentLevel)
     {
         if (expToNextLevel == null || expToNextLevel.Count == 0)
@@ -74,7 +115,16 @@ public class GameplayConfigSO : ScriptableObject, IStatEntryProvider, IInteracta
         return level > expToNextLevel.Count;
     }
 
-    public int MaxHeroLevel => expToNextLevel?.Count ?? 0;
+    public int MaxHeroLevel
+    {
+        get
+        {
+            if (expToNextLevel == null || expToNextLevel.Count == 0)
+                return 1;
+
+            return expToNextLevel.Count + 1;
+        }
+    }
 
 #if UNITY_EDITOR
     [TitleGroup("Stat")]

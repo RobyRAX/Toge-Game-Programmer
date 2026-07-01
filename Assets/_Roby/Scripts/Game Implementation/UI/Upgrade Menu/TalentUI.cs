@@ -33,7 +33,10 @@ public class TalentUI : MonoBehaviour
         //     talentNameTmp.text = displayName ?? string.Empty;
 
         if (talentLevelTmp != null)
-            talentLevelTmp.text = $"Lv. {level}";
+        {
+            int maxLevel = GameplayConfig.Instance?.ConfigSO?.maxTalentLevel ?? 1;
+            talentLevelTmp.text = $"Lv. {level}/{maxLevel}";
+        }
 
         if (button != null)
             button.interactable = false;

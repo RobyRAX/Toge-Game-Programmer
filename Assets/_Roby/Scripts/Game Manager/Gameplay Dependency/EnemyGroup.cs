@@ -164,7 +164,7 @@ public class EnemyGroup : MonoBehaviour, ISepObject
         if (winningSide == TurnSide.Player)
         {
             if (expReward > 0)
-                HeroProgression.AddExpToSpawnedHeroes(expReward);
+                GameplayManager.Instance?.AddExpToSpawnedHeroes(expReward);
 
             MarkAsCleared();
         }

@@ -490,7 +490,7 @@ MonoBehaviour:
   selectButton: {fileID: 3924421295369985861}
   upgradeButton: {fileID: 2184826778341010899}
   talentIconImg: {fileID: 1596413054869223880}
-  talentLevelTmp: {fileID: 0}
+  talentLevelTmp: {fileID: 4236421927419706299}
   selectedIndicator: {fileID: 6814657585412987525}
 --- !u!1 &3122568410033213272
 GameObject:

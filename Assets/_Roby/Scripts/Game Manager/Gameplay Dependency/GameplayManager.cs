@@ -46,6 +46,10 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
             index++;
         }
 
+        exploreUI.gameObject.SetActive(true);
+        defeatScreen.gameObject.SetActive(false);
+        upgradeMenu.gameObject.SetActive(false);
+
         InitDone = true;
     }
 
@@ -211,6 +215,9 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
         if (!CanUseUpgradeMenu() || upgradeMenu == null || upgradeMenu.IsOpen)
             return;
 
+        if (ctx.BoolValue == false)
+            return;
+
         upgradeMenu.Open();
     }
 
@@ -226,6 +233,18 @@ public class GameplayManager : Singleton<GameplayManager>, ISepObject
             return false;
 
         return true;
+    }
+
+    public void AddExpToSpawnedHeroes(int amount)
+    {
+        if (amount <= 0 || SpawnedHeroDict == null)
+            return;
+
+        foreach (var heroId in SpawnedHeroDict.Keys)
+        {
+            var hero = InventoryManager.Instance?.GetInstanceHero(heroId);
+            hero?.AddExp(amount);
+        }
     }
 
     void StoryStartedHandler()

@@ -5,6 +5,7 @@ public class TurnBaseCombatStateMachine
 {
     TurnBaseCombatManager manager;
     CombatCameraDirector camDir;
+    int transitionGeneration;
 
     public TurnBaseCombatPhase CurrentPhase { get; private set; }
 
@@ -19,6 +20,7 @@ public class TurnBaseCombatStateMachine
         if (CurrentPhase == phase)
             return;
 
+        transitionGeneration++;
         Exit(CurrentPhase);
         CurrentPhase = phase;
         manager.RaisePhaseChanged(phase);
@@ -38,7 +40,7 @@ public class TurnBaseCombatStateMachine
             case TurnBaseCombatPhase.BeginTurn:
                 FocusCameraOnHeroSide();
                 manager.RegenStaminaForCurrentCombatant();
-                ChangePhase(TurnBaseCombatPhase.SelectAttack);
+                AdvancePhaseAfterMinDuration(TurnBaseCombatPhase.BeginTurn, TurnBaseCombatPhase.SelectAttack).Forget();
                 break;
 
             case TurnBaseCombatPhase.SelectAttack:
@@ -46,7 +48,7 @@ public class TurnBaseCombatStateMachine
                 if (manager.CurrentTurnSide == TurnSide.Enemy)
                 {
                     manager.PickRandomAttackForCurrentCombatant();
-                    ChangePhase(manager.GetFirstTargetPhase());
+                    AdvancePhaseAfterMinDuration(TurnBaseCombatPhase.SelectAttack, manager.GetFirstTargetPhase()).Forget();
                 }
                 break;
 
@@ -55,7 +57,7 @@ public class TurnBaseCombatStateMachine
                 if (manager.CurrentTurnSide == TurnSide.Enemy)
                 {
                     manager.AutoPickOpponentTarget();
-                    ChangePhase(manager.GetPhaseAfterOpponentTarget());
+                    AdvancePhaseAfterMinDuration(TurnBaseCombatPhase.SelectTargetOpponent, manager.GetPhaseAfterOpponentTarget()).Forget();
                 }
                 break;
 
@@ -64,7 +66,7 @@ public class TurnBaseCombatStateMachine
                 {
                     FocusCameraOnHeroSide();
                     manager.AutoPickTeamTarget();
-                    ChangePhase(TurnBaseCombatPhase.Attack);
+                    AdvancePhaseAfterMinDuration(TurnBaseCombatPhase.SelectTargetTeam, TurnBaseCombatPhase.Attack).Forget();
                 }
                 else
                 {
@@ -88,13 +90,43 @@ public class TurnBaseCombatStateMachine
                 break;
 
             case TurnBaseCombatPhase.EndTurn:
-                manager.ResolveEndTurnAsync().Forget();
+                ResolveEndTurnAfterMinDuration().Forget();
                 break;
 
             case TurnBaseCombatPhase.EndCombat:
                 manager.ResolveEndCombatAsync().Forget();
                 break;
         }
+    }
+
+    async UniTaskVoid AdvancePhaseAfterMinDuration(TurnBaseCombatPhase expectedPhase, TurnBaseCombatPhase nextPhase)
+    {
+        int gen = transitionGeneration;
+        float delay = manager.PhaseMinimumDuration;
+        if (delay > 0f)
+            await UniTask.WaitForSeconds(delay);
+
+        if (gen != transitionGeneration
+            || CurrentPhase != expectedPhase
+            || manager.IsCombatOver)
+            return;
+
+        ChangePhase(nextPhase);
+    }
+
+    async UniTaskVoid ResolveEndTurnAfterMinDuration()
+    {
+        int gen = transitionGeneration;
+        float delay = manager.PhaseMinimumDuration;
+        if (delay > 0f)
+            await UniTask.WaitForSeconds(delay);
+
+        if (gen != transitionGeneration
+            || CurrentPhase != TurnBaseCombatPhase.EndTurn
+            || manager.IsCombatOver)
+            return;
+
+        manager.ResolveEndTurnAsync().Forget();
     }
 
     void Exit(TurnBaseCombatPhase phase)

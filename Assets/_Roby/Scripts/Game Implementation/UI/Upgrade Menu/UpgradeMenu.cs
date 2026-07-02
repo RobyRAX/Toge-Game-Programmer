@@ -20,42 +20,42 @@ public class UpgradeMenu : MonoBehaviour
 
     [TitleGroup("UI Ref")]
     [SerializeField]
-    [LabelText("Hero Item Container")]
     Transform heroItemContainer;
 
     [TitleGroup("UI Ref")]
     [SerializeField]
-    [LabelText("Overview Btn")]
     Button overviewBtn;
 
     [TitleGroup("UI Ref")]
     [SerializeField]
-    [LabelText("Talent Btn")]
+    GameObject overviewTabActiveIndicator;
+
+    [TitleGroup("UI Ref")]
+    [SerializeField]
     Button talentBtn;
 
     [TitleGroup("UI Ref")]
     [SerializeField]
-    [LabelText("Close Btn")]
+    GameObject talentTabActiveIndicator;
+
+    [TitleGroup("UI Ref")]
+    [SerializeField]
     Button closeBtn;
 
     [TitleGroup("UI Ref")]
     [SerializeField]
-    [LabelText("Hero Portrait Img")]
     Image heroPortraitImg;
 
     [TitleGroup("UI Ref")]
     [SerializeField]
-    [LabelText("Overview Root")]
     Transform overviewRoot;
 
     [TitleGroup("UI Ref")]
     [SerializeField]
-    [LabelText("Talent Root")]
     Transform talentRoot;
 
     [TitleGroup("Prefab Ref")]
     [SerializeField]
-    [LabelText("Hero Item UI Prefab")]
     HeroItemUI heroItemUiPrefab;
 
     [TitleGroup("Overview UI Ref")]
@@ -406,6 +406,12 @@ public class UpgradeMenu : MonoBehaviour
 
         if (talentRoot != null)
             talentRoot.gameObject.SetActive(false);
+        
+        if (overviewTabActiveIndicator != null)
+            overviewTabActiveIndicator.gameObject.SetActive(true);
+        
+        if (talentTabActiveIndicator != null)
+            talentTabActiveIndicator.gameObject.SetActive(false);
     }
 
     void ShowTalentTab()
@@ -417,6 +423,12 @@ public class UpgradeMenu : MonoBehaviour
 
         if (talentRoot != null)
             talentRoot.gameObject.SetActive(true);
+        
+        if (overviewTabActiveIndicator != null)
+            overviewTabActiveIndicator.gameObject.SetActive(false);
+        
+        if (talentTabActiveIndicator != null)
+            talentTabActiveIndicator.gameObject.SetActive(true);
 
         RefreshTalentTab();
     }

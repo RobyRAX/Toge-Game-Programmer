@@ -20,37 +20,37 @@ MonoBehaviour:
     isRound: 1
     statName: Max Hp
     statDetail: 
-    statIcon: {fileID: 0}
+    statIcon: {fileID: 21300000, guid: e726826a8bb55654cafbdeb8e4557a43, type: 3}
   - attribute: 1
     defaultValue: 10
     isRound: 1
     statName: Attack
     statDetail: 
-    statIcon: {fileID: 0}
+    statIcon: {fileID: 21300000, guid: 4df9e95657cf2db49bbb054a8e9b65ed, type: 3}
   - attribute: 3
     defaultValue: 5
     isRound: 1
     statName: Defense
     statDetail: 
-    statIcon: {fileID: 0}
+    statIcon: {fileID: 21300000, guid: 1b1ee72aeb70284498bae8c64d484122, type: 3}
   - attribute: 2
     defaultValue: 50
     isRound: 1
     statName: Max Stamina
     statDetail: 
-    statIcon: {fileID: 0}
+    statIcon: {fileID: 21300000, guid: d66c01a19e9dd6c4aafb9298d0183a57, type: 3}
   - attribute: 4
     defaultValue: 5
     isRound: 0
     statName: Stamina Regen
     statDetail: 
-    statIcon: {fileID: 0}
+    statIcon: {fileID: 21300000, guid: de7de6b44e238cc41ac9b08a1d09e9ed, type: 3}
   - attribute: 11
     defaultValue: 1
     isRound: 0
     statName: Attack Speed
     statDetail: 
-    statIcon: {fileID: 0}
+    statIcon: {fileID: 21300000, guid: e408d9e941d31a1449404b59c9011057, type: 3}
   - attribute: 6
     defaultValue: 0
     isRound: 0

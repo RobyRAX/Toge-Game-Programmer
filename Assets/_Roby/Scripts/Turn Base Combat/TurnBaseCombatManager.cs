@@ -171,6 +171,13 @@ public class TurnBaseCombatManager : Singleton<TurnBaseCombatManager>
     [MinValue(0)]
     float winCelebrationDuration = 2f;
 
+    [TitleGroup("Pacing")]
+    [SerializeField]
+    [MinValue(0)]
+    float phaseMinimumDuration = 0.5f;
+
+    internal float PhaseMinimumDuration => phaseMinimumDuration;
+
     [TitleGroup("Camera")]
     public CombatCameraDirector CameraDirector;
 

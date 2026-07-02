@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using RAXY.Core;
+using RAXY.InputSystem;
 using RAXY.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -30,10 +32,24 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
 //         InitDone = true;
 //     }
 // #endif
-    public string initialScene = "Guild";
 
+    [TitleGroup("Navigator")]
+    public GameObject navigatorObject;
+
+    [TitleGroup("Navigator")]
+    public InputActionEventSO showNavigatorEventSO;
+
+    [TitleGroup("Navigator")]
+    [Min(0f)]
+    public float showNavigatorDuration = 3f;
+
+    [TitleGroup("Marker")]
     public QuestMarker questMarker;
 
+    [TitleGroup("Quest Step")]
+    public string initialScene = "Guild";
+
+    [TitleGroup("Quest Step")]
     [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "questId")]
     public List<QuestStepEntry> questStepEntries;
 
@@ -59,8 +75,31 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
 
     QuestStepActionContext actionContext;
     bool isAdvancingStep;
+    GameObject navigatorInstance;
+    QuestNavigator navigatorComponent;
+    bool navigatorWarnedMissingPrefab;
+    Transform navigatorOriginalParent;
+    Quaternion navigatorOriginalLocalRotation;
+    Vector3 navigatorOriginalLocalScale;
+    bool navigatorOriginalTransformCached;
+    CancellationTokenSource showNavigatorCts;
+
+    static readonly Vector3 NavigatorHiddenLocalPosition = new(0f, -1000f, 0f);
 
     public event Action<QuestStepEntry> OnQuestStepChanged;
+
+    public bool IsNavigatorVisible => navigatorInstance != null && navigatorInstance.activeSelf;
+
+    public void ShowNavigator()
+    {
+        EnsureNavigator();
+        SetNavigatorActive(true);
+    }
+
+    public void HideNavigator()
+    {
+        SetNavigatorActive(false);
+    }
 
     protected override void Awake()
     {
@@ -72,11 +111,20 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoadedHandler;
+
+        showNavigatorEventSO?.Unsubscribe(ShowNavigatorInputHandler);
+        showNavigatorEventSO?.Subscribe(ShowNavigatorInputHandler);
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoadedHandler;
+
+        showNavigatorEventSO?.Unsubscribe(ShowNavigatorInputHandler);
+
+        showNavigatorCts?.Cancel();
+        showNavigatorCts?.Dispose();
+        showNavigatorCts = null;
     }
 
     void Update()
@@ -101,6 +149,7 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
     void OnSceneLoadedHandler(Scene scene, LoadSceneMode mode)
     {
         RefreshMarker();
+        EnsureNavigator();
     }
 
     public void StartQuest(int index = 0)
@@ -117,6 +166,8 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
         CurrentStepIndex = Mathf.Clamp(index, 0, questStepEntries.Count - 1);
         IsQuestActive = true;
         IsAllQuestCompleted = false;
+        EnsureNavigator();
+        SetNavigatorActive(false);
         EnterStepAsync().Forget();
     }
 
@@ -148,6 +199,7 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
                 IsQuestActive = false;
                 CurrentQuest = null;
                 questMarker?.Hide();
+                SetNavigatorActive(false);
                 OnQuestStepChanged?.Invoke(null);
                 return;
             }
@@ -194,10 +246,12 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
         if (!IsQuestActive || IsAllQuestCompleted || CurrentQuest == null)
         {
             questMarker.Hide();
+            SetNavigatorActive(false);
             return;
         }
 
         questMarker.SetMarker(GetResolvedMarkerPosition(), CurrentQuest.markerRadius);
+        EnsureNavigator();
     }
 
     async UniTask EnterStepAsync()
@@ -207,6 +261,8 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
 
         await RunActions(CurrentQuest.onEnterActions, CurrentQuest);
         RefreshMarker();
+        EnsureNavigator();
+        SetNavigatorActive(false);
         OnQuestStepChanged?.Invoke(CurrentQuest);
     }
 
@@ -235,6 +291,121 @@ public class QuestWannabe : Singleton<QuestWannabe>//, ISepObject
         var targetFlat = new Vector3(targetPos.x, 0f, targetPos.z);
 
         return Vector3.Distance(heroFlat, targetFlat) <= CurrentQuest.markerRadius;
+    }
+
+    void EnsureNavigator()
+    {
+        if (!IsQuestActive || IsAllQuestCompleted || CurrentQuest == null)
+        {
+            SetNavigatorActive(false);
+            return;
+        }
+
+        if (GameplayManager.Instance == null || GameplayManager.Instance.MainHero == null)
+        {
+            SetNavigatorActive(false);
+            return;
+        }
+
+        if (navigatorObject == null)
+        {
+            SetNavigatorActive(false);
+
+            if (!navigatorWarnedMissingPrefab)
+            {
+                navigatorWarnedMissingPrefab = true;
+                Debug.LogWarning("[QuestWannabe] navigatorObject is not assigned. Quest navigator will not appear.");
+            }
+
+            return;
+        }
+
+        navigatorWarnedMissingPrefab = false;
+
+        if (navigatorInstance == null)
+            navigatorInstance = navigatorObject;
+
+        if (navigatorInstance == null)
+            return;
+
+        if (!navigatorOriginalTransformCached)
+        {
+            navigatorOriginalParent = navigatorInstance.transform.parent;
+            navigatorOriginalLocalRotation = navigatorInstance.transform.localRotation;
+            navigatorOriginalLocalScale = navigatorInstance.transform.localScale;
+            navigatorOriginalTransformCached = true;
+        }
+
+        if (navigatorInstance.transform.parent != GameplayManager.Instance.MainHero.transform)
+        {
+            navigatorInstance.transform.SetParent(GameplayManager.Instance.MainHero.transform, worldPositionStays: false);
+            navigatorInstance.transform.localPosition = Vector3.zero;
+            navigatorInstance.transform.localRotation = navigatorOriginalLocalRotation;
+            navigatorInstance.transform.localScale = navigatorOriginalLocalScale;
+        }
+
+        navigatorComponent = navigatorInstance.GetComponent<QuestNavigator>();
+        if (navigatorComponent == null)
+            navigatorComponent = navigatorInstance.AddComponent<QuestNavigator>();
+
+        if (navigatorComponent != null)
+            navigatorComponent.Setup(this, GameplayManager.Instance.MainHero.transform);
+    }
+
+    void SetNavigatorActive(bool active)
+    {
+        if (navigatorInstance == null)
+            return;
+
+        if (!active && navigatorOriginalTransformCached)
+        {
+            if (navigatorInstance.transform.parent != navigatorOriginalParent)
+            {
+                navigatorInstance.transform.SetParent(navigatorOriginalParent, worldPositionStays: false);
+                navigatorInstance.transform.localPosition = NavigatorHiddenLocalPosition;
+                navigatorInstance.transform.localRotation = navigatorOriginalLocalRotation;
+                navigatorInstance.transform.localScale = navigatorOriginalLocalScale;
+            }
+        }
+
+        if (navigatorInstance.activeSelf == active)
+            return;
+
+        navigatorInstance.SetActive(active);
+    }
+
+    void ShowNavigatorInputHandler(InputContext ctx)
+    {
+        if (ctx.BoolValue == false)
+            return;
+
+        if (!IsQuestActive || IsAllQuestCompleted || CurrentQuest == null)
+            return;
+
+        ShowNavigatorForSeconds(showNavigatorDuration).Forget();
+    }
+
+    async UniTask ShowNavigatorForSeconds(float seconds)
+    {
+        showNavigatorCts?.Cancel();
+        showNavigatorCts?.Dispose();
+        showNavigatorCts = new CancellationTokenSource();
+
+        ShowNavigator();
+
+        if (seconds <= 0f)
+            return;
+
+        try
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(seconds), cancellationToken: showNavigatorCts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        HideNavigator();
     }
 
     

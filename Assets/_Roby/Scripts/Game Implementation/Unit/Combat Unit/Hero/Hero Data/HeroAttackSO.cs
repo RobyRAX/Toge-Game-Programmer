@@ -59,11 +59,14 @@ public class HeroDamageProfileProvider
         if (profile == null)
             return null;
 
+        var entry = attackAttribute.GetEntry(damageProfileEntry.attributeId);
+        var multiplierAttribute = entry?.multiplierAttribute ?? StatAttribute.Attack;
+
         return new DamageProfileWithAttribute
         {
             flatDamage = profile.flatDamage,
             multiplierDamage = profile.multiplierDamage,
-            attribute = damageProfileEntry.attribute
+            attribute = multiplierAttribute
         };
     }
 
@@ -120,7 +123,9 @@ public class HeroDamageProfileProvider
             return;
 
         var dmgProfile = attackAttribute.GetDamageProfile(damageProfileEntry.attributeId, talentLevel);
-        damageProfileEntry.Set_DamageProfilePreview(dmgProfile);
+        var entry = attackAttribute.GetEntry(damageProfileEntry.attributeId);
+        var multiplierAttribute = entry?.multiplierAttribute ?? StatAttribute.Attack;
+        damageProfileEntry.Set_DamageProfilePreview(dmgProfile, multiplierAttribute);
     }
 
     public void Set_EditorData(CombatAttackBaseSO attackSO)
@@ -143,19 +148,22 @@ public class HeroAttackDamageProfileEntry
 {
     [ValueDropdown("attributeIds")]
     public string attributeId;
-    public StatAttribute attribute = StatAttribute.Attack;
 
 #if UNITY_EDITOR
     public string Label => damageProfile_Preview == null
         ? attributeId
-        : $"{attributeId} -> {damageProfile_Preview.flatDamage} + {damageProfile_Preview.multiplierDamage}% {attribute}";
+        : $"{attributeId} -> {damageProfile_Preview.flatDamage} + {damageProfile_Preview.multiplierDamage}% {multiplierAttribute_Preview}";
 
     [TitleGroup("Preview")]
     [HideLabel]
     [ReadOnly]
     public DamageProfile damageProfile_Preview;
 
-    public void Set_DamageProfilePreview(DamageProfile damageProfile)
+    [TitleGroup("Preview")]
+    [ReadOnly]
+    public StatAttribute multiplierAttribute_Preview = StatAttribute.Attack;
+
+    public void Set_DamageProfilePreview(DamageProfile damageProfile, StatAttribute multiplierAttribute)
     {
         if (damageProfile == null)
             return;
@@ -163,6 +171,7 @@ public class HeroAttackDamageProfileEntry
         damageProfile_Preview ??= new DamageProfile();
         damageProfile_Preview.flatDamage = damageProfile.flatDamage;
         damageProfile_Preview.multiplierDamage = damageProfile.multiplierDamage;
+        multiplierAttribute_Preview = multiplierAttribute;
     }
 
     static List<string> attributeIds;

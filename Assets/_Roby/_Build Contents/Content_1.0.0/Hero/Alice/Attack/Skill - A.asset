@@ -49,12 +49,12 @@ MonoBehaviour:
     talent: 1
     damageProfileEntry:
       attributeId: skill_A
-      attribute: 1
       damageProfile_Preview:
         flatDamage: 0
-        multiplierDamage: 0
-    configSO: {fileID: 0}
-    talentLevel: 0
+        multiplierDamage: 45
+      multiplierAttribute_Preview: 1
+    configSO: {fileID: 11400000, guid: 17769c2ccd795ab43a0a9e84db8aff64, type: 2}
+    talentLevel: 1
   heroCombatDataSO_editorData: {fileID: 11400000, guid: 1682229ce2e71c244b323ea43a777827, type: 2}
   references:
     version: 2

@@ -51,7 +51,7 @@ public class EnemyBrainExploration : BrainExplorationBase
 
     public override void Update()
     {
-        if (BrainConfig == null || EnemyGroup == null || EnemyGroup.isCleared)
+        if (BrainConfig == null || EnemyGroup == null || EnemyGroup.IsCleared)
             return;
 
         if (GameplayManager.Instance == null ||
@@ -66,6 +66,7 @@ public class EnemyBrainExploration : BrainExplorationBase
             return;
 
         float distToHero = GetHorizontalDistance(Cont.transform.position, hero.transform.position);
+        bool heroInsideGroupRadius = IsInsideGroupRadius(hero.transform.position);
 
         if (distToHero <= BrainConfig.attackRadius)
         {
@@ -76,7 +77,7 @@ public class EnemyBrainExploration : BrainExplorationBase
             return;
         }
 
-        if (distToHero <= BrainConfig.chaseRadius)
+        if (distToHero <= BrainConfig.chaseRadius && heroInsideGroupRadius)
         {
             CurrentMode = EnemyExplorationMode.Chase;
             Sprint = BrainConfig.useSprintWhileChasing;
@@ -171,6 +172,18 @@ public class EnemyBrainExploration : BrainExplorationBase
         a.y = 0f;
         b.y = 0f;
         return Vector3.Distance(a, b);
+    }
+
+    bool IsInsideGroupRadius(Vector3 heroWorldPos)
+    {
+        if (EnemyGroup == null)
+            return false;
+
+        float radius = EnemyGroup.radius;
+        if (radius <= 0f)
+            return false;
+
+        return GetHorizontalDistance(EnemyGroup.transform.position, heroWorldPos) <= radius;
     }
 
     void CombatStartedHandler()

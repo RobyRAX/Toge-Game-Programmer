@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using TMPro;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ public class TalentUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI talentLevelTmp;
 
-    public void Setup(Talent talentData, int level)
+    public void Setup(Talent talentData, int level, Action onClick = null)
     {
         if (talentIconImg != null)
         {
@@ -39,6 +40,11 @@ public class TalentUI : MonoBehaviour
         }
 
         if (button != null)
-            button.interactable = false;
+        {
+            button.onClick.RemoveAllListeners();
+            button.interactable = onClick != null;
+            if (onClick != null)
+                button.onClick.AddListener(() => onClick.Invoke());
+        }
     }
 }

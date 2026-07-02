@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.DecalProjector
-  m_Material: {fileID: 2100000, guid: 31d0dcc6f2dd4e4408d18036a2c93862, type: 2}
+  m_Material: {fileID: 2100000, guid: 46bcfe4fc65284140b3a1259bb19b6d7, type: 2}
   m_DrawDistance: 1000
   m_FadeScale: 0.9
   m_StartAngleFade: 180
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_UVBias: {x: 0, y: 0}
   m_RenderingLayerMask:
     serializedVersion: 0
-    m_Bits: 1
+    m_Bits: 2
   m_ScaleMode: 1
   m_Offset: {x: 0, y: 0, z: 1}
   m_Size: {x: 1, y: 1, z: 2}
@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff73140505d8bd419e903ba4898168b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestWannabe
+  initialScene: Guild
   questMarker: {fileID: 1866267251290217138}
   questStepEntries:
   - questId: intro
@@ -160,6 +161,7 @@ MonoBehaviour:
     markerPosition: {x: 0, y: -1000, z: 0}
     markerRadius: 2
     autoCompleteOnReachMarker: 1
+    expReward: 0
     onEnterActions:
     - ActionSO: {fileID: 11400000, guid: 268be846971e24a47a848dfe9a2c9fa0, type: 2}
       Parameter:
@@ -171,6 +173,7 @@ MonoBehaviour:
     markerPosition: {x: 9.99, y: -0.02, z: -51.86}
     markerRadius: 2
     autoCompleteOnReachMarker: 0
+    expReward: 0
     onEnterActions:
     - ActionSO: {fileID: 11400000, guid: 411b15447775efb4883649adde71b66d, type: 2}
       Parameter:
@@ -179,9 +182,10 @@ MonoBehaviour:
   - questId: toDungeon
     questDesc: Masuk ke Dungeon
     sceneLocation: Guild
-    markerPosition: {x: 8.585947, y: 0.34159112, z: -55.945393}
+    markerPosition: {x: 10.116262, y: 0.34159112, z: -56.52744}
     markerRadius: 2
     autoCompleteOnReachMarker: 0
+    expReward: 0
     onEnterActions: []
     onExitActions: []
   references:
@@ -216,7 +220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7437730108271970247
 Transform:
   m_ObjectHideFlags: 0

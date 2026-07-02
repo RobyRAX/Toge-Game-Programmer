@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Alice - Combat Data
   m_EditorClassIdentifier: Assembly-CSharp::HeroCombatDataSO
   NormalAttackTalent:
-    talentIcon: {fileID: 0}
+    talentIcon: {fileID: 21300000, guid: 995fdc636d116d249b5d39a18283ee8a, type: 3}
     attacks:
     - {fileID: 11400000, guid: 4fb93d61bf663b645b490c6059f08768, type: 2}
     - {fileID: 11400000, guid: 27b06e6eaa4fdb44292bab6d5b0df902, type: 2}
@@ -62,7 +62,7 @@ MonoBehaviour:
           flatDamage: 10
           multiplierDamage: 70
   SkillTalent:
-    talentIcon: {fileID: 0}
+    talentIcon: {fileID: 21300000, guid: 2fa6619ad2b59e34fa11d1c88cf17b41, type: 3}
     attacks:
     - {fileID: 11400000, guid: d4bedf0490e89ac45991c4272d03f7ea, type: 2}
     - {fileID: 11400000, guid: 623a608485489ae448ec2274d58f53b7, type: 2}
@@ -111,7 +111,7 @@ MonoBehaviour:
           flatDamage: 0
           multiplierDamage: 90
   UltimateTalent:
-    talentIcon: {fileID: 0}
+    talentIcon: {fileID: 21300000, guid: 1f5e294de308d3d438932c9c3592f376, type: 3}
     attacks:
     - {fileID: 11400000, guid: 7cd7c8f5a4273f54d997fcd5661e60f3, type: 2}
     useAttributeSO: 0

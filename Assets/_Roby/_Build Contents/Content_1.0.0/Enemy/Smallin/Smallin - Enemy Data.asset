@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDataSO
   unitId: smallin
   unitName: Smallin
-  unitIcon: {fileID: 21300000, guid: 0887d0456eba1c24b80e5384b2f33027, type: 3}
+  unitIcon: {fileID: 21300000, guid: f4b4da7c7538a0f479f011fa70bfb507, type: 3}
   unitPrefab: {fileID: 7319211622741205364, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
   Attack_Exploration:
     useAddressable: 0

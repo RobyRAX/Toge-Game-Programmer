@@ -29,7 +29,7 @@ public class EnemyController : CombatUnitController
         enemyCombatant.Init(this);
 
         var config = brainConfig ?? GameplayConfig.Instance.ConfigSO.defaultEnemyBrainExplorationConfigSO;
-        if (config != null && EnemyGroup != null && !EnemyGroup.isCleared)
+        if (config != null && EnemyGroup != null && !EnemyGroup.IsCleared)
             Setup_EnemyBrainExploration(config);
 
         InitDone = true;

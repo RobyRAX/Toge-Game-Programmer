@@ -4,29 +4,22 @@ using Cysharp.Threading.Tasks;
 using RAXY.Core;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyGroup : MonoBehaviour, ISepObject
 {
-    [PropertyOrder(-1)]
+    [TitleGroup("Status")]
     [ShowInInspector]
     public string GroupId => gameObject.name;
 
-    public bool isCleared;
+    [TitleGroup("Status")]
+    [ShowInInspector]
+    public bool IsCleared { get; set; }
 
-    [TitleGroup("Combat")]
-    [SerializeField]
-    int level = 1;
-    public int Level => level;
-
-    [TitleGroup("Combat")]
-    [SerializeField]
-    int expReward;
-    public int ExpReward => expReward;
-
-    [TitleGroup("Patrol")]
-    [SerializeField]
-    float patrolRadius = 5f;
-    public float PatrolRadius => patrolRadius;
+    public int level = 1;
+    public int expReward;
+    [FormerlySerializedAs("patrolRadius")]
+    public float radius = 5f;
 
     public List<EnemyController> enemies;
 
@@ -96,7 +89,7 @@ public class EnemyGroup : MonoBehaviour, ISepObject
 
     void OnAttackedHandler()
     {
-        if (isCleared)
+        if (IsCleared)
             return;
 
         CombatantBase initialTurn = null;
@@ -122,7 +115,7 @@ public class EnemyGroup : MonoBehaviour, ISepObject
 
     void StartCombatInternal(CombatantBase initialTurn)
     {
-        if (isCleared)
+        if (IsCleared)
             return;
 
         if (GameplayManager.Instance == null ||
@@ -153,7 +146,7 @@ public class EnemyGroup : MonoBehaviour, ISepObject
 
     public Vector3 GetRandomPatrolPoint()
     {
-        Vector2 offset = UnityEngine.Random.insideUnitCircle * patrolRadius;
+        Vector2 offset = UnityEngine.Random.insideUnitCircle * radius;
         return transform.position + new Vector3(offset.x, 0f, offset.y);
     }
 
@@ -206,7 +199,7 @@ public class EnemyGroup : MonoBehaviour, ISepObject
 
     void MarkAsCleared()
     {
-        isCleared = true;
+        IsCleared = true;
 
         foreach (var enemy in enemies)
         {
@@ -230,7 +223,7 @@ public class EnemyGroup : MonoBehaviour, ISepObject
     void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(0f, 1f, 0.5f, 0.35f);
-        Gizmos.DrawWireSphere(transform.position, patrolRadius);
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 #endif
 }

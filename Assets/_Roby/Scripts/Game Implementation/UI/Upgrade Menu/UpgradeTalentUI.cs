@@ -79,7 +79,7 @@ public class UpgradeTalentUI : MonoBehaviour
         }
 
         if (upgradeButton != null)
-            upgradeButton.interactable = hero.CanUpgradeTalent(talentType);
+            upgradeButton.gameObject.SetActive(hero.CanUpgradeTalent(talentType));
     }
 
     public void SetSelected(bool selected)

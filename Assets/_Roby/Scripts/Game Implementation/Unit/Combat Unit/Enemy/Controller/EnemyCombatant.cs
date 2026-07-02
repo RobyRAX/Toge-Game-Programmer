@@ -20,7 +20,7 @@ public class EnemyCombatant : CombatantBase
     {
         _enemyCont = enemyCont;
         enemyCombatDataSO = enemyCont.enemyDataSO.enemyCombatDataSO;
-        Level = enemyCont.EnemyGroup.Level;
+        Level = enemyCont.EnemyGroup.level;
 
         AnimationClips = enemyCont.AnimationClips;
         InitStateMachine();

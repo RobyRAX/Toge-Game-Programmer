@@ -14,5 +14,6 @@ public class StatEntry
     [Title("Details")]
     public string statName;
     public string statDetail;
+    public string abbreviation;
     public Sprite statIcon;
 }

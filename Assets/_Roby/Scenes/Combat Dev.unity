@@ -390,15 +390,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.40832138
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.2809843
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1.3638926
       objectReference: {fileID: 0}
     - target: {fileID: 7692667725018765601, guid: 4ceb6d9787489414f8988be3fde687fb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1408,10 +1408,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f30e2c6f8de014697ede518fe8a1b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyGroup
-  isCleared: 0
   level: 1
-  expReward: 0
-  patrolRadius: 10
+  expReward: 150
+  radius: 10
   enemies:
   - {fileID: 1064140944}
   - {fileID: 706589699}

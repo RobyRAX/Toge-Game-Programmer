@@ -502,15 +502,24 @@ public class UpgradeMenu : MonoBehaviour
 
         overview_talentNormalAttackUI?.Setup(
             combatData?.NormalAttackTalent,
-            hero.NormalAttackTalentLevel);
+            hero.NormalAttackTalentLevel,
+            () => OpenTalentTabAndSelect(HeroTalentType.NormalAttack));
 
         overview_talentSkillUI?.Setup(
             combatData?.SkillTalent,
-            hero.SkillTalentLevel);
+            hero.SkillTalentLevel,
+            () => OpenTalentTabAndSelect(HeroTalentType.Skill));
 
         overview_talentUltimateUI?.Setup(
             combatData?.UltimateTalent,
-            hero.UltimateTalentLevel);
+            hero.UltimateTalentLevel,
+            () => OpenTalentTabAndSelect(HeroTalentType.Ultimate));
+    }
+
+    void OpenTalentTabAndSelect(HeroTalentType type)
+    {
+        selectedTalentType = type;
+        ShowTalentTab();
     }
 
     void RefreshOverviewStats(StatContainer_Runtime statContainer, IStatEntryProvider provider)
@@ -626,6 +635,8 @@ public class UpgradeMenu : MonoBehaviour
         int currentLevel = selectedHero.GetTalentLevel(selectedTalentType);
         int previewLevel = currentLevel + 1;
         int maxTalentLevel = GameplayConfig.Instance?.ConfigSO?.maxTalentLevel ?? 1;
+        bool hasAvailableTalentPoints = selectedHero.availableTalentPoints > 0;
+        var statEntryProvider = GameplayConfig.Instance;
 
         foreach (var entry in attackAttribute.attributes)
         {
@@ -633,7 +644,7 @@ public class UpgradeMenu : MonoBehaviour
                 continue;
 
             var ui = Instantiate(talent_attackAttributeUiPrefab, talent_attackAttributeContainer);
-            ui.Setup(entry, currentLevel, previewLevel, maxTalentLevel);
+            ui.Setup(entry, currentLevel, previewLevel, maxTalentLevel, hasAvailableTalentPoints, statEntryProvider);
             attackAttributeSlots.Add(ui);
         }
     }

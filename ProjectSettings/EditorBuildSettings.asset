@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/_Roby/Scenes/Combat Dev.unity
     guid: bfdd21bdd11c3e0499009caf9f20fcbc
   - enabled: 1
-    path: Assets/_Roby/_Build Contents/Content_1.0.0/World/Guild/Guild.unity
+    path: Assets/_Roby/_Build Contents/Content_1.0.0/World/Guild.unity
     guid: eb29762842c183043ac0324a8986b321
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

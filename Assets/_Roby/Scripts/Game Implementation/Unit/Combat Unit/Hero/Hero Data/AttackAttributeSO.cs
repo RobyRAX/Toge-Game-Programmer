@@ -63,6 +63,7 @@ public class AttributeEntry
 {
     public string attributeId;
     public string attributeName;
+    public StatAttribute multiplierAttribute = StatAttribute.Attack;
 
     [TitleGroup("Value Per Level")]
     [TableList(ShowIndexLabels = true)]

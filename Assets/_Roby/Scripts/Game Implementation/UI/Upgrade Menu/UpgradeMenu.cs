@@ -40,6 +40,11 @@ public class UpgradeMenu : MonoBehaviour
 
     [TitleGroup("UI Ref")]
     [SerializeField]
+    [LabelText("Hero Portrait Img")]
+    Image heroPortraitImg;
+
+    [TitleGroup("UI Ref")]
+    [SerializeField]
     [LabelText("Overview Root")]
     Transform overviewRoot;
 
@@ -430,10 +435,22 @@ public class UpgradeMenu : MonoBehaviour
         if (selectedHero == null)
             return;
 
+        RefreshHeroPortrait();
+
         if (activeTab == UpgradeMenuTab.Overview)
             RefreshOverviewTab();
         else
             RefreshTalentTab();
+    }
+
+    void RefreshHeroPortrait()
+    {
+        if (heroPortraitImg == null)
+            return;
+
+        var portrait = selectedHero?.heroDataSO?.Portrait;
+        heroPortraitImg.sprite = portrait;
+        heroPortraitImg.enabled = portrait != null;
     }
 
     void RefreshOverviewTab()

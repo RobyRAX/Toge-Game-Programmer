@@ -4,21 +4,27 @@ using UnityEngine;
 
 public class CombatUI : MonoBehaviour
 {
+    const int RegularAttackSlotCount = 4;
+
     public PlayerUnitListUI partyListUI;
     public TurnTimelineUI turnTimelineUI;
     public TurnPhaseTimelineUI turnPhaseTimelineUI;
 
     [TitleGroup("Attack Ref")]
     [SerializeField]
-    Transform attackContainer;
+    AttackUI attackUiSlot0;
 
     [TitleGroup("Attack Ref")]
     [SerializeField]
-    AttackUI attackUiPrefab;
+    AttackUI attackUiSlot1;
 
     [TitleGroup("Attack Ref")]
     [SerializeField]
-    Transform ultimateAttackContainer;
+    AttackUI attackUiSlot2;
+
+    [TitleGroup("Attack Ref")]
+    [SerializeField]
+    AttackUI attackUiSlot3;
 
     [TitleGroup("Attack Ref")]
     [SerializeField]
@@ -43,7 +49,6 @@ public class CombatUI : MonoBehaviour
     GameObject enemyTurnIndicator;
 
     TurnBaseCombatManager manager;
-    List<AttackUI> spawnedAttackUis = new();
 
     public void Setup(TurnBaseCombatManager manager)
     {
@@ -74,11 +79,7 @@ public class CombatUI : MonoBehaviour
 
     public void Shutdown()
     {
-        if (attackContainer != null)
-            attackContainer.gameObject.SetActive(false);
-
-        if (ultimateAttackContainer != null)
-            ultimateAttackContainer.gameObject.SetActive(false);
+        ClearAttackButtons();
 
         if (playerTurnIndicator != null)
             playerTurnIndicator.SetActive(false);
@@ -117,12 +118,6 @@ public class CombatUI : MonoBehaviour
         bool isTargetPhase = isPlayerTurn &&
                              (phase == TurnBaseCombatPhase.SelectTargetOpponent ||
                               phase == TurnBaseCombatPhase.SelectTargetTeam);
-
-        if (attackContainer != null)
-            attackContainer.gameObject.SetActive(isPlayerInputPhase);
-
-        if (ultimateAttackContainer != null)
-            ultimateAttackContainer.gameObject.SetActive(isPlayerInputPhase);
 
         if (isPlayerInputPhase)
             RefreshAttackButtons();
@@ -175,17 +170,24 @@ public class CombatUI : MonoBehaviour
 
     void RefreshRegularAttackButtons()
     {
-        if (attackUiPrefab == null || attackContainer == null)
-            return;
+        var regularAttacks = GetNonUltimateAttacks();
+        var regularSlots = GetRegularAttackUiSlots();
 
-        foreach (var attack in manager.CurrentCombatant.AttackBank.Attacks)
+        for (int i = 0; i < RegularAttackSlotCount; i++)
         {
-            if (attack == null || attack.IsUltimateAttack)
+            var slot = regularSlots[i];
+            if (slot == null)
                 continue;
 
-            var attackUi = Instantiate(attackUiPrefab, attackContainer);
-            attackUi.Setup(manager, attack);
-            spawnedAttackUis.Add(attackUi);
+            if (i < regularAttacks.Count && regularAttacks[i] != null)
+            {
+                slot.gameObject.SetActive(true);
+                slot.Setup(manager, regularAttacks[i]);
+            }
+            else
+            {
+                slot.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -210,30 +212,60 @@ public class CombatUI : MonoBehaviour
 
     void RefreshAttackInteractable()
     {
-        foreach (var attackUi in spawnedAttackUis)
-            attackUi?.RefreshInteractable();
+        foreach (var attackUi in GetAllAttackUiSlots())
+        {
+            if (attackUi == null || !attackUi.gameObject.activeSelf)
+                continue;
 
-        ultimateAttackUi?.RefreshInteractable();
+            attackUi.RefreshInteractable();
+        }
     }
 
     void ClearAttackButtons()
     {
-        foreach (var attackUi in spawnedAttackUis)
+        foreach (var attackUi in GetAllAttackUiSlots())
         {
             if (attackUi != null)
-                Destroy(attackUi.gameObject);
+                attackUi.gameObject.SetActive(false);
         }
+    }
 
-        if (attackContainer != null)
+    List<Attack_Runtime> GetNonUltimateAttacks()
+    {
+        var result = new List<Attack_Runtime>();
+
+        if (manager?.CurrentCombatant?.AttackBank?.Attacks == null)
+            return result;
+
+        foreach (var attack in manager.CurrentCombatant.AttackBank.Attacks)
         {
-            foreach (Transform child in attackContainer)
-                Destroy(child.gameObject);
+            if (attack == null || attack.IsUltimateAttack)
+                continue;
+
+            result.Add(attack);
         }
 
-        spawnedAttackUis.Clear();
+        return result;
+    }
 
-        if (ultimateAttackUi != null)
-            ultimateAttackUi.gameObject.SetActive(false);
+    AttackUI[] GetRegularAttackUiSlots()
+    {
+        return new[]
+        {
+            attackUiSlot0,
+            attackUiSlot1,
+            attackUiSlot2,
+            attackUiSlot3
+        };
+    }
+
+    IEnumerable<AttackUI> GetAllAttackUiSlots()
+    {
+        yield return attackUiSlot0;
+        yield return attackUiSlot1;
+        yield return attackUiSlot2;
+        yield return attackUiSlot3;
+        yield return ultimateAttackUi;
     }
 
     void OnDestroy()

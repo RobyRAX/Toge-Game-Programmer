@@ -181,6 +181,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6297059623037069057}
     m_Modifications:
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2001457815354229975, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
       propertyPath: m_Name
       value: Unit In Step UI (5)
@@ -299,6 +311,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6297059623037069057}
     m_Modifications:
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2001457815354229975, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
       propertyPath: m_Name
       value: Unit In Step UI
@@ -417,6 +441,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6297059623037069057}
     m_Modifications:
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2001457815354229975, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
       propertyPath: m_Name
       value: Unit In Step UI (3)
@@ -535,6 +571,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6297059623037069057}
     m_Modifications:
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2001457815354229975, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
       propertyPath: m_Name
       value: Unit In Step UI (2)
@@ -653,6 +701,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6297059623037069057}
     m_Modifications:
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2001457815354229975, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
       propertyPath: m_Name
       value: Unit In Step UI (1)
@@ -771,6 +831,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6297059623037069057}
     m_Modifications:
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900142927929589887, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2001457815354229975, guid: b6fea31d15bbb21458a643c8320f7ac5, type: 3}
       propertyPath: m_Name
       value: Unit In Step UI (4)

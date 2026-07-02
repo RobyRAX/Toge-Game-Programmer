@@ -69,6 +69,7 @@
   <Project Path="RAXY.NotificationSystem.csproj" />
   <Project Path="RAXY.Event.csproj" />
   <Project Path="RAXY.Core.csproj" />
+  <Project Path="Unity.2D.Sprite.Editor.csproj" />
   <Project Path="Unity.InternalAPIEditorBridge.013.csproj" />
   <Project Path="RAXY.QuestSystem.csproj" />
   <Project Path="Unity.AI.Navigation.Editor.csproj" />

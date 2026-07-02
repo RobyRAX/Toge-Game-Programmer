@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeroDataSO
   unitId: hr_alice
   unitName: Alice
-  unitIcon: {fileID: 21300000, guid: a0db763ba950667428f64cfbbf90c309, type: 3}
+  unitIcon: {fileID: 21300000, guid: 5325bea9fd9df6041b8b84154a8f465b, type: 3}
   unitPrefab: {fileID: 6181947282332787467, guid: 2988ca7aaad0453458a37c9b6916f1fe, type: 3}
   Attack_Exploration:
     useAddressable: 0
@@ -107,3 +107,4 @@ MonoBehaviour:
       staminaRegen: 10
       attackSpeed: 2
   heroCombatDataSO: {fileID: 11400000, guid: 1682229ce2e71c244b323ea43a777827, type: 2}
+  unitPortrait: {fileID: 21300000, guid: 65e9b29f1b114f3458152594bd7b3802, type: 3}

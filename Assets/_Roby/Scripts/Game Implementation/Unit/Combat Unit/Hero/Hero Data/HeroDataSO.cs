@@ -17,4 +17,9 @@ public class HeroDataSO : UnitDataSO, IItemEntry
     public string ItemDescription => "";
     public string ItemAdditionalDescription => "";
     public Sprite ItemIcon => unitIcon;
+
+    [TitleGroup("General")]
+    [SerializeField]
+    Sprite unitPortrait;
+    public Sprite Portrait => unitPortrait != null ? unitPortrait : ItemIcon;
 }

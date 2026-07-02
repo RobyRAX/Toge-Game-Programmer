@@ -5,18 +5,22 @@ using UnityEngine;
 
 public abstract class UnitDataSO : ScriptableObject
 {
+    [TitleGroup("General")]
     [SerializeField]
     protected string unitId;
 
+    [TitleGroup("General")]
     [SerializeField]
     protected string unitName;
 
+    [TitleGroup("General")]
     [SerializeField]
     protected Sprite unitIcon;
 
     public string UnitName => unitName;
     public Sprite UnitIcon => unitIcon;
 
+    [TitleGroup("General")]
     public GameObject unitPrefab;
 
     [TitleGroup("Attack")]

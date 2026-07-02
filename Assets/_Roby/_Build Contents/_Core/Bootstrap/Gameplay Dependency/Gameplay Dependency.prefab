@@ -612,7 +612,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 225
+  m_Spacing: 250
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1395,7 +1395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7694448629189230896, guid: ac8d0a5a580147a42b5a5dbea94605d5, type: 3}
       propertyPath: m_Name
-      value: Player Unit UI (2)
+      value: Unit C
       objectReference: {fileID: 0}
     - target: {fileID: 8191262470195787944, guid: ac8d0a5a580147a42b5a5dbea94605d5, type: 3}
       propertyPath: m_Pivot.x
@@ -1885,7 +1885,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7694448629189230896, guid: ac8d0a5a580147a42b5a5dbea94605d5, type: 3}
       propertyPath: m_Name
-      value: Player Unit UI
+      value: Unit A
       objectReference: {fileID: 0}
     - target: {fileID: 8191262470195787944, guid: ac8d0a5a580147a42b5a5dbea94605d5, type: 3}
       propertyPath: m_Pivot.x
@@ -6208,7 +6208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7694448629189230896, guid: ac8d0a5a580147a42b5a5dbea94605d5, type: 3}
       propertyPath: m_Name
-      value: Player Unit UI (1)
+      value: Unit B
       objectReference: {fileID: 0}
     - target: {fileID: 8191262470195787944, guid: ac8d0a5a580147a42b5a5dbea94605d5, type: 3}
       propertyPath: m_Pivot.x

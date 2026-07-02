@@ -19,6 +19,7 @@
     "com.raxy.utility": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Utility",
     "com.raxy.utility.localization": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY Localization",
     "com.raxy.vfx": "file:D:/My Docs/.RAXY/RAXY Dev/RAXY Framework/RAXY VFX Manager",
+    "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "2.0.12",
     "com.unity.cinemachine": "3.1.7",
     "com.unity.collab-proxy": "2.12.4",
